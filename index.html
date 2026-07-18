@@ -367,6 +367,43 @@
     </div>
   </div>
 </section>
+  <div class="rta-payment-widget" id="rta-payment-widget">
+ 
+  <div class="rta-payment-tabs">
+    <button type="button" class="rta-tab active" data-package="rider">
+      Cupo Rider — $3,950 USD
+    </button>
+    <button type="button" class="rta-tab" data-package="companion">
+      Acompañante — $3,250 USD
+    </button>
+  </div>
+ 
+  <label class="rta-checkbox">
+    <input type="checkbox" id="rta-single-supplement" />
+    Suplemento individual (+$700 USD)
+  </label>
+ 
+  <div class="rta-payment-options">
+    <label class="rta-radio">
+      <input type="radio" name="rta-payment-type" value="deposit" id="rta-option-deposit" checked />
+      <span>Reservar con depósito — <strong>$500 USD</strong></span>
+    </label>
+    <label class="rta-radio">
+      <input type="radio" name="rta-payment-type" value="full" />
+      <span>Pagar el total ahora</span>
+    </label>
+  </div>
+ 
+  <p id="rta-deposit-closed-msg" class="rta-notice" style="display:none;">
+    El depósito de reserva ya cerró — quedan menos de 30 días para el tour.
+    Puedes pagar el total para asegurar tu cupo.
+  </p>
+ 
+  <p id="rta-total-display" class="rta-total"></p>
+ 
+  <div id="paypal-button-container"></div>
+ 
+</div>
 
 <!-- ============ ROUTE DECK CTA ============ -->
 <section class="deck" id="deck">
@@ -541,7 +578,16 @@
     </div>
   </div>
 </footer>
-
+  
 <script src="assets/js/site.js"></script>
+  <form name="payment-notification" data-netlify="true" hidden>
+  <input type="text" name="payer-name" />
+  <input type="email" name="payer-email" />
+  <input type="text" name="package" />
+  <input type="text" name="single-supplement" />
+  <input type="text" name="payment-type" />
+  <input type="text" name="amount" />
+  <input type="text" name="paypal-order-id" />
+</form>
 </body>
 </html>
