@@ -177,8 +177,6 @@ document.querySelectorAll(".faq .q").forEach(q => {
     if (!open) { q.classList.add("open"); const a = q.querySelector(".qa"); a.style.maxHeight = a.scrollHeight + "px"; }
   });
 });
-<script src="https://www.paypal.com/sdk/js?client-id=AeR5ybkKCOLR-Hn7_wlIVmsrZe6hH7NtmwOACof4DMLBZgoukbdNfAeTlkCfQ6jXvoGITeF27ROPR1ez&currency=USD"></script>
-<script>
 (function () {
   const PRICES = { rider: 3950, companion: 3250 };
   const SINGLE_SUPPLEMENT = 700;
@@ -309,4 +307,3 @@ document.querySelectorAll(".faq .q").forEach(q => {
  
   updateUI();
 })();
-</script>
