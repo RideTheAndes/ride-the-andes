@@ -341,3 +341,66 @@ footer{background:var(--paramo-deep);border-top:1px solid rgba(240,236,224,.12);
 .slot.has-photo::before{opacity:0}
 .slot.tour-media.has-photo,.slot.guide-media.has-photo{min-height:560px}
 .poi .card.has-photo::after{background:linear-gradient(to top,rgba(8,12,5,.92),rgba(8,12,5,.15) 70%)}
+<style>
+.rta-payment-widget {
+  max-width: 480px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: #F0ECE0; /* Niebla andina */
+  border: 1px solid #1A3A0F; /* Páramo profundo */
+  border-radius: 4px;
+  font-family: 'Cormorant Garamond', serif;
+}
+ 
+.rta-payment-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+ 
+.rta-tab {
+  flex: 1;
+  padding: 0.75rem;
+  background: transparent;
+  border: 1px solid #1A3A0F;
+  color: #1A3A0F;
+  font-family: 'IBM Plex Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+ 
+.rta-tab.active {
+  background: #1A3A0F;
+  color: #F0ECE0;
+}
+ 
+.rta-checkbox,
+.rta-radio {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.75rem 0;
+  font-size: 1.1rem;
+}
+ 
+.rta-notice {
+  color: #C1622A; /* Terracota Ráquira */
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.85rem;
+  margin: 0.75rem 0;
+}
+ 
+.rta-total {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: bold;
+  margin: 1rem 0;
+  padding-top: 0.75rem;
+  border-top: 1px solid #1A3A0F;
+}
+ 
+#paypal-button-container {
+  margin-top: 1rem;
+}
+</style>
