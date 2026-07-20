@@ -134,7 +134,7 @@ const ES = {
   ft_h3:"Contacto",
   ft_cr:"© 2026 Ride The Andes SAS · RNT [en trámite]"
 };
-
+ 
 // Capture English from the DOM, then toggle
 const EN = {};
 document.querySelectorAll("[data-i18n]").forEach(el => { EN[el.dataset.i18n] = el.innerHTML; });
@@ -153,22 +153,22 @@ function setLang(l){
   document.querySelectorAll(".faq .q.open .qa").forEach(a => { a.style.maxHeight = a.scrollHeight + "px"; });
 }
 document.getElementById("langToggle").addEventListener("click", () => setLang(lang === "en" ? "es" : "en"));
-
+ 
 // ---------- nav ----------
 const hdr = document.getElementById("hdr");
 addEventListener("scroll", () => hdr.classList.toggle("scrolled", scrollY > 40));
 const burger = document.getElementById("burger"), menu = document.getElementById("menu");
 burger.addEventListener("click", () => menu.classList.toggle("open"));
 menu.querySelectorAll("a").forEach(a => a.addEventListener("click", () => menu.classList.remove("open")));
-
+ 
 // ---------- reveal ----------
 const io = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }); }, { threshold: 0.12 });
 document.querySelectorAll("[data-rise]").forEach(el => io.observe(el));
-
+ 
 // ---------- counters ----------
 const cio = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting) { const el = e.target, t = +el.dataset.count; let n = 0; const step = Math.max(1, Math.round(t / 40)); const tick = () => { n += step; if (n >= t) { el.textContent = t; } else { el.textContent = n; requestAnimationFrame(tick); } }; tick(); cio.unobserve(el); } }); }, { threshold: 0.5 });
 document.querySelectorAll("[data-count]").forEach(el => cio.observe(el));
-
+ 
 // ---------- faq ----------
 document.querySelectorAll(".faq .q").forEach(q => {
   q.addEventListener("click", () => {
@@ -177,133 +177,4 @@ document.querySelectorAll(".faq .q").forEach(q => {
     if (!open) { q.classList.add("open"); const a = q.querySelector(".qa"); a.style.maxHeight = a.scrollHeight + "px"; }
   });
 });
-(function () {
-  const PRICES = { rider: 3950, companion: 3250 };
-  const SINGLE_SUPPLEMENT = 700;
-  const DEPOSIT = 500;
  
-  // Corte del depósito: 1 mes antes de la llegada del grupo (3 oct 2026)
-  const DEPOSIT_CUTOFF = new Date('2026-09-03T00:00:00-05:00');
- 
-  let state = { package: 'rider', single: false, paymentType: 'deposit' };
- 
-  function depositAvailable() {
-    return new Date() < DEPOSIT_CUTOFF;
-  }
- 
-  function currentTotal() {
-    let total = PRICES[state.package];
-    if (state.single) total += SINGLE_SUPPLEMENT;
-    return total;
-  }
- 
-  function currentCharge() {
-    if (state.paymentType === 'deposit' && depositAvailable()) return DEPOSIT;
-    return currentTotal();
-  }
- 
-  function updateUI() {
-    document.querySelectorAll('.rta-tab').forEach(function (btn) {
-      btn.classList.toggle('active', btn.dataset.package === state.package);
-    });
- 
-    const depositRadio = document.getElementById('rta-option-deposit');
-    const depositLabel = depositRadio.closest('.rta-radio');
-    const closedMsg = document.getElementById('rta-deposit-closed-msg');
- 
-    if (!depositAvailable()) {
-      depositRadio.disabled = true;
-      depositLabel.style.opacity = '0.4';
-      closedMsg.style.display = 'block';
-      if (state.paymentType === 'deposit') {
-        state.paymentType = 'full';
-        document.querySelector('input[name="rta-payment-type"][value="full"]').checked = true;
-      }
-    } else {
-      closedMsg.style.display = 'none';
-    }
- 
-    document.getElementById('rta-total-display').textContent =
-      'Total del paquete: $' + currentTotal().toLocaleString('en-US') + ' USD — Cobrando hoy: $' +
-      currentCharge().toLocaleString('en-US') + ' USD';
- 
-    renderButtons();
-  }
- 
-  document.querySelectorAll('.rta-tab').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      state.package = btn.dataset.package;
-      updateUI();
-    });
-  });
- 
-  document.getElementById('rta-single-supplement').addEventListener('change', function (e) {
-    state.single = e.target.checked;
-    updateUI();
-  });
- 
-  document.querySelectorAll('input[name="rta-payment-type"]').forEach(function (radio) {
-    radio.addEventListener('change', function (e) {
-      state.paymentType = e.target.value;
-      updateUI();
-    });
-  });
- 
-  function renderButtons() {
-    const container = document.getElementById('paypal-button-container');
-    container.innerHTML = '';
- 
-    paypal.Buttons({
-      style: { color: 'black', shape: 'rect', label: 'pay' },
- 
-      createOrder: function (data, actions) {
-        const isDeposit = state.paymentType === 'deposit' && depositAvailable();
-        const pkgLabel = state.package === 'rider' ? 'Cupo Rider' : 'Acompañante';
-        const suppLabel = state.single ? ' + suplemento individual' : '';
-        const typeLabel = isDeposit ? 'depósito' : 'pago total';
- 
-        return actions.order.create({
-          purchase_units: [{
-            description: 'Ride The Andes — ' + pkgLabel + suppLabel + ' (' + typeLabel + ')',
-            amount: { currency_code: 'USD', value: currentCharge().toFixed(2) }
-          }]
-        });
-      },
- 
-      onApprove: function (data, actions) {
-        return actions.order.capture().then(function (details) {
-          notifyTeam(details);
-          window.location.href = '/thanks.html?payment=confirmed';
-        });
-      },
- 
-      onError: function (err) {
-        console.error('PayPal error:', err);
-        alert('Hubo un problema procesando el pago. Intenta de nuevo o escríbenos a reservations@ridetheandes.co');
-      }
-    }).render('#paypal-button-container');
-  }
- 
-  function notifyTeam(details) {
-    const payload = {
-      'form-name': 'payment-notification',
-      'payer-name': details.payer.name.given_name + ' ' + details.payer.name.surname,
-      'payer-email': details.payer.email_address,
-      'package': state.package,
-      'single-supplement': state.single ? 'sí' : 'no',
-      'payment-type': state.paymentType,
-      'amount': currentCharge().toFixed(2),
-      'paypal-order-id': details.id
-    };
- 
-    fetch('/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams(payload).toString()
-    }).catch(function (err) {
-      console.error('Notification form error:', err);
-    });
-  }
- 
-  updateUI();
-})();
