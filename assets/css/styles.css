@@ -469,3 +469,30 @@ a[href^="mailto:"]{overflow-wrap:anywhere}
 .foot-grid a,.foot-grid p{overflow-wrap:anywhere}
 @media(max-width:820px){.foot-grid{grid-template-columns:1fr 1fr;gap:36px}}
 @media(max-width:520px){.foot-grid{grid-template-columns:1fr;gap:30px;margin-bottom:44px}.foot-bottom{flex-direction:column;align-items:flex-start;gap:10px}}
+
+/* ---------- FOTO EN SLOTS DE ETAPA / JOURNAL ---------- */
+.slot.top.has-photo,.slot.m.has-photo{background-size:cover;background-position:center;background-repeat:no-repeat}
+.slot.top.has-photo::before,.slot.m.has-photo::before{opacity:0}
+.slot.top.has-photo::after,.slot.m.has-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(8,12,5,.55),rgba(8,12,5,.12) 55%,rgba(8,12,5,.5));z-index:1}
+.slot.top.has-photo>*,.slot.m.has-photo>*{position:relative;z-index:2}
+.deck-mock.has-photo{background-size:cover;background-position:center}
+
+/* ---------- FOTO EN TARJETAS DE HOTEL ---------- */
+.prop{padding:0;overflow:hidden;display:flex;flex-direction:column}
+.prop .p-img{aspect-ratio:16/10;background-size:cover;background-position:center;background-color:var(--paramo-deep);border-bottom:1px solid var(--line)}
+.prop .p-when{margin:24px 26px 14px}
+.prop h3,.prop p{padding:0 26px}
+.prop p{padding-bottom:28px}
+
+/* ---------- KIT DE BIENVENIDA ---------- */
+.kit{background:var(--paramo-deep);color:var(--niebla);padding:110px 0;border-top:1px solid rgba(240,236,224,.1)}
+.kit-in{display:grid;grid-template-columns:.85fr 1.15fr;gap:64px;align-items:start}
+.kit-copy .eyebrow{color:var(--terracota-bright);display:block;margin-bottom:18px}
+.kit-copy h2{font-size:clamp(2rem,3.4vw,2.9rem);color:var(--niebla);line-height:1.12}
+.kit-copy p{margin-top:20px;font-size:1.1rem;line-height:1.65;color:#b9b6a4}
+.kit-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:0 40px}
+.kit-list li{padding:16px 0;border-bottom:1px solid rgba(240,236,224,.14)}
+.kit-list li b{display:block;font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--terracota-bright);font-weight:500;margin-bottom:7px}
+.kit-list li span{font-size:1rem;line-height:1.55;color:#b9b6a4}
+@media(max-width:900px){.kit-in{grid-template-columns:1fr;gap:38px}.kit-list{grid-template-columns:1fr}}
+@media(max-width:680px){.kit{padding:80px 0}}
