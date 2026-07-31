@@ -4,6 +4,7 @@ const ES = {
   hero_loc:"Cordillera Oriental",
   hero_h1:"Sube donde se forjan las <em>leyendas</em>",
   hero_sub:"Seis etapas desde la laguna sagrada de El Dorado hasta la línea de llegada del Gran Fondo Boyacá Mundial — por los páramos y caminos coloniales del corazón ciclístico de Colombia. Diez ciclistas. Un territorio que conocemos mejor que nadie.",
+  hero_cap:"Gran Fondo Boyacá Mundial · Boyacá, Colombia",
   hero_cta1:"Explora el viaje", hero_cta2:"Solicita el dossier de ruta", scroll:"Desliza",
   t1:"Municipios de Boyacá<br>recorridos por nuestro guía",
   t2:"Ciclistas por edición en el Gran Fondo<br>Boyacá Mundial — 9 años consecutivos",
@@ -248,6 +249,9 @@ document.querySelectorAll(".faq .q").forEach(q => {
   });
 });
 (function () {
+  /* Este bloque solo existe en reservar.html. Sin esta guarda, en index.html
+     getElementById devuelve null, lanza excepción y detiene el resto del script. */
+  if (!document.getElementById('paypal-button-container')) return;
   const PRICES = { rider: 3950, companion: 3250 };
   const SINGLE_SUPPLEMENT = 700;
   const DEPOSIT = 500;
@@ -376,4 +380,39 @@ document.querySelectorAll(".faq .q").forEach(q => {
   }
  
   updateUI();
+})();
+
+/* ---------- HERO · secuencia de fotos ----------
+   La primera imagen viaja en el HTML. Las demás se inyectan DESPUÉS de window.load,
+   así el LCP del hero nunca compite con ellas. */
+(function(){
+  var stack = document.getElementById('heroStack');
+  if(!stack) return;
+  var list = (stack.dataset.imgs||'').split(',').filter(Boolean);
+  if(!list.length) return;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduce) return;                       // se queda en la primera foto, quieta
+
+  function start(){
+    if(!window.matchMedia('(min-width:1080px)').matches) return;  // el panel solo existe en desktop
+    list.forEach(function(f){
+      var img = document.createElement('img');
+      img.src = 'assets/img/' + f.trim();
+      img.alt = ''; img.width = 900; img.height = 1200;
+      img.loading = 'lazy'; img.decoding = 'async';
+      stack.appendChild(img);
+    });
+    var imgs = stack.querySelectorAll('img'), i = 0, timer = null;
+    function step(){
+      imgs[i].classList.remove('on');
+      i = (i + 1) % imgs.length;
+      imgs[i].classList.add('on');
+    }
+    function play(){ if(!timer) timer = setInterval(step, 5200); }
+    function pause(){ clearInterval(timer); timer = null; }
+    play();
+    document.addEventListener('visibilitychange', function(){ document.hidden ? pause() : play(); });
+  }
+  if(document.readyState === 'complete') start();
+  else window.addEventListener('load', start);
 })();
