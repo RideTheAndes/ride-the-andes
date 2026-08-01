@@ -514,3 +514,11 @@ a[href^="mailto:"]{overflow-wrap:anywhere}
 .hf-cap{display:block;margin-top:12px;font-family:var(--mono);font-size:.55rem;letter-spacing:.16em;
   text-transform:uppercase;color:var(--tierra)}
 @media(prefers-reduced-motion:reduce){.hf-stack img{transition:none}}
+
+/* ---------- AUDITORÍA 2026-07 · ENCUADRE Y VIEWPORT ---------- */
+/* iOS/Android: 100vh incluye la barra del navegador; svh es la altura visible real */
+@supports (min-height: 100svh){ .hero{min-height:100svh} }
+/* El sujeto de estas fotos NO está en el centro geométrico; 'center' lo recortaba
+   en contenedores verticales (ver AUDIT.md · pasada I) */
+.slot.tour-media.has-photo{background-position:25% center}   /* ciclista en el tercio izquierdo */
+.slot.guide-media.has-photo{background-position:42% center}  /* pareja de ciclistas levemente a la izquierda */
