@@ -15,7 +15,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/styles.css">
 <meta name="description" content="Reserve your place on The Boyacá Traverse — secure your spot with a deposit or pay in full. Ten days, six stages, max 10 riders.">
-<meta name="robots" content="noindex">
 <link rel="canonical" href="https://ridetheandes.co/reservar.html">
 <!-- Open Graph -->
 <meta property="og:type" content="website">
@@ -115,7 +114,7 @@
     </div>
  
     <p style="text-align:center;font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--tierra);margin-top:30px;opacity:.85">
-      Balance due 30 days before departure · Saldo restante 30 días antes de la salida · reservations@ridetheandes.co
+      Balance due September 17, 2026 · Saldo restante: 17 de septiembre de 2026 · reservations@ridetheandes.co
     </p>
   </div>
 </section>
@@ -184,7 +183,25 @@
 </form>
  
 <!-- ============ PAYPAL SDK + WIDGET LOGIC ============ -->
-<script src="https://www.paypal.com/sdk/js?client-id=AeR5ybkKCOLR-Hn7_wlIVmsrZe6hH7NtmwOACof4DMLBZgoukbdNfAeTlkCfQ6jXvoGITeF27ROPR1ez&currency=USD"></script>
+<script>
+// ── CONFIG DE PAGOS ──────────────────────────────────────────────
+// USE_LIVE  true  = cobra dinero REAL en la cuenta Business
+// TEST_MODE true  = TODOS los botones cobran $1.00 USD (solo para la prueba real; apagar después)
+var RTA_PAY = {
+  USE_LIVE: true,
+  TEST_MODE: true,
+  SANDBOX_CLIENT_ID: 'AeR5ybkKCOLR-Hn7_wlIVmsrZe6hH7NtmwOACof4DMLBZgoukbdNfAeTlkCfQ6jXvoGITeF27ROPR1ez',
+  LIVE_CLIENT_ID: 'Ac4hzsKCzspaGOI1zmswGNRq0Y8I12X3tcqNdrdKZOm7trxUG0yjvMAUiKilrxzO33M1fh7z3aYHbh4X'
+};
+(function () {
+  var id = RTA_PAY.USE_LIVE ? RTA_PAY.LIVE_CLIENT_ID : RTA_PAY.SANDBOX_CLIENT_ID;
+  var s = document.createElement('script');
+  s.src = 'https://www.paypal.com/sdk/js?client-id=' + encodeURIComponent(id) + '&currency=USD';
+  s.onload = function () { if (window.rtaRenderPayPal) window.rtaRenderPayPal(); };
+  s.onerror = function () { if (window.rtaRenderPayPal) window.rtaRenderPayPal(); };
+  document.head.appendChild(s);
+})();
+</script>
 <script>
 (function () {
   const PRICES = { rider: 3950, companion: 3250 };
@@ -207,6 +224,7 @@
   }
  
   function currentCharge() {
+    if (RTA_PAY.TEST_MODE) return 1;
     if (state.paymentType === 'deposit' && depositAvailable()) return DEPOSIT;
     return currentTotal();
   }
@@ -232,9 +250,11 @@
       closedMsg.style.display = 'none';
     }
  
-    document.getElementById('rta-total-display').textContent =
+    var td = document.getElementById('rta-total-display');
+    td.textContent =
       'Package total · Total: $' + currentTotal().toLocaleString('en-US') + ' USD — Due today · Hoy: $' +
       currentCharge().toLocaleString('en-US') + ' USD';
+    if (RTA_PAY.TEST_MODE) td.textContent = '⚠ TEST MODE · MODO PRUEBA — every button charges $1.00 USD · ' + td.textContent;
   }
  
   document.querySelectorAll('.rta-tab').forEach(function (btn) {
@@ -276,7 +296,7 @@
  
         return actions.order.create({
           purchase_units: [{
-            description: 'Ride The Andes — ' + pkgLabel + suppLabel + ' (' + typeLabel + ')',
+            description: 'Ride The Andes — ' + pkgLabel + suppLabel + ' (' + typeLabel + ')' + (RTA_PAY.TEST_MODE ? ' [TEST $1]' : ''),
             amount: { currency_code: 'USD', value: currentCharge().toFixed(2) }
           }]
         });
@@ -333,7 +353,8 @@
   if (burger && menu) burger.addEventListener('click', function () { menu.classList.toggle('open'); });
  
   updateUI();
-  renderButtons();
+  window.rtaRenderPayPal = renderButtons;
+  if (typeof paypal !== 'undefined') renderButtons();
 })();
 </script>
  

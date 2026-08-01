@@ -498,15 +498,19 @@ a[href^="mailto:"]{overflow-wrap:anywhere}
 @media(max-width:900px){.kit-in{grid-template-columns:1fr;gap:38px}.kit-list{grid-template-columns:1fr}}
 @media(max-width:680px){.kit{padding:80px 0}}
 
-/* ---------- HERO · PANEL DE FOTOS ---------- */
+/* ---------- HERO · BANDA PANORÁMICA DE FOTOS ----------
+   Rediseño 2026-08: el panel vertical 3:4 chocaba con el header fijo y no existía
+   en móvil. Ahora es una banda 21:9 estilo dossier bajo el copy, visible en TODOS
+   los anchos. Las fotos hero-band-* vienen pre-recortadas a 21:9 (control total
+   del encuadre, cero sorpresas de object-fit). */
+.hero{padding-top:120px}
 @media(min-width:1080px){
-  .hero-inner{display:grid;grid-template-columns:1.2fr .8fr;gap:56px;align-items:end}
-  .hero h1{font-size:clamp(3rem,6.6vw,6.4rem);max-width:none}
-  .hero .sub{max-width:44ch}
+  .hero h1{font-size:clamp(3rem,6vw,5.8rem);max-width:none}
+  .hero .sub{max-width:56ch}
 }
-.hero-frame{position:relative;display:none}
-@media(min-width:1080px){.hero-frame{display:block}}
-.hf-stack{position:relative;aspect-ratio:3/4;overflow:hidden;background:var(--paramo-deep);
+.hero-frame{position:relative;display:block;margin-top:56px}
+@media(max-width:680px){.hero-frame{margin-top:38px}}
+.hf-stack{position:relative;aspect-ratio:21/9;max-height:520px;overflow:hidden;background:var(--paramo-deep);
   border:1px solid rgba(26,26,26,.1);box-shadow:0 26px 70px rgba(26,26,26,.16)}
 .hf-stack img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
   opacity:0;transition:opacity 1.5s ease-in-out}
@@ -521,4 +525,4 @@ a[href^="mailto:"]{overflow-wrap:anywhere}
 /* El sujeto de estas fotos NO está en el centro geométrico; 'center' lo recortaba
    en contenedores verticales (ver AUDIT.md · pasada I) */
 .slot.tour-media.has-photo{background-position:25% center}   /* ciclista en el tercio izquierdo */
-.slot.guide-media.has-photo{background-position:42% center}  /* pareja de ciclistas levemente a la izquierda */
+.slot.guide-media.has-photo{background-position:62% center}  /* el encuadre cae sobre Sergio — ciclista de la DERECHA (el de rojo es Diego) */

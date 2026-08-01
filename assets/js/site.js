@@ -4,7 +4,7 @@ const ES = {
   hero_loc:"Cordillera Oriental",
   hero_h1:"Sube donde se forjan las <em>leyendas</em>",
   hero_sub:"Seis etapas desde la laguna sagrada de El Dorado hasta la línea de llegada del Gran Fondo Boyacá Mundial — por los páramos y caminos coloniales del corazón ciclístico de Colombia. Diez ciclistas. Un territorio que conocemos mejor que nadie.",
-  hero_cap:"Gran Fondo Boyacá Mundial · Boyacá, Colombia",
+  hero_cap:"Boyacá, Colombia · Cordillera Oriental",
   hero_cta1:"Explora el viaje", hero_cta2:"Solicita el dossier de ruta", scroll:"Desliza",
   t1:"Municipios de Boyacá<br>recorridos por nuestro guía",
   t2:"Ciclistas por edición en el Gran Fondo<br>Boyacá Mundial — 9 años consecutivos",
@@ -194,7 +194,7 @@ const ES = {
   jt_eyebrow:"El Journal",
   jt_h2:"Notas de campo desde la Cordillera",
   jt_all:"Todas las notas",
-  jt1_c:"Historia Fundacional", jt1_h:"Recorriendo los 123 Municipios de Boyacá", jt1_p:"La travesía de cuatro años que se convirtió en la base de cada ruta que operamos.", jt1_r:"Leer historia →",
+  jt1_c:"Historia Fundacional", jt1_h:"Recorriendo los 123 Municipios de Boyacá", jt1_p:"La travesía por los 123 municipios que se convirtió en la base de cada ruta que operamos.", jt1_r:"Leer historia →",
   jt2_c:"Perfil de Ascenso", jt2_h:"La Etapa Reina: Alto del Crucero", jt2_p:"Gradiente, longitud y la historia del ascenso decisivo de la travesía.", jt2_r:"Próximamente",
   jt3_c:"Guía Práctica", jt3_h:"Ciclismo en Altura en Colombia", jt3_p:"Cómo llegar desde el nivel del mar y rodar fuerte por encima de los 3.000 m.", jt3_r:"Próximamente",
   fin_h2:"Los Andes,<br><em>al fin merecidos</em>",
@@ -270,11 +270,11 @@ document.querySelectorAll(".faq .q").forEach(q => {
   if(reduce) return;                       // se queda en la primera foto, quieta
 
   function start(){
-    if(!window.matchMedia('(min-width:1080px)').matches) return;  // el panel solo existe en desktop
+    if(!window.matchMedia('(min-width:1080px)').matches) return;  // la rotación solo corre en desktop; en móvil queda la primera foto fija (ahorro de datos)
     list.forEach(function(f){
       var img = document.createElement('img');
       img.src = 'assets/img/' + f.trim();
-      img.alt = ''; img.width = 900; img.height = 1200;
+      img.alt = ''; img.width = 1800; img.height = 771;
       img.loading = 'lazy'; img.decoding = 'async';
       stack.appendChild(img);
     });
