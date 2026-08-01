@@ -15,8 +15,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/styles.css">
 <meta name="description" content="Reserve your place on The Boyacá Traverse — secure your spot with a deposit or pay in full. Ten days, six stages, max 10 riders.">
-<meta name="robots" content="noindex">
 <link rel="canonical" href="https://ridetheandes.co/reservar.html">
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Ride The Andes">
+<meta property="og:title" content="Reserve Your Place — The Boyacá Traverse">
+<meta property="og:description" content="Secure your spot with a $500 USD deposit or pay in full. Ten days, six stages, max 10 riders.">
+<meta property="og:url" content="https://ridetheandes.co/reservar.html">
+<meta property="og:image" content="https://ridetheandes.co/assets/img/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 <body id="top">
  
@@ -70,32 +79,32 @@
  
       <div class="rta-payment-tabs">
         <button type="button" class="rta-tab active" data-package="rider">
-          Cupo Rider — $3,950 USD
+          Rider — $3,950 USD
         </button>
         <button type="button" class="rta-tab" data-package="companion">
-          Acompañante — $3,250 USD
+          Companion · Acompañante — $3,250 USD
         </button>
       </div>
  
       <label class="rta-checkbox">
         <input type="checkbox" id="rta-single-supplement" />
-        Suplemento individual (+$700 USD)
+        Single room supplement · Suplemento individual (+$700 USD)
       </label>
  
       <div class="rta-payment-options">
         <label class="rta-radio">
           <input type="radio" name="rta-payment-type" value="deposit" id="rta-option-deposit" checked />
-          <span>Reservar con depósito — <strong>$500 USD</strong></span>
+          <span>Reserve with a deposit · Reservar con depósito — <strong>$500 USD</strong></span>
         </label>
         <label class="rta-radio">
           <input type="radio" name="rta-payment-type" value="full" />
-          <span>Pagar el total ahora</span>
+          <span>Pay in full now · Pagar el total ahora</span>
         </label>
       </div>
  
       <p id="rta-deposit-closed-msg" class="rta-notice" style="display:none;">
-        El depósito de reserva ya cerró — quedan menos de 30 días para el tour.
-        Puedes pagar el total para asegurar tu cupo.
+        The deposit option has closed — departure is less than 30 days away. You can pay in full to secure your place.
+        · El depósito ya cerró; puedes pagar el total para asegurar tu cupo.
       </p>
  
       <p id="rta-total-display" class="rta-total"></p>
@@ -105,7 +114,7 @@
     </div>
  
     <p style="text-align:center;font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--tierra);margin-top:30px;opacity:.85">
-      Depósito no reembolsable · Saldo restante 30 días antes de la salida · Preguntas: hello@ridetheandes.co
+      Balance due September 17, 2026 · Saldo restante: 17 de septiembre de 2026 · reservations@ridetheandes.co
     </p>
   </div>
 </section>
@@ -143,21 +152,21 @@
       <div>
         <h4>Company</h4>
         <a href="index.html#guide">Your guide</a>
-        <a href="#">Gran Fondo Boyacá Mundial</a>
-        <a href="#">La Ciclería Café Taller</a>
-        <a href="#">Visit Duitama</a>
+        <a href="https://gfboyacamundial.com" target="_blank" rel="noopener">Gran Fondo Boyacá Mundial</a>
+        <a href="https://www.instagram.com/lacicleriacafetaller" target="_blank" rel="noopener">La Ciclería Café Taller</a>
+        <a href="https://visitduitama.com" target="_blank" rel="noopener">Visit Duitama</a>
       </div>
       <div>
         <h4>Contact</h4>
-        <a href="mailto:hello@ridetheandes.co">hello@ridetheandes.co</a>
-        <a href="#">WhatsApp</a>
-        <a href="#">Instagram</a>
+        <a href="mailto:reservations@ridetheandes.co">reservations@ridetheandes.co</a>
+        <a href="https://wa.me/573188044428" target="_blank" rel="noopener">WhatsApp</a>
+        <a href="https://instagram.com/ridetheandes.co" target="_blank" rel="noopener">Instagram</a>
         <p>Duitama, Boyacá · Colombia</p>
       </div>
     </div>
     <div class="foot-bottom">
-      <span>© 2026 Ride The Andes SAS · RNT [pending]</span>
-      <span>Boyacá · Colombia · 04°49′N 73°02′W</span>
+      <span>© 2026 Ride The Andes S.A.S. · RNT 296185</span>
+      <span>Boyacá · Colombia · 05°49′N 73°02′W</span>
     </div>
   </div>
 </footer>
@@ -174,7 +183,25 @@
 </form>
  
 <!-- ============ PAYPAL SDK + WIDGET LOGIC ============ -->
-<script src="https://www.paypal.com/sdk/js?client-id=AeR5ybkKCOLR-Hn7_wlIVmsrZe6hH7NtmwOACof4DMLBZgoukbdNfAeTlkCfQ6jXvoGITeF27ROPR1ez&currency=USD"></script>
+<script>
+// ── CONFIG DE PAGOS ──────────────────────────────────────────────
+// USE_LIVE  true  = cobra dinero REAL en la cuenta Business
+// TEST_MODE true  = TODOS los botones cobran $1.00 USD (solo para la prueba real; apagar después)
+var RTA_PAY = {
+  USE_LIVE: true,
+  TEST_MODE: true,
+  SANDBOX_CLIENT_ID: 'AeR5ybkKCOLR-Hn7_wlIVmsrZe6hH7NtmwOACof4DMLBZgoukbdNfAeTlkCfQ6jXvoGITeF27ROPR1ez',
+  LIVE_CLIENT_ID: 'Ac4hzsKCzspaGOI1zmswGNRq0Y8I12X3tcqNdrdKZOm7trxUG0yjvMAUiKilrxzO33M1fh7z3aYHbh4X'
+};
+(function () {
+  var id = RTA_PAY.USE_LIVE ? RTA_PAY.LIVE_CLIENT_ID : RTA_PAY.SANDBOX_CLIENT_ID;
+  var s = document.createElement('script');
+  s.src = 'https://www.paypal.com/sdk/js?client-id=' + encodeURIComponent(id) + '&currency=USD';
+  s.onload = function () { if (window.rtaRenderPayPal) window.rtaRenderPayPal(); };
+  s.onerror = function () { if (window.rtaRenderPayPal) window.rtaRenderPayPal(); };
+  document.head.appendChild(s);
+})();
+</script>
 <script>
 (function () {
   const PRICES = { rider: 3950, companion: 3250 };
@@ -197,6 +224,7 @@
   }
  
   function currentCharge() {
+    if (RTA_PAY.TEST_MODE) return 1;
     if (state.paymentType === 'deposit' && depositAvailable()) return DEPOSIT;
     return currentTotal();
   }
@@ -222,11 +250,11 @@
       closedMsg.style.display = 'none';
     }
  
-    document.getElementById('rta-total-display').textContent =
-      'Total del paquete: $' + currentTotal().toLocaleString('en-US') + ' USD — Cobrando hoy: $' +
+    var td = document.getElementById('rta-total-display');
+    td.textContent =
+      'Package total · Total: $' + currentTotal().toLocaleString('en-US') + ' USD — Due today · Hoy: $' +
       currentCharge().toLocaleString('en-US') + ' USD';
- 
-    renderButtons();
+    if (RTA_PAY.TEST_MODE) td.textContent = '⚠ TEST MODE · MODO PRUEBA — every button charges $1.00 USD · ' + td.textContent;
   }
  
   document.querySelectorAll('.rta-tab').forEach(function (btn) {
@@ -251,7 +279,12 @@
   function renderButtons() {
     const container = document.getElementById('paypal-button-container');
     container.innerHTML = '';
- 
+
+    if (typeof paypal === 'undefined') {
+      container.innerHTML = '<p class="rta-notice">The secure payment module could not load — an ad-blocker or network filter may be blocking PayPal. Please disable it and reload, or write to <a href="mailto:reservations@ridetheandes.co">reservations@ridetheandes.co</a> / <a href="https://wa.me/573188044428" target="_blank" rel="noopener">WhatsApp</a> and we will reserve your place directly. · El módulo de pago no cargó; escríbenos y te reservamos directo.</p>';
+      return;
+    }
+
     paypal.Buttons({
       style: { color: 'black', shape: 'rect', label: 'pay' },
  
@@ -263,7 +296,7 @@
  
         return actions.order.create({
           purchase_units: [{
-            description: 'Ride The Andes — ' + pkgLabel + suppLabel + ' (' + typeLabel + ')',
+            description: 'Ride The Andes — ' + pkgLabel + suppLabel + ' (' + typeLabel + ')' + (RTA_PAY.TEST_MODE ? ' [TEST $1]' : ''),
             amount: { currency_code: 'USD', value: currentCharge().toFixed(2) }
           }]
         });
@@ -271,34 +304,40 @@
  
       onApprove: function (data, actions) {
         return actions.order.capture().then(function (details) {
-          notifyTeam(details);
+          try { notifyTeam(details); } catch (e) { console.error('Notification error:', e); }
           window.location.href = 'thanks.html?payment=confirmed';
+        }).catch(function (err) {
+          console.error('Capture error:', err);
+          alert('Your payment could not be completed. Please try again or write to reservations@ridetheandes.co · No se pudo completar el pago; intenta de nuevo o escríbenos.');
         });
       },
  
       onError: function (err) {
         console.error('PayPal error:', err);
-        alert('Hubo un problema procesando el pago. Intenta de nuevo o escríbenos a reservations@ridetheandes.co');
+        alert('There was a problem processing the payment. Please try again or write to reservations@ridetheandes.co · Hubo un problema procesando el pago.');
       }
     }).render('#paypal-button-container');
   }
  
   function notifyTeam(details) {
+    const payer = (details && details.payer) || {};
+    const payerName = payer.name ? ((payer.name.given_name || '') + ' ' + (payer.name.surname || '')).trim() : '';
     const payload = {
       'form-name': 'payment-notification',
-      'payer-name': details.payer.name.given_name + ' ' + details.payer.name.surname,
-      'payer-email': details.payer.email_address,
+      'payer-name': payerName,
+      'payer-email': payer.email_address || '',
       'package': state.package,
       'single-supplement': state.single ? 'sí' : 'no',
       'payment-type': state.paymentType,
       'amount': currentCharge().toFixed(2),
-      'paypal-order-id': details.id
+      'paypal-order-id': (details && details.id) || ''
     };
  
     fetch('/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams(payload).toString()
+      body: new URLSearchParams(payload).toString(),
+      keepalive: true
     }).catch(function (err) {
       console.error('Notification form error:', err);
     });
@@ -314,6 +353,8 @@
   if (burger && menu) burger.addEventListener('click', function () { menu.classList.toggle('open'); });
  
   updateUI();
+  window.rtaRenderPayPal = renderButtons;
+  if (typeof paypal !== 'undefined') renderButtons();
 })();
 </script>
  

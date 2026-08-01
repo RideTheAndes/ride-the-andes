@@ -4,7 +4,7 @@ const ES = {
   hero_loc:"Cordillera Oriental",
   hero_h1:"Sube donde se forjan las <em>leyendas</em>",
   hero_sub:"Seis etapas desde la laguna sagrada de El Dorado hasta la línea de llegada del Gran Fondo Boyacá Mundial — por los páramos y caminos coloniales del corazón ciclístico de Colombia. Diez ciclistas. Un territorio que conocemos mejor que nadie.",
-  hero_cap:"Gran Fondo Boyacá Mundial · Boyacá, Colombia",
+  hero_cap:"Boyacá, Colombia · Cordillera Oriental",
   hero_cta1:"Explora el viaje", hero_cta2:"Solicita el dossier de ruta", scroll:"Desliza",
   t1:"Municipios de Boyacá<br>recorridos por nuestro guía",
   t2:"Ciclistas por edición en el Gran Fondo<br>Boyacá Mundial — 9 años consecutivos",
@@ -194,7 +194,7 @@ const ES = {
   jt_eyebrow:"El Journal",
   jt_h2:"Notas de campo desde la Cordillera",
   jt_all:"Todas las notas",
-  jt1_c:"Historia Fundacional", jt1_h:"Recorriendo los 123 Municipios de Boyacá", jt1_p:"La travesía de cuatro años que se convirtió en la base de cada ruta que operamos.", jt1_r:"Leer historia →",
+  jt1_c:"Historia Fundacional", jt1_h:"Recorriendo los 123 Municipios de Boyacá", jt1_p:"La travesía por los 123 municipios que se convirtió en la base de cada ruta que operamos.", jt1_r:"Leer historia →",
   jt2_c:"Perfil de Ascenso", jt2_h:"La Etapa Reina: Alto del Crucero", jt2_p:"Gradiente, longitud y la historia del ascenso decisivo de la travesía.", jt2_r:"Próximamente",
   jt3_c:"Guía Práctica", jt3_h:"Ciclismo en Altura en Colombia", jt3_p:"Cómo llegar desde el nivel del mar y rodar fuerte por encima de los 3.000 m.", jt3_r:"Próximamente",
   fin_h2:"Los Andes,<br><em>al fin merecidos</em>",
@@ -218,19 +218,26 @@ function setLang(l){
     if (dict[k] !== undefined) el.innerHTML = dict[k];
   });
   document.documentElement.lang = l;
-  document.getElementById("lang-en").classList.toggle("on", l === "en");
-  document.getElementById("lang-es").classList.toggle("on", l === "es");
+  try { localStorage.setItem("rta-lang", l); } catch (e) {}
+  const bEn = document.getElementById("lang-en"), bEs = document.getElementById("lang-es");
+  if (bEn) bEn.classList.toggle("on", l === "en");
+  if (bEs) bEs.classList.toggle("on", l === "es");
   // re-expand any open FAQ to fit new text height
   document.querySelectorAll(".faq .q.open .qa").forEach(a => { a.style.maxHeight = a.scrollHeight + "px"; });
 }
-document.getElementById("langToggle").addEventListener("click", () => setLang(lang === "en" ? "es" : "en"));
+const langToggle = document.getElementById("langToggle");
+if (langToggle) langToggle.addEventListener("click", () => setLang(lang === "en" ? "es" : "en"));
+// Restaurar el idioma elegido en páginas anteriores
+try { if (localStorage.getItem("rta-lang") === "es") setLang("es"); } catch (e) {}
 
 // ---------- nav ----------
 const hdr = document.getElementById("hdr");
-addEventListener("scroll", () => hdr.classList.toggle("scrolled", scrollY > 40));
+if (hdr) addEventListener("scroll", () => hdr.classList.toggle("scrolled", scrollY > 40));
 const burger = document.getElementById("burger"), menu = document.getElementById("menu");
-burger.addEventListener("click", () => menu.classList.toggle("open"));
-menu.querySelectorAll("a").forEach(a => a.addEventListener("click", () => menu.classList.remove("open")));
+if (burger && menu) {
+  burger.addEventListener("click", () => menu.classList.toggle("open"));
+  menu.querySelectorAll("a").forEach(a => a.addEventListener("click", () => menu.classList.remove("open")));
+}
 
 // ---------- reveal ----------
 const io = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }); }, { threshold: 0.12 });
@@ -248,139 +255,8 @@ document.querySelectorAll(".faq .q").forEach(q => {
     if (!open) { q.classList.add("open"); const a = q.querySelector(".qa"); a.style.maxHeight = a.scrollHeight + "px"; }
   });
 });
-(function () {
-  /* Este bloque solo existe en reservar.html. Sin esta guarda, en index.html
-     getElementById devuelve null, lanza excepción y detiene el resto del script. */
-  if (!document.getElementById('paypal-button-container')) return;
-  const PRICES = { rider: 3950, companion: 3250 };
-  const SINGLE_SUPPLEMENT = 700;
-  const DEPOSIT = 500;
- 
-  // Corte del depósito: 1 mes antes de la llegada del grupo (3 oct 2026)
-  const DEPOSIT_CUTOFF = new Date('2026-09-03T00:00:00-05:00');
- 
-  let state = { package: 'rider', single: false, paymentType: 'deposit' };
- 
-  function depositAvailable() {
-    return new Date() < DEPOSIT_CUTOFF;
-  }
- 
-  function currentTotal() {
-    let total = PRICES[state.package];
-    if (state.single) total += SINGLE_SUPPLEMENT;
-    return total;
-  }
- 
-  function currentCharge() {
-    if (state.paymentType === 'deposit' && depositAvailable()) return DEPOSIT;
-    return currentTotal();
-  }
- 
-  function updateUI() {
-    document.querySelectorAll('.rta-tab').forEach(function (btn) {
-      btn.classList.toggle('active', btn.dataset.package === state.package);
-    });
- 
-    const depositRadio = document.getElementById('rta-option-deposit');
-    const depositLabel = depositRadio.closest('.rta-radio');
-    const closedMsg = document.getElementById('rta-deposit-closed-msg');
- 
-    if (!depositAvailable()) {
-      depositRadio.disabled = true;
-      depositLabel.style.opacity = '0.4';
-      closedMsg.style.display = 'block';
-      if (state.paymentType === 'deposit') {
-        state.paymentType = 'full';
-        document.querySelector('input[name="rta-payment-type"][value="full"]').checked = true;
-      }
-    } else {
-      closedMsg.style.display = 'none';
-    }
- 
-    document.getElementById('rta-total-display').textContent =
-      'Total del paquete: $' + currentTotal().toLocaleString('en-US') + ' USD — Cobrando hoy: $' +
-      currentCharge().toLocaleString('en-US') + ' USD';
- 
-    renderButtons();
-  }
- 
-  document.querySelectorAll('.rta-tab').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      state.package = btn.dataset.package;
-      updateUI();
-    });
-  });
- 
-  document.getElementById('rta-single-supplement').addEventListener('change', function (e) {
-    state.single = e.target.checked;
-    updateUI();
-  });
- 
-  document.querySelectorAll('input[name="rta-payment-type"]').forEach(function (radio) {
-    radio.addEventListener('change', function (e) {
-      state.paymentType = e.target.value;
-      updateUI();
-    });
-  });
- 
-  function renderButtons() {
-    const container = document.getElementById('paypal-button-container');
-    container.innerHTML = '';
- 
-    paypal.Buttons({
-      style: { color: 'black', shape: 'rect', label: 'pay' },
- 
-      createOrder: function (data, actions) {
-        const isDeposit = state.paymentType === 'deposit' && depositAvailable();
-        const pkgLabel = state.package === 'rider' ? 'Cupo Rider' : 'Acompañante';
-        const suppLabel = state.single ? ' + suplemento individual' : '';
-        const typeLabel = isDeposit ? 'depósito' : 'pago total';
- 
-        return actions.order.create({
-          purchase_units: [{
-            description: 'Ride The Andes — ' + pkgLabel + suppLabel + ' (' + typeLabel + ')',
-            amount: { currency_code: 'USD', value: currentCharge().toFixed(2) }
-          }]
-        });
-      },
- 
-      onApprove: function (data, actions) {
-        return actions.order.capture().then(function (details) {
-          notifyTeam(details);
-          window.location.href = '/thanks.html?payment=confirmed';
-        });
-      },
- 
-      onError: function (err) {
-        console.error('PayPal error:', err);
-        alert('Hubo un problema procesando el pago. Intenta de nuevo o escríbenos a reservations@ridetheandes.co');
-      }
-    }).render('#paypal-button-container');
-  }
- 
-  function notifyTeam(details) {
-    const payload = {
-      'form-name': 'payment-notification',
-      'payer-name': details.payer.name.given_name + ' ' + details.payer.name.surname,
-      'payer-email': details.payer.email_address,
-      'package': state.package,
-      'single-supplement': state.single ? 'sí' : 'no',
-      'payment-type': state.paymentType,
-      'amount': currentCharge().toFixed(2),
-      'paypal-order-id': details.id
-    };
- 
-    fetch('/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams(payload).toString()
-    }).catch(function (err) {
-      console.error('Notification form error:', err);
-    });
-  }
- 
-  updateUI();
-})();
+/* NOTA: la lógica del widget de pago vive ÚNICAMENTE inline en reservar.html
+   (esa página no carga site.js). No duplicarla aquí. */
 
 /* ---------- HERO · secuencia de fotos ----------
    La primera imagen viaja en el HTML. Las demás se inyectan DESPUÉS de window.load,
@@ -394,11 +270,11 @@ document.querySelectorAll(".faq .q").forEach(q => {
   if(reduce) return;                       // se queda en la primera foto, quieta
 
   function start(){
-    if(!window.matchMedia('(min-width:1080px)').matches) return;  // el panel solo existe en desktop
+    if(!window.matchMedia('(min-width:1080px)').matches) return;  // la rotación solo corre en desktop; en móvil queda la primera foto fija (ahorro de datos)
     list.forEach(function(f){
       var img = document.createElement('img');
       img.src = 'assets/img/' + f.trim();
-      img.alt = ''; img.width = 900; img.height = 1200;
+      img.alt = ''; img.width = 1800; img.height = 771;
       img.loading = 'lazy'; img.decoding = 'async';
       stack.appendChild(img);
     });
