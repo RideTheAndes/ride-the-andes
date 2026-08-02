@@ -227,7 +227,13 @@ function setLang(l){
   document.querySelectorAll(".faq .q.open .qa").forEach(a => { a.style.maxHeight = a.scrollHeight + "px"; });
 }
 const langToggle = document.getElementById("langToggle");
-if (langToggle) langToggle.addEventListener("click", () => setLang(lang === "en" ? "es" : "en"));
+if (langToggle) {
+  const flip = () => setLang(lang === "en" ? "es" : "en");
+  langToggle.addEventListener("click", flip);
+  langToggle.addEventListener("keydown", e => {
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); flip(); }
+  });
+}
 // Restaurar el idioma elegido en páginas anteriores
 try { if (localStorage.getItem("rta-lang") === "es") setLang("es"); } catch (e) {}
 
@@ -250,11 +256,29 @@ document.querySelectorAll("[data-count]").forEach(el => cio.observe(el));
 
 // ---------- faq ----------
 document.querySelectorAll(".faq .q").forEach(q => {
-  q.addEventListener("click", () => {
+  const head = q.querySelector(".qh") || q;
+  const toggle = () => {
     const open = q.classList.contains("open");
-    document.querySelectorAll(".faq .q").forEach(o => { o.classList.remove("open"); o.querySelector(".qa").style.maxHeight = null; });
-    if (!open) { q.classList.add("open"); const a = q.querySelector(".qa"); a.style.maxHeight = a.scrollHeight + "px"; }
+    document.querySelectorAll(".faq .q").forEach(o => {
+      o.classList.remove("open");
+      o.querySelector(".qa").style.maxHeight = null;
+      const h = o.querySelector(".qh"); if (h) h.setAttribute("aria-expanded", "false");
+    });
+    if (!open) {
+      q.classList.add("open");
+      const a = q.querySelector(".qa"); a.style.maxHeight = a.scrollHeight + "px";
+      head.setAttribute("aria-expanded", "true");
+    }
+  };
+  q.addEventListener("click", toggle);
+  head.addEventListener("keydown", e => {
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); }
   });
+});
+
+// La FAQ abierta no recalculaba su altura al rotar el teléfono → texto cortado
+addEventListener("resize", () => {
+  document.querySelectorAll(".faq .q.open .qa").forEach(a => { a.style.maxHeight = a.scrollHeight + "px"; });
 });
 /* NOTA: la lógica del widget de pago vive ÚNICAMENTE inline en reservar.html
    (esa página no carga site.js). No duplicarla aquí. */

@@ -1,6 +1,5 @@
 User-agent: *
 Allow: /
-Disallow: /thanks.html
 Disallow: /dossier/
 
 Sitemap: https://ridetheandes.co/sitemap.xml

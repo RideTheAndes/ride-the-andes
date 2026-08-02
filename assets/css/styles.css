@@ -538,3 +538,17 @@ a[href^="mailto:"]{overflow-wrap:anywhere}
    en contenedores verticales (ver AUDIT.md · pasada I) */
 .slot.tour-media.has-photo{background-position:25% center}   /* ciclista en el tercio izquierdo */
 .slot.guide-media.has-photo{background-position:62% center}  /* el encuadre cae sobre Sergio — ciclista de la DERECHA (el de rojo es Diego) */
+
+/* ---------- AUDITORÍA 2026-08 · ACCESIBILIDAD ---------- */
+/* Foco visible y consistente en todo lo interactivo (WCAG 2.4.7) */
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,
+textarea:focus-visible,[role="button"]:focus-visible{
+  outline:2px solid var(--terracota);outline-offset:3px;border-radius:1px}
+/* Área táctil mínima de 44px (WCAG 2.5.5) sin alterar la maqueta visual */
+.lang-toggle{min-height:44px;display:inline-flex;align-items:center}
+.lang-toggle span{min-width:44px;min-height:34px;display:inline-flex;align-items:center;justify-content:center}
+.faq .qh{min-height:44px}
+.rta-radio,.rta-checkbox{min-height:44px;display:flex;align-items:center;gap:10px}
+.rta-radio input,.rta-checkbox input{width:20px;height:20px;flex:0 0 auto}
+.rta-tab{min-height:44px}
+footer a,.foot-grid a{display:inline-block;padding:3px 0}
