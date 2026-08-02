@@ -21,6 +21,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://ridetheandes.co/terminos.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
     <loc>https://ridetheandes.co/privacy.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>

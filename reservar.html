@@ -114,7 +114,8 @@
     </div>
  
     <p style="text-align:center;font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--tierra);margin-top:30px;opacity:.85">
-      Balance due September 17, 2026 · Saldo restante: 17 de septiembre de 2026 · reservations@ridetheandes.co
+      Balance due September 17, 2026 · Saldo restante: 17 de septiembre de 2026 · reservations@ridetheandes.co<br>
+      By paying you accept our <a href="terminos.html" style="color:var(--terracota)">Terms &amp; Conditions</a> · Al pagar aceptas nuestros <a href="terminos.html" style="color:var(--terracota)">Términos y Condiciones</a>
     </p>
   </div>
 </section>
@@ -209,12 +210,17 @@ var RTA_PAY = {
   const DEPOSIT = 500;
  
   // Corte del depósito: 1 mes antes de la llegada del grupo (3 oct 2026)
-  const DEPOSIT_CUTOFF = new Date('2026-09-03T00:00:00-05:00');
+  const DEPOSIT_CUTOFF = new Date('2026-09-03T23:59:59-05:00');
+  const SALES_CLOSE   = new Date('2026-09-17T23:59:59-05:00');  // cláusula 2 de los T&C
  
   let state = { package: 'rider', single: false, paymentType: 'deposit' };
  
+  function salesOpen() {
+    return new Date() <= SALES_CLOSE;
+  }
+
   function depositAvailable() {
-    return new Date() < DEPOSIT_CUTOFF;
+    return new Date() <= DEPOSIT_CUTOFF;
   }
  
   function currentTotal() {
@@ -279,6 +285,12 @@ var RTA_PAY = {
   function renderButtons() {
     const container = document.getElementById('paypal-button-container');
     container.innerHTML = '';
+
+    if (!salesOpen()) {
+      document.getElementById('rta-payment-widget').style.display = 'none';
+      container.innerHTML = '<p class="rta-notice">Bookings for the October 3–12, 2026 founding departure are closed. Write to <a href="mailto:reservations@ridetheandes.co">reservations@ridetheandes.co</a> for the 2027 departures. · Las reservas de la salida fundadora están cerradas; escríbenos por las salidas 2027.</p>';
+      return;
+    }
 
     if (typeof paypal === 'undefined') {
       container.innerHTML = '<p class="rta-notice">The secure payment module could not load — an ad-blocker or network filter may be blocking PayPal. Please disable it and reload, or write to <a href="mailto:reservations@ridetheandes.co">reservations@ridetheandes.co</a> / <a href="https://wa.me/573188044428" target="_blank" rel="noopener">WhatsApp</a> and we will reserve your place directly. · El módulo de pago no cargó; escríbenos y te reservamos directo.</p>';
