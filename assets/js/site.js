@@ -226,7 +226,15 @@ function setLang(l){
   document.querySelectorAll(".faq .q.open .qa").forEach(a => { a.style.maxHeight = a.scrollHeight + "px"; });
 }
 const langToggle = document.getElementById("langToggle");
-if (langToggle) langToggle.addEventListener("click", () => setLang(lang === "en" ? "es" : "en"));
+if (langToggle) {
+  langToggle.addEventListener("click", () => setLang(lang === "en" ? "es" : "en"));
+  langToggle.addEventListener("keydown", e => {
+    if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
+      e.preventDefault();
+      setLang(lang === "en" ? "es" : "en");
+    }
+  });
+}
 // Restaurar el idioma elegido en páginas anteriores
 try { if (localStorage.getItem("rta-lang") === "es") setLang("es"); } catch (e) {}
 
@@ -235,8 +243,14 @@ const hdr = document.getElementById("hdr");
 if (hdr) addEventListener("scroll", () => hdr.classList.toggle("scrolled", scrollY > 40));
 const burger = document.getElementById("burger"), menu = document.getElementById("menu");
 if (burger && menu) {
-  burger.addEventListener("click", () => menu.classList.toggle("open"));
-  menu.querySelectorAll("a").forEach(a => a.addEventListener("click", () => menu.classList.remove("open")));
+  burger.addEventListener("click", () => {
+    const open = menu.classList.toggle("open");
+    burger.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+  menu.querySelectorAll("a").forEach(a => a.addEventListener("click", () => {
+    menu.classList.remove("open");
+    burger.setAttribute("aria-expanded", "false");
+  }));
 }
 
 // ---------- reveal ----------
@@ -248,11 +262,28 @@ const cio = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersect
 document.querySelectorAll("[data-count]").forEach(el => cio.observe(el));
 
 // ---------- faq ----------
+function toggleFaq(q) {
+  const open = q.classList.contains("open");
+  document.querySelectorAll(".faq .q").forEach(o => {
+    o.classList.remove("open");
+    o.querySelector(".qa").style.maxHeight = null;
+    o.querySelector(".qh").setAttribute("aria-expanded", "false");
+  });
+  if (!open) {
+    q.classList.add("open");
+    const a = q.querySelector(".qa");
+    a.style.maxHeight = a.scrollHeight + "px";
+    q.querySelector(".qh").setAttribute("aria-expanded", "true");
+  }
+}
 document.querySelectorAll(".faq .q").forEach(q => {
-  q.addEventListener("click", () => {
-    const open = q.classList.contains("open");
-    document.querySelectorAll(".faq .q").forEach(o => { o.classList.remove("open"); o.querySelector(".qa").style.maxHeight = null; });
-    if (!open) { q.classList.add("open"); const a = q.querySelector(".qa"); a.style.maxHeight = a.scrollHeight + "px"; }
+  const qh = q.querySelector(".qh");
+  qh.addEventListener("click", () => toggleFaq(q));
+  qh.addEventListener("keydown", e => {
+    if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
+      e.preventDefault();
+      toggleFaq(q);
+    }
   });
 });
 /* NOTA: la lógica del widget de pago vive ÚNICAMENTE inline en reservar.html

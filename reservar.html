@@ -28,7 +28,8 @@
 <meta name="twitter:card" content="summary_large_image">
 </head>
 <body id="top">
- 
+<a href="#main" class="skip-link">Skip to content</a>
+
 <header id="hdr">
   <div class="wrap nav">
     <a href="index.html#top" class="brand">
@@ -62,12 +63,12 @@
       <a href="index.html#price">Pricing</a>
       <a href="journal/index.html">Journal</a>
     </nav>
-    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
   </div>
 </header>
  
 <!-- ============ RESERVE ============ -->
-<section class="sec sec-a" style="padding-top:180px">
+<section class="sec sec-a" id="main" style="padding-top:180px">
   <div class="wrap">
     <div class="sec-head" style="text-align:center;margin-left:auto;margin-right:auto">
       <span class="eyebrow">The Boyacá Traverse · Oct 3–12, 2026</span>
@@ -107,7 +108,7 @@
         · El depósito ya cerró; puedes pagar el total para asegurar tu cupo.
       </p>
  
-      <p id="rta-total-display" class="rta-total"></p>
+      <p id="rta-total-display" class="rta-total" aria-live="polite"></p>
  
       <div id="paypal-button-container"></div>
  
@@ -350,7 +351,10 @@ var RTA_PAY = {
   });
   const burger = document.getElementById('burger');
   const menu = document.getElementById('menu');
-  if (burger && menu) burger.addEventListener('click', function () { menu.classList.toggle('open'); });
+  if (burger && menu) burger.addEventListener('click', function () {
+    var open = menu.classList.toggle('open');
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
  
   updateUI();
   window.rtaRenderPayPal = renderButtons;

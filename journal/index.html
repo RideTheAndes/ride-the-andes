@@ -70,6 +70,8 @@ header.scrolled{background:rgba(15,20,9,.9);backdrop-filter:blur(14px);padding:1
 .btn:hover::before{transform:translateY(0)}
 .btn.solid{background:var(--terracota);border-color:var(--terracota)}
 .btn.big{padding:16px 34px;font-size:.7rem;letter-spacing:.2em}
+.skip-link{position:absolute;left:-9999px;top:0;z-index:2000;background:var(--paramo);color:var(--niebla);padding:12px 20px;font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.1em}
+.skip-link:focus{left:12px;top:12px}
 
 /* journal hero */
 .jhero{padding:170px 0 70px;border-bottom:1px solid var(--line);background:radial-gradient(120% 100% at 80% 0%,rgba(74,122,181,.16),transparent 55%),linear-gradient(170deg,#0c1c06,#16300d 60%,var(--asfalto))}
@@ -132,6 +134,7 @@ footer .cr{font-family:var(--mono);font-size:.56rem;letter-spacing:.12em;text-tr
 <noscript><style>[data-rise]{opacity:1;transform:none}</style></noscript>
 </head>
 <body>
+<a href="#main" class="skip-link">Skip to content</a>
 
 <header id="hdr">
   <div class="wrap nav">
@@ -149,7 +152,7 @@ footer .cr{font-family:var(--mono);font-size:.56rem;letter-spacing:.12em;text-tr
 </header>
 
 <!-- ===== JOURNAL HERO ===== -->
-<section class="jhero">
+<section class="jhero" id="main">
   <div class="wrap">
     <span class="eyebrow" data-rise>The Journal</span>
     <h1 data-rise class="d1">Field notes from the <em>Eastern Cordillera</em></h1>
