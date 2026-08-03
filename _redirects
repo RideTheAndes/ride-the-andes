@@ -1,1 +1,5 @@
 /journal    /journal/index.html    200
+
+# Canonicalize duplicate index-file URLs to their clean paths (avoid duplicate-content signals)
+/index.html            /            301
+/journal/index.html    /journal/    301
