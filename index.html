@@ -32,13 +32,28 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Ride The Andes",
+  "url": "https://ridetheandes.co"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
   "@type": "TravelAgency",
   "name": "Ride The Andes",
   "legalName": "RIDE THE ANDES S.A.S",
   "url": "https://ridetheandes.co",
   "email": "reservations@ridetheandes.co",
+  "telephone": "+57 318 804 4428",
+  "image": "https://ridetheandes.co/assets/img/og-image.jpg",
+  "priceRange": "$3,250–$3,950 USD",
   "address": {"@type": "PostalAddress", "addressLocality": "Duitama", "addressRegion": "Boyacá", "addressCountry": "CO"},
   "areaServed": "Boyacá, Colombia",
+  "sameAs": [
+    "https://instagram.com/ridetheandes.co",
+    "https://wa.me/573188044428"
+  ],
   "makesOffer": {
     "@type": "Offer",
     "itemOffered": {
@@ -46,10 +61,37 @@
       "name": "The Boyacá Traverse",
       "description": "A 10-day guided cycling journey through Boyacá, Colombia — six stages from Guatavita to the Gran Fondo Boyacá Mundial finish line.",
       "touristType": "Cyclists",
-      "itinerary": {"@type": "ItemList", "numberOfItems": 6}
+      "itinerary": {
+        "@type": "ItemList",
+        "numberOfItems": 6,
+        "itemListElement": [
+          {"@type": "ListItem", "position": 1, "name": "The Legend of El Dorado", "description": "Guatavita › Sopó, Cundinamarca — 34.0 km, +290 m"},
+          {"@type": "ListItem", "position": 2, "name": "The Road to Independence", "description": "Puente de Boyacá › Ráquira — 53.0 km, +527 m"},
+          {"@type": "ListItem", "position": 3, "name": "The Desert & the Dinosaurs", "description": "Villa de Leyva › Santa Sofía › Villa de Leyva — 53.3 km, +759 m"},
+          {"@type": "ListItem", "position": 4, "name": "The Queen Stage", "description": "Rancho Tota › Iza › Sogamoso › Alto del Crucero — 51.6 km, +1,004 m"},
+          {"@type": "ListItem", "position": 5, "name": "Lago de Tota, In Full", "description": "Aquitania › Tota › Cuítiva › Iza › Firavitoba — 49.8 km, +506 m"},
+          {"@type": "ListItem", "position": 6, "name": "Gran Fondo Boyacá Mundial", "description": "Duitama · official Gran Fondo Boyacá Mundial entry — 143.6 km, +2,120 m"}
+        ]
+      }
     },
     "price": "3950",
     "priceCurrency": "USD"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SportsEvent",
+  "name": "Gran Fondo Boyacá Mundial 2026",
+  "description": "The 2,000-rider Gran Fondo Boyacá Mundial, now in its tenth edition, held in Duitama, Boyacá, Colombia — the official race-day finale of The Boyacá Traverse.",
+  "startDate": "2026-10-11",
+  "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+  "eventStatus": "https://schema.org/EventScheduled",
+  "location": {
+    "@type": "Place",
+    "name": "Duitama, Boyacá",
+    "address": {"@type": "PostalAddress", "addressLocality": "Duitama", "addressRegion": "Boyacá", "addressCountry": "CO"}
   }
 }
 </script>
