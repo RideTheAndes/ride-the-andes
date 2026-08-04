@@ -116,7 +116,7 @@ header.scrolled .brand svg.brandmark{color:var(--paramo)}
 .sec-b{background:var(--niebla-soft)}
 .sec-head{max-width:60ch;margin-bottom:64px}
 .sec-head .eyebrow{display:block;margin-bottom:22px}
-.sec-head h2{font-size:clamp(2.2rem,4.6vw,4rem)}
+.sec-head h1,.sec-head h2{font-size:clamp(2.2rem,4.6vw,4rem)}
 .sec-head p{margin-top:24px;font-size:1.22rem;color:var(--ink-soft);max-width:56ch}
  
 /* ---------- MANIFESTO (dark accent) ---------- */
