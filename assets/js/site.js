@@ -3,8 +3,9 @@ const ES = {
   nav_tour:"El Tour", nav_route:"La Ruta", nav_itin:"Día a Día", nav_incl:"Incluye", nav_guide:"Tu Guía", nav_price:"Precio", nav_cta:"Reserva tu cupo",
   hero_loc:"Cordillera Oriental",
   hero_h1:"Sube donde se forjan las <em>leyendas</em>",
-  hero_sub:"Seis etapas desde la laguna sagrada de El Dorado hasta la línea de llegada del Gran Fondo Boyacá Mundial — por los páramos y caminos coloniales del corazón ciclístico de Colombia. Diez ciclistas. Un territorio que conocemos mejor que nadie.",
+  hero_sub:"Seis etapas desde la laguna sagrada de El Dorado hasta la línea de llegada del Gran Fondo Boyacá Mundial — por los páramos y caminos coloniales del corazón ciclístico de Colombia. Diez ciclistas. Un territorio recorrido municipio por municipio — los 123.",
   hero_cap:"Boyacá, Colombia · Cordillera Oriental",
+  hero_meta:"10 días · 6 etapas · 385 km · +5.200 m de ascenso",
   hero_cta1:"Explora el viaje", hero_cta2:"Solicita el dossier de ruta", scroll:"Desliza",
   t1:"Municipios de Boyacá<br>recorridos por nuestro guía",
   t2:"Ciclistas por edición en el Gran Fondo<br>Boyacá Mundial — 9 años consecutivos",
@@ -111,7 +112,7 @@ const ES = {
   ff_room:"Preferencia de habitación",
   ff_room_o1:"Viajo con alguien — compartimos", ff_room_o2:"Comparto con otro ciclista (mismo sexo)", ff_room_o3:"Comparto con otro ciclista (cualquier sexo)", ff_room_o4:"Quiero habitación propia (+$700 suplemento individual)",
   ff_msg:"¿Algo que quieras contarnos? (fechas, preguntas, rutas soñadas)",
-  ff_consent:"Al enviar aceptas nuestra <a href=\"privacy.html\">política de privacidad</a>. Solo usaremos tus datos para responder tu consulta.",
+  ff_consent:"Al enviar aceptas nuestra <a href=\"privacy.html\">política de privacidad</a> y nuestros <a href=\"terminos.html\">términos</a>. Solo usaremos tus datos para responder tu consulta.",
   ff_send:"Enviar y recibir el dossier",
   fin_or:"¿Prefieres escribirnos directo? <a href=\"mailto:reservations@ridetheandes.co\" style=\"color:var(--terracota-bright)\">reservations@ridetheandes.co</a> · <a href=\"https://wa.me/573188044428\" style=\"color:var(--terracota-bright)\">WhatsApp</a>",
   pl1:"9 noches en alojamiento boutique y patrimonial",
@@ -188,7 +189,7 @@ const ES = {
   q7:"¿Cuándo debo reservar mis vuelos?",
   a7:"Llega el sábado 3 de octubre a cualquier hora — recibimos todos los vuelos en el Aeropuerto Internacional El Dorado (BOG). La salida es el lunes 12 de octubre: llegamos al aeropuerto a las 14:00, así que reserva vuelos que salgan después de las 17:00. Eso cubre prácticamente todos los vuelos nocturnos directos a Europa y varias salidas de tarde hacia Norteamérica. ¿Vuelas antes? Con gusto te ayudamos a organizar una noche adicional en Bogotá (no incluida).",
   q8:"¿Qué cubre el seguro — y puedo cancelar?",
-  a8:"Tu precio incluye asistencia médica y de accidentes durante los diez días en Colombia, con el ciclismo de ruta expresamente amparado y no excluido como deporte de riesgo, como sí lo hacen muchas pólizas estándar. No cubre la cancelación del viaje, así que recomendamos contratar tu propio seguro para eso. Sobre cancelar: dentro de los 5 días hábiles siguientes a la reserva recuperas todo, sin deducciones. Después de ese plazo aplica una escala publicada según la proximidad a la salida, y en cualquier momento puedes ceder tu cupo a otro ciclista sin costo. Si cancelamos nosotros, eliges entre el reembolso del 100% o un crédito del 110% para una edición futura.",
+  a8:"Tu precio incluye asistencia médica y de accidentes durante los diez días en Colombia, con el ciclismo de ruta expresamente amparado y no excluido como deporte de riesgo, como sí lo hacen muchas pólizas estándar. No cubre la cancelación del viaje, así que recomendamos contratar tu propio seguro para eso. Sobre cancelar: dentro de los 5 días hábiles siguientes a la reserva recuperas todo, sin deducciones. Después de ese plazo aplica una <a href=\"terminos.html\">escala publicada</a> según la proximidad a la salida, y en cualquier momento puedes ceder tu cupo a otro ciclista sin costo. Si cancelamos nosotros, eliges entre el reembolso del 100% o un crédito del 110% para una edición futura.",
   q9:"¿Para quién <em>no</em> es esto?",
   a9:"Con franqueza: para quien busca sus primeras vacaciones en bicicleta, o rodadas planas entre cafés. Esto es escalada de verdad a altura de verdad — ganada, apoyada e inolvidable. Si tienes dudas, escríbenos; te lo decimos de frente.",
   jt_eyebrow:"El Journal",
@@ -201,7 +202,7 @@ const ES = {
   fin_p:"Cuéntanos un poco de ti y el dossier de ruta completo es tuyo de inmediato — luego nuestro guía te responde personalmente, desde Boyacá.",
   ft_tl:"Sube donde se forjan las leyendas. Ciclismo guiado premium en el corazón del ciclismo colombiano.",
   ft_h1:"Viajes", ft_l1:"Etapas y ruta", ft_l2:"Route dossier", ft_l3:"Precio",
-  ft_h2:"Compañía", ft_l4:"Tu guía",
+  ft_h2:"Compañía", ft_l4:"Tu guía", ft_l5:"Términos y Condiciones", ft_l6:"Política de privacidad",
   ft_h3:"Contacto",
   ft_cr:"© 2026 Ride The Andes S.A.S. · RNT 296185",
   // --- Accessible names (screen-reader only; never visible on screen). ---
@@ -351,10 +352,13 @@ document.querySelectorAll(".faq .q").forEach(q => {
   if(reduce) return;                       // se queda en la primera foto, quieta
 
   function start(){
-    if(!window.matchMedia('(min-width:1080px)').matches) return;  // la rotación solo corre en desktop; en móvil queda la primera foto fija (ahorro de datos)
+    // Rota en TODOS los anchos: en móvil el navegador toma la versión -900 (~60 KB) vía srcset.
     list.forEach(function(f){
+      var base = 'assets/img/' + f.trim();
       var img = document.createElement('img');
-      img.src = 'assets/img/' + f.trim();
+      img.src = base + '.jpg';
+      img.srcset = base + '-900.jpg 900w, ' + base + '.jpg 1800w';
+      img.sizes = '(max-width:1080px) 100vw, 1200px';
       img.alt = ''; img.width = 1800; img.height = 771;
       img.loading = 'lazy'; img.decoding = 'async';
       stack.appendChild(img);
