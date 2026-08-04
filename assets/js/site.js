@@ -291,6 +291,22 @@ if (burger && menu) {
 const io = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }); }, { threshold: 0.12 });
 document.querySelectorAll("[data-rise]").forEach(el => io.observe(el));
 
+// ---------- deferred background photos ----------
+// Below-fold section/card photos are only fetched once they're about to
+// scroll into view, instead of all loading eagerly with the page. These
+// elements already stay invisible until [data-rise] fades them in, so
+// deferring the fetch to roughly the same moment costs nothing visually.
+const bgio = new IntersectionObserver(es => {
+  es.forEach(e => {
+    if (e.isIntersecting) {
+      const el = e.target;
+      if (el.dataset.bg) el.style.backgroundImage = "url('" + el.dataset.bg + "')";
+      bgio.unobserve(el);
+    }
+  });
+}, { rootMargin: "200px 0px" });
+document.querySelectorAll("[data-bg]").forEach(el => bgio.observe(el));
+
 // ---------- counters ----------
 const cio = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting) { const el = e.target, t = +el.dataset.count; let n = 0; const step = Math.max(1, Math.round(t / 40)); const tick = () => { n += step; if (n >= t) { el.textContent = t; } else { el.textContent = n; requestAnimationFrame(tick); } }; tick(); cio.unobserve(el); } }); }, { threshold: 0.5 });
 document.querySelectorAll("[data-count]").forEach(el => cio.observe(el));
