@@ -12,7 +12,8 @@ The marketing/booking website for Ride The Andes S.A.S., a boutique cycling tour
 - Before merging any change to `reservar.html` or `assets/js/site.js`, push to a branch and check the Netlify **deploy preview** first (previews don't consume paid credits), especially to exercise the payment flow.
 - After a push to `main`, Netlify takes ~30s to publish; Cloudflare caches in front of it, so verify changes in incognito after purging the Cloudflare cache.
 - `AUDIT.md` (in Spanish) is the operator's living maintenance checklist — pre-commit checks, weekly/monthly/quarterly audits, and a procedure for "each new sales season" (new departure date, new prices). Consult it before touching pricing, dates, or the payment widget; update it if you add a recurring task.
-- No `robots`/staging environment split: `_headers` sets `noindex` on `/dossier/*` and `/thanks.html`; `_redirects` maps `/journal` → `/journal/index.html`.
+- No `robots`/staging environment split: `_headers` sets `noindex` on `/dossier/*` and `/thanks.html`. `_redirects` 301s `/index.html` → `/`, `/journal/index.html` → `/journal/`, and `/journal` → `/journal/`. Those first two are load-bearing: **Netlify does not canonicalise `/path/index.html` → `/path/` on its own**, because that URL maps to a real file on disk. Rules are first-match-wins top-to-bottom and a matched rule ends processing, so order matters if you add wildcards.
+- `404.html` is served by Netlify **at the requested URL**, not at `/404.html`. Every `href`/`src` in it must stay absolute (`/assets/...`) — a relative path resolves against the broken URL and yields an unstyled page at any nested path. This constraint applies to `404.html` only; the other pages are served from fixed URLs where relative paths are correct.
 
 ## Site structure
 
@@ -26,7 +27,8 @@ The marketing/booking website for Ride The Andes S.A.S., a boutique cycling tour
 | `dossier/` | PDF route dossier asset, `noindex`'d via `_headers`. |
 | `assets/css/styles.css` | Shared stylesheet for `index.html`, `reservar.html`, `privacy.html`, `thanks.html`. |
 | `assets/js/site.js` | Shared JS: i18n toggle, nav/burger menu, scroll-reveal animations, stat counters, FAQ accordion, hero photo carousel. Loaded by `index.html` only (other pages inline what they need or don't need it). |
-| `assets/img/` | Curated photography. Filename prefixes indicate section: `hero-*`, `hero-band-*`, `stage-*` (route stages), `poi-*` (points of interest), `stay-*` (hotels), `culture-*`, `journal-*`, `stat-*`. |
+| `assets/img/` | Curated photography. Filename prefixes indicate section: `hero-*`, `hero-band-*`, `stage-*` (route stages), `poi-*` (points of interest), `stay-*` (hotels), `culture-*`, `journal-*`, `stat-*`. **Roughly 21 of the 47 files here are referenced by nothing** (`stat-*`, most `culture-*`, `poi-etapafinal-*`, the `hero-1..4-*` legacy variants, `your-guide.jpg`) — ~20.7 MB of the 29.1 MB total. They are not dead weight for visitors (never fetched), and they are **not an invitation to wire them into pages**; assume they are unused on purpose unless the operator says otherwise. Note `hero-band-2/3` *are* used, via the `data-imgs` attribute on `#heroStack` as bare filenames — check `site.js` and `styles.css`, not just HTML, before calling an image unused. |
+| `AUDIT.md` | **Repo root.** The operator's living maintenance checklist (Spanish): pre-commit checks, weekly/monthly/quarterly audits, and a per-sales-season procedure. Referenced throughout this file — read it before touching pricing, dates, images, or the payment widget. |
 | `sitemap.xml`, `robots.txt` | SEO — update `sitemap.xml` `<lastmod>` whenever page content changes materially. |
 
 ## i18n pattern (index.html only)
@@ -35,8 +37,15 @@ The marketing/booking website for Ride The Andes S.A.S., a boutique cycling tour
 - English is the copy hard-coded in the HTML. On load, `site.js` captures it into an `EN` object by reading every `[data-i18n]` element's `innerHTML` keyed by its `data-i18n` attribute.
 - A parallel `ES` dictionary is hand-maintained at the top of `site.js` with the same keys.
 - `setLang()` swaps `innerHTML` per key and persists the choice to `localStorage` (`rta-lang`).
-- **When adding new translatable copy**: add `data-i18n="some_key"` to the element in `index.html` (English is the source of truth for that element), then add the matching `some_key` entry to the `ES` object in `site.js`. Missing keys silently fall back to whatever HTML is already there.
+- Accessible names use a parallel `data-i18n-aria` hook: `EN_ARIA` captures English `aria-label` values from the DOM the same way `EN` captures text, and `setLang()` swaps the attribute from the same `ES` dictionary. Needed because `setLang()`'s text path only touches `innerHTML` and structurally cannot reach an attribute value.
+- **When adding new translatable copy**: add `data-i18n="some_key"` to the element in `index.html` (English is the source of truth for that element), then add the matching `some_key` entry to the `ES` object in `site.js`. For an `aria-label`, use `data-i18n-aria="some_key"` instead. Missing keys fall back silently to whatever is already in the markup — so a typo'd key looks like working English rather than an error.
+
+**Translation coverage is currently complete — keep it that way.** As of 2026-08-04: **331 keys in `ES`, covering all 330 `data-i18n` + `data-i18n-aria` keys used in `index.html`, with 0 unresolved.** Do not assume there is a backlog of untranslated copy; there isn't, and a previous review wrongly concluded otherwise by counting ES keys with a line-anchored `grep` (which returns 204, because 50 lines of the object declare more than one key). To count them correctly, `eval` the object literal and read `Object.keys().length`, or parse it with a string-literal-aware scanner. If you add a key, add its Spanish in the same change.
+
+One known orphan: **`pr_foot` exists in `ES` with no element using it.** Leave it — its `.price-foot` rule is still in `styles.css`, so it likely belongs to a pricing element not currently rendered.
+
 - Other pages (`reservar.html`, `journal/`, `privacy.html`, `thanks.html`) are **not** wired into this toggle — they mix English primary copy with inline Spanish translations (e.g. "Balance due September 17, 2026 · Saldo restante: ...") directly in the markup instead.
+- **`privacy.html` is the only page with `<html lang="es">`** — every other page is `lang="en"`. Its English half is wrapped in `<div lang="en">` for correct lang-of-parts. Don't "normalise" that attribute without moving the wrapper.
 
 ## Payment widget (reservar.html)
 
