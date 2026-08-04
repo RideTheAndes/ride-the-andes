@@ -203,12 +203,41 @@ const ES = {
   ft_h1:"Viajes", ft_l1:"Etapas y ruta", ft_l2:"Route dossier", ft_l3:"Precio",
   ft_h2:"Compañía", ft_l4:"Tu guía",
   ft_h3:"Contacto",
-  ft_cr:"© 2026 Ride The Andes S.A.S. · RNT 296185"
+  ft_cr:"© 2026 Ride The Andes S.A.S. · RNT 296185",
+  // --- Accessible names (screen-reader only; never visible on screen). ---
+  // Authored alongside the English originals in the a11y pass — operator may
+  // reword freely, these carry no brand-voice requirement.
+  skip_link:"Saltar al contenido",
+  aria_stage1:"Campiña ondulada en la etapa de Guatavita a Sopó",
+  aria_stage3:"La plaza colonial de Villa de Leyva en la ruta de la Etapa 3",
+  aria_stage4:"La subida al Alto del Crucero sobre el Lago de Tota",
+  aria_stage5:"Playa Blanca, la playa de arena blanca del Lago de Tota",
+  aria_stage6:"Ciclistas en la meta del Gran Fondo Boyacá Mundial",
+  aria_poi1:"Vista panorámica del Lago de Tota, el lago de altura más grande de Colombia",
+  aria_poi2:"La plaza colonial de Villa de Leyva, Boyacá",
+  aria_poi3:"Ollas de barro tradicionales a la venta en Ráquira, Boyacá",
+  aria_poi4:"Ciclistas rodando por un prado florecido en Boyacá",
+  aria_stay1:"Hotel Movich Buró 26, Bogotá",
+  aria_stay2:"Camino de la Sal, una casona de estilo colonial en Zipaquirá",
+  aria_stay3:"El patio del Hotel Getsemaní en Villa de Leyva",
+  aria_stay4:"Decameron Rancho Tota a orillas del Lago de Tota",
+  aria_stay5:"Estelar Hotel y Centro de Convenciones sobre el Lago Sochagota, Paipa",
+  aria_deck:"Portada del dossier de ruta",
+  aria_jt1:"Mapa que traza los 123 municipios de Boyacá",
+  aria_jt3:"Sergio rodando por el páramo alto de Boyacá",
+  aria_tour:"Ciclista subiendo una carretera de páramo en Boyacá",
+  aria_guide:"Sergio, fundador y guía líder de Ride The Andes, en Boyacá",
+  aria_menu:"Menú",
+  aria_lang:"Cambiar idioma"
 };
 
 // Capture English from the DOM, then toggle
 const EN = {};
 document.querySelectorAll("[data-i18n]").forEach(el => { EN[el.dataset.i18n] = el.innerHTML; });
+// Same capture for accessible names. These are never visible to sighted users,
+// so they need their own attribute hook — innerHTML swapping can't reach them.
+const EN_ARIA = {};
+document.querySelectorAll("[data-i18n-aria]").forEach(el => { EN_ARIA[el.dataset.i18nAria] = el.getAttribute("aria-label"); });
 let lang = "en";
 function setLang(l){
   lang = l;
@@ -216,6 +245,11 @@ function setLang(l){
   document.querySelectorAll("[data-i18n]").forEach(el => {
     const k = el.dataset.i18n;
     if (dict[k] !== undefined) el.innerHTML = dict[k];
+  });
+  const ariaDict = l === "es" ? ES : EN_ARIA;
+  document.querySelectorAll("[data-i18n-aria]").forEach(el => {
+    const k = el.dataset.i18nAria;
+    if (ariaDict[k] !== undefined) el.setAttribute("aria-label", ariaDict[k]);
   });
   document.documentElement.lang = l;
   try { localStorage.setItem("rta-lang", l); } catch (e) {}
@@ -226,7 +260,15 @@ function setLang(l){
   document.querySelectorAll(".faq .q.open .qa").forEach(a => { a.style.maxHeight = a.scrollHeight + "px"; });
 }
 const langToggle = document.getElementById("langToggle");
-if (langToggle) langToggle.addEventListener("click", () => setLang(lang === "en" ? "es" : "en"));
+if (langToggle) {
+  langToggle.addEventListener("click", () => setLang(lang === "en" ? "es" : "en"));
+  langToggle.addEventListener("keydown", e => {
+    if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
+      e.preventDefault();
+      setLang(lang === "en" ? "es" : "en");
+    }
+  });
+}
 // Restaurar el idioma elegido en páginas anteriores
 try { if (localStorage.getItem("rta-lang") === "es") setLang("es"); } catch (e) {}
 
@@ -235,8 +277,14 @@ const hdr = document.getElementById("hdr");
 if (hdr) addEventListener("scroll", () => hdr.classList.toggle("scrolled", scrollY > 40));
 const burger = document.getElementById("burger"), menu = document.getElementById("menu");
 if (burger && menu) {
-  burger.addEventListener("click", () => menu.classList.toggle("open"));
-  menu.querySelectorAll("a").forEach(a => a.addEventListener("click", () => menu.classList.remove("open")));
+  burger.addEventListener("click", () => {
+    const open = menu.classList.toggle("open");
+    burger.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+  menu.querySelectorAll("a").forEach(a => a.addEventListener("click", () => {
+    menu.classList.remove("open");
+    burger.setAttribute("aria-expanded", "false");
+  }));
 }
 
 // ---------- reveal ----------
@@ -248,11 +296,28 @@ const cio = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersect
 document.querySelectorAll("[data-count]").forEach(el => cio.observe(el));
 
 // ---------- faq ----------
+function toggleFaq(q) {
+  const open = q.classList.contains("open");
+  document.querySelectorAll(".faq .q").forEach(o => {
+    o.classList.remove("open");
+    o.querySelector(".qa").style.maxHeight = null;
+    o.querySelector(".qh").setAttribute("aria-expanded", "false");
+  });
+  if (!open) {
+    q.classList.add("open");
+    const a = q.querySelector(".qa");
+    a.style.maxHeight = a.scrollHeight + "px";
+    q.querySelector(".qh").setAttribute("aria-expanded", "true");
+  }
+}
 document.querySelectorAll(".faq .q").forEach(q => {
-  q.addEventListener("click", () => {
-    const open = q.classList.contains("open");
-    document.querySelectorAll(".faq .q").forEach(o => { o.classList.remove("open"); o.querySelector(".qa").style.maxHeight = null; });
-    if (!open) { q.classList.add("open"); const a = q.querySelector(".qa"); a.style.maxHeight = a.scrollHeight + "px"; }
+  const qh = q.querySelector(".qh");
+  qh.addEventListener("click", () => toggleFaq(q));
+  qh.addEventListener("keydown", e => {
+    if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
+      e.preventDefault();
+      toggleFaq(q);
+    }
   });
 });
 /* NOTA: la lógica del widget de pago vive ÚNICAMENTE inline en reservar.html
