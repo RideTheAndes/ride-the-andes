@@ -1,5 +1,15 @@
-/journal    /journal/index.html    200
-
-# Canonicalize duplicate index-file URLs to their clean paths (avoid duplicate-content signals)
+# Netlify processes these top-to-bottom, first match wins, and a matched rule
+# ends processing (a 200 rewrite's target is NOT re-evaluated against later rules).
+#
+# Netlify does NOT canonicalise /path/index.html -> /path/ on its own: that URL
+# corresponds to a real file on disk, so it is served as-is. These 301s are
+# therefore load-bearing, not duplicates of built-in behaviour.
 /index.html            /            301
 /journal/index.html    /journal/    301
+
+# /journal (no trailing slash) previously used a 200 rewrite to /journal/index.html.
+# That served a full 200 response at a second URL, which competes with /journal/ —
+# the URL the canonical tag and sitemap both declare — and it also preempted
+# Netlify's own /journal -> /journal/ directory redirect. A 301 keeps the URL
+# working while consolidating it onto the canonical form.
+/journal               /journal/    301
