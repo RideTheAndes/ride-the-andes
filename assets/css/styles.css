@@ -512,14 +512,26 @@ a[href^="mailto:"]{overflow-wrap:anywhere}
   .hero h1{font-size:clamp(3rem,6vw,5.8rem);max-width:none}
   .hero .sub{max-width:56ch}
 }
-.hero-frame{position:relative;display:block;margin-top:56px}
+/* La banda flotaba sin pertenecer a nada. Ahora usa el MISMO ADN que las
+   tarjetas de etapa (.stage): marco de 1px, fondo card, foto a sangre arriba,
+   chip superpuesto y pie de datos dentro del borde. */
+.hero-frame{position:relative;display:block;margin-top:56px;border:1px solid var(--line);
+  background:var(--card);overflow:hidden;box-shadow:0 18px 44px rgba(26,26,26,.07);transition:border-color .4s,box-shadow .4s}
+.hero-frame:hover{border-color:rgba(193,98,42,.4);box-shadow:0 22px 54px rgba(26,26,26,.1)}
 @media(max-width:680px){.hero-frame{margin-top:38px}}
-.hf-stack{position:relative;aspect-ratio:21/9;max-height:520px;overflow:hidden;background:var(--paramo-deep);
-  border:1px solid rgba(26,26,26,.1);box-shadow:0 26px 70px rgba(26,26,26,.16)}
+.hf-stack{position:relative;aspect-ratio:21/9;max-height:460px;overflow:hidden;background:var(--paramo-deep)}
+@media(max-width:680px){.hf-stack{aspect-ratio:16/10}}
+.hf-stack::after{content:"";position:absolute;inset:auto 0 0 0;height:38%;z-index:1;pointer-events:none;
+  background:linear-gradient(to top,rgba(15,36,8,.55),transparent)}
+.hf-chip{position:absolute;left:14px;bottom:14px;z-index:2;font-family:var(--mono);font-size:.55rem;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--niebla);background:rgba(0,0,0,.4);
+  padding:6px 10px;border:1px solid rgba(240,236,224,.22)}
+.hf-meta{padding:15px 20px;border-top:1px solid var(--line-soft);font-family:var(--mono);
+  font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--tierra)}
 .hf-stack img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
   opacity:0;transition:opacity 1.5s ease-in-out}
 .hf-stack img.on{opacity:1}
-.hf-cap{display:block;margin-top:12px;font-family:var(--mono);font-size:.55rem;letter-spacing:.16em;
+.hf-cap{display:none;margin-top:12px;font-family:var(--mono);font-size:.55rem;letter-spacing:.16em;
   text-transform:uppercase;color:var(--tierra)}
 @media(prefers-reduced-motion:reduce){.hf-stack img{transition:none}}
 
@@ -530,3 +542,15 @@ a[href^="mailto:"]{overflow-wrap:anywhere}
    en contenedores verticales (ver AUDIT.md · pasada I) */
 .slot.tour-media.has-photo{background-position:25% center}   /* ciclista en el tercio izquierdo */
 .slot.guide-media.has-photo{background-position:62% center}  /* el encuadre cae sobre Sergio — ciclista de la DERECHA (el de rojo es Diego) */
+
+/* ---------- AUDITORÍA · FOCO Y ÁREA TÁCTIL ---------- */
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,
+textarea:focus-visible,[role="button"]:focus-visible{
+  outline:2px solid var(--terracota);outline-offset:3px;border-radius:1px}
+.lang-toggle{min-height:44px;display:inline-flex;align-items:center}
+.lang-toggle span{min-width:44px;min-height:34px;display:inline-flex;align-items:center;justify-content:center}
+.faq .qh{min-height:44px}
+.rta-radio,.rta-checkbox{min-height:44px;display:flex;align-items:center;gap:10px}
+.rta-radio input,.rta-checkbox input{width:20px;height:20px;flex:0 0 auto}
+.rta-tab{min-height:44px}
+footer a,.foot-grid a{display:inline-block;padding:3px 0}
