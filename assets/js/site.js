@@ -348,13 +348,28 @@ document.querySelectorAll(".faq .q").forEach(q => {
   if(reduce) return;                       // se queda en la primera foto, quieta
 
   function start(){
-    // Rota en TODOS los anchos: en móvil el navegador toma la versión -900 (~60 KB) vía srcset.
+    // La rotación solo corre en desktop. En móvil queda la primera foto fija.
+    //
+    // Medido a 412px: sin este guard el móvil descarga 3 fotos en vez de 1. Con srcset
+    // eso sale bien a DPR<=2 (207 KB frente a 297 KB), pero a partir de DPR 2.19 el
+    // navegador salta al candidato de 1800w y descarga 764 KB — 467 KB PEOR que la
+    // versión anterior de una sola foto, justo en los Android de gama media
+    // (412px @ DPR 2.625) que más sufren la tarifa de datos. La rotación es decorativa;
+    // no vale ese precio. En desktop se mantiene intacta.
+    if(!window.matchMedia('(min-width:1080px)').matches) return;
+
     list.forEach(function(f){
       var base = 'assets/img/' + f.trim();
       var img = document.createElement('img');
       img.src = base + '.jpg';
-      img.srcset = base + '-900.jpg 900w, ' + base + '.jpg 1800w';
+      img.srcset = base + '-750.jpg 750w, ' + base + '-900.jpg 900w, ' +
+                   base + '-1200.jpg 1200w, ' + base + '.jpg 1800w';
       img.sizes = '(max-width:1080px) 100vw, 1200px';
+      // alt="" a propósito (decorativas). Los fotogramas inactivos se ocultan sólo con
+      // opacity:0, así que los tres siguen en el árbol de accesibilidad al mismo tiempo:
+      // ponerles alt haría que un lector de pantalla anunciara tres descripciones para
+      // lo que visualmente es un solo hueco. El mensaje ya está en el <h1>, el párrafo
+      // de intro y el chip de pie ("Boyacá, Colombia · Cordillera Oriental").
       img.alt = ''; img.width = 1800; img.height = 771;
       img.loading = 'lazy'; img.decoding = 'async';
       stack.appendChild(img);
