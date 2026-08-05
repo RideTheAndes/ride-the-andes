@@ -191,11 +191,16 @@
 <!-- ============ PAYPAL SDK + WIDGET LOGIC ============ -->
 <script>
 // ── CONFIG DE PAGOS ──────────────────────────────────────────────
-// USE_LIVE  true  = cobra dinero REAL en la cuenta Business
-// TEST_MODE true  = TODOS los botones cobran $1.00 USD (solo para la prueba real; apagar después)
+// USE_LIVE   true  = cobra dinero REAL en la cuenta Business
+// TEST_MODE  true  = TODOS los botones cobran $1.00 USD (solo para la prueba real; apagar después)
+// FORCE_OPEN true  = REABRE las ventas aunque ya haya pasado la fecha de cierre (SALES_CLOSE).
+//                    Ponlo en true para volver a vender sin tocar ninguna otra línea —
+//                    por ejemplo si se amplía el plazo o se abre una salida nueva.
+//                    Recuerda revisar también las fechas y precios antes de reabrir.
 var RTA_PAY = {
   USE_LIVE: true,
   TEST_MODE: true,
+  FORCE_OPEN: false,   // ← ÚNICA línea a editar para reabrir las ventas (false = cerrado por fecha)
   SANDBOX_CLIENT_ID: 'AeR5ybkKCOLR-Hn7_wlIVmsrZe6hH7NtmwOACof4DMLBZgoukbdNfAeTlkCfQ6jXvoGITeF27ROPR1ez',
   LIVE_CLIENT_ID: 'Ac4hzsKCzspaGOI1zmswGNRq0Y8I12X3tcqNdrdKZOm7trxUG0yjvMAUiKilrxzO33M1fh7z3aYHbh4X'
 };
@@ -221,6 +226,8 @@ var RTA_PAY = {
   let state = { package: 'rider', single: false, paymentType: 'deposit' };
  
   function salesOpen() {
+    // El interruptor manual gana sobre la fecha: ver FORCE_OPEN en RTA_PAY (arriba).
+    if (RTA_PAY.FORCE_OPEN) return true;
     return new Date() <= SALES_CLOSE;
   }
 
