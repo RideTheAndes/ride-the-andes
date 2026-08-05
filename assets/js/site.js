@@ -255,21 +255,17 @@ function setLang(l){
   document.documentElement.lang = l;
   try { localStorage.setItem("rta-lang", l); } catch (e) {}
   const bEn = document.getElementById("lang-en"), bEs = document.getElementById("lang-es");
-  if (bEn) bEn.classList.toggle("on", l === "en");
-  if (bEs) bEs.classList.toggle("on", l === "es");
+  if (bEn) { bEn.classList.toggle("on", l === "en"); bEn.setAttribute("aria-pressed", String(l === "en")); }
+  if (bEs) { bEs.classList.toggle("on", l === "es"); bEs.setAttribute("aria-pressed", String(l === "es")); }
   // re-expand any open FAQ to fit new text height
   document.querySelectorAll(".faq .q.open .qa").forEach(a => { a.style.maxHeight = a.scrollHeight + "px"; });
 }
-const langToggle = document.getElementById("langToggle");
-if (langToggle) {
-  langToggle.addEventListener("click", () => setLang(lang === "en" ? "es" : "en"));
-  langToggle.addEventListener("keydown", e => {
-    if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
-      e.preventDefault();
-      setLang(lang === "en" ? "es" : "en");
-    }
-  });
-}
+// Dos <button> reales, no un div con role="button": así el nombre accesible de cada
+// uno ES su texto visible ("EN" / "ES"), que es lo que exige WCAG 2.5.3 (Label in Name),
+// y Enter/Espacio los activa de forma nativa — sin handler de teclado propio.
+const bEnBtn = document.getElementById("lang-en"), bEsBtn = document.getElementById("lang-es");
+if (bEnBtn) bEnBtn.addEventListener("click", () => setLang("en"));
+if (bEsBtn) bEsBtn.addEventListener("click", () => setLang("es"));
 // Restaurar el idioma elegido en páginas anteriores
 try { if (localStorage.getItem("rta-lang") === "es") setLang("es"); } catch (e) {}
 

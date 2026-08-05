@@ -73,6 +73,34 @@ Every page carries: Plausible analytics snippet, `<meta name="description">`, `<
 
 Color palette and type scale are defined as CSS custom properties on `:root` — `--paramo` (deep green, primary), `--terracota`/`--terracota-bright` (accent), `--niebla`/`--niebla-soft`/`--card` (cream backgrounds), `--tierra` (clay), `--lago` (blue), `--asfalto`/`--ink` (near-black text). Fonts: `--serif` (Playfair Display, headings), `--garamond` (Cormorant Garamond, body), `--mono` (IBM Plex Mono, labels/nav/eyebrows, uppercase with wide letter-spacing). Reuse these variables rather than hard-coding colors/fonts. Remember `journal/*.html` duplicates this palette in its own inline `<style>` instead of importing the file.
 
+## Contrast: never pair `opacity` with a text `color`
+
+**Compute the composited colour before trusting any contrast number.** CSS `opacity`
+blends the element into its backdrop *before* WCAG measures contrast, so a token that
+passes on its own can fail once an opacity is applied. Five rules on this site failed
+WCAG AA exactly this way — `.note`, `.form-note`, `.testi .ts-src`,
+`.testi .placeholder-note` and `.pay-strip .pi`, all `var(--tierra)` at `opacity` .5–.85,
+landing between 1.97:1 and 3.49:1.
+
+Automated tooling caught only two of them, because it samples what is in the rendered
+viewport: rules below the fold, inside collapsed regions, or on elements that no page
+currently renders are simply never measured. **A contrast audit here must be a static
+sweep of the stylesheet**, not a page scan. Grep for rules declaring both a `color` and
+an `opacity`, composite each against its real section background, and check the result.
+
+Two traps that follow from this:
+- **Check the real background.** `.form-note` sits inside `.final`, which is a *dark*
+  gradient. A darker token would have made it worse; it needed a lighter one (`#cfc9b8`,
+  the colour `.final p` already uses).
+- **Large text has a different threshold** (3:1, not 4.5:1, at ≥24px or ≥18.66px bold).
+  `.price-anchor` is `--ink-soft` at `opacity:.75` → 3.65:1, which *passes* only because
+  it renders at 30px. Leave it alone; don't "fix" it into a visual change.
+
+Use `--terracota-text` and `--tierra-text` for small text on the cream backgrounds. Both
+are hue-preserved darker variants that clear 4.5:1 on every cream in the palette. Do not
+use them on the dark sections, and do not change `--terracota` or `--tierra` themselves —
+those are still correct as borders, backgrounds, and on dark backgrounds.
+
 ## Image guidelines (from AUDIT.md)
 
 Compress new images before committing: max width ≈1400px for large hero/section blocks, ≈900px for card-sized images, JPEG quality ~75.
