@@ -1,0 +1,28 @@
+name: Check Plausible Snippet
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  check-plausible:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Verify Plausible snippet on every HTML page
+        run: |
+          missing=0
+          for file in $(find . -name "*.html"); do
+            if ! grep -q "plausible.io/js/pa-3mGVAyFCV4rvLg0AGoInm" "$file"; then
+              echo "❌ Missing Plausible snippet: $file"
+              missing=1
+            fi
+          done
+          if [ "$missing" -eq 1 ]; then
+            exit 1
+          fi
+          echo "✅ All HTML pages have the Plausible snippet."
