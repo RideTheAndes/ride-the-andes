@@ -178,9 +178,13 @@
     </div>
     </div>
     <div class="hero-frame" data-rise>
+      <!-- Hero frames are decorative (alt=""): inactive frames are hidden with opacity:0
+           only, so all three stay in the accessibility tree at once — per-frame alt would
+           announce three descriptions for one visual slot. The <h1>, intro paragraph and
+           hf-chip caption already carry the message in text. -->
       <div class="hf-stack" id="heroStack" data-imgs="hero-band-2-lago-tota,hero-band-3-panning">
         <img src="assets/img/hero-band-1-ciclista-caballos.jpg"
-             srcset="assets/img/hero-band-1-ciclista-caballos-900.jpg 900w, assets/img/hero-band-1-ciclista-caballos.jpg 1800w"
+             srcset="assets/img/hero-band-1-ciclista-caballos-750.jpg 750w, assets/img/hero-band-1-ciclista-caballos-900.jpg 900w, assets/img/hero-band-1-ciclista-caballos-1200.jpg 1200w, assets/img/hero-band-1-ciclista-caballos.jpg 1800w"
              sizes="(max-width:1080px) 100vw, 1200px"
              alt="" fetchpriority="high" width="1800" height="771" class="on">
         <span class="hf-chip" data-i18n="hero_cap">Boyacá, Colombia · The Eastern Cordillera</span>
