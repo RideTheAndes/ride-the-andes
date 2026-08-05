@@ -114,7 +114,7 @@
 <noscript><style>[data-rise]{opacity:1;transform:none}[data-count]{visibility:hidden}</style></noscript>
 </head>
 <body>
-<a href="#top" class="skip-link" data-i18n="skip_link">Skip to content</a>
+<a href="#main" class="skip-link" data-i18n="skip_link">Skip to content</a>
 
 <!-- ============ NAV ============ -->
 <header id="hdr">
@@ -153,8 +153,8 @@
       <a href="reservar.html" class="btn solid" data-i18n="nav_cta">Reserve a place</a>
     </nav>
     <div style="display:flex;align-items:center;gap:14px">
-      <div class="lang-toggle" id="langToggle" role="button" tabindex="0" data-i18n-aria="aria_lang" aria-label="Switch language">
-        <span id="lang-en" class="on">EN</span><span id="lang-es">ES</span>
+      <div class="lang-toggle" id="langToggle" role="group" data-i18n-aria="aria_lang" aria-label="Switch language">
+        <button type="button" id="lang-en" class="on" aria-pressed="true">EN</button><button type="button" id="lang-es" aria-pressed="false">ES</button>
       </div>
       <button class="burger" id="burger" data-i18n-aria="aria_menu" aria-label="Menu" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
     </div>
@@ -162,6 +162,7 @@
 </header>
  
 <!-- ============ HERO ============ -->
+<main id="main">
 <section class="hero" id="top">
   <svg class="ridge" viewBox="0 0 1440 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M0 400V230L120 180L240 250L360 150L480 210L600 110L720 190L840 90L960 200L1080 140L1200 230L1320 160L1440 240V400Z" fill="#E2DCC8"/>
@@ -773,6 +774,7 @@
 </section>
  
 <!-- ============ FOOTER ============ -->
+</main>
 <footer>
   <div class="wrap">
     <div class="foot-grid">
@@ -797,14 +799,14 @@
         <p class="tl" data-i18n="ft_tl">Climb where legends are made. Premium guided cycling in the heartland of Colombian cycling.</p>
       </div>
       <div>
-        <h4 data-i18n="ft_h1">Journeys</h4>
+        <h2 data-i18n="ft_h1">Journeys</h2>
         <a href="#tour">The Boyacá Traverse</a>
         <a href="#route" data-i18n="ft_l1">Stages &amp; route</a>
         <a href="#deck" data-i18n="ft_l2">Route dossier</a>
         <a href="#price" data-i18n="ft_l3">Pricing</a>
       </div>
       <div>
-        <h4 data-i18n="ft_h2">Company</h4>
+        <h2 data-i18n="ft_h2">Company</h2>
         <a href="#guide" data-i18n="ft_l4">Your guide</a>
         <a href="terminos.html" data-i18n="ft_l5">Terms &amp; Conditions</a>
         <a href="privacy.html" data-i18n="ft_l6">Privacy policy</a>
@@ -813,7 +815,7 @@
         <a href="https://visitduitama.com" target="_blank" rel="noopener">Visit Duitama</a>
       </div>
       <div>
-        <h4 data-i18n="ft_h3">Contact</h4>
+        <h2 data-i18n="ft_h3">Contact</h2>
         <a href="mailto:reservations@ridetheandes.co">reservations@ridetheandes.co</a>
         <a href="https://wa.me/573188044428" target="_blank" rel="noopener">WhatsApp</a>
         <a href="https://instagram.com/ridetheandes.co" target="_blank" rel="noopener">Instagram</a>
