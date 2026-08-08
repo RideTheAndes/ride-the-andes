@@ -330,6 +330,30 @@ var RTA_PAY = {
  
       onApprove: function (data, actions) {
         return actions.order.capture().then(function (details) {
+          // PayPal NO rechaza la promesa cuando falla el medio de pago: devuelve la orden
+          // resuelta con el motivo dentro de details.details[0]. Hay que leerlo antes de
+          // dar el cobro por bueno.
+          var issue = details && Array.isArray(details.details) && details.details[0];
+
+          // INSTRUMENT_DECLINED: el banco rechazó la tarjeta. actions.restart() devuelve al
+          // comprador al selector de PayPal para elegir otro medio sin perder la orden.
+          if (issue && issue.issue === 'INSTRUMENT_DECLINED') return actions.restart();
+
+          if (issue) {
+            console.error('Capture issue:', details);
+            alert('Your payment could not be completed' + (issue.description ? ': ' + issue.description : '') +
+              '. Please try another payment method or write to reservations@ridetheandes.co · No se pudo completar el pago; intenta con otro medio de pago o escríbenos.');
+            return;
+          }
+
+          // Solo COMPLETED significa dinero cobrado. Un PENDING (revisión de PayPal) no debe
+          // mandar al comprador a la página de confirmación.
+          if (details.status !== 'COMPLETED') {
+            console.error('Unexpected capture status:', details.status, details);
+            alert('PayPal is still reviewing your payment — do not pay again. We will confirm your place by email as soon as it clears, or write to reservations@ridetheandes.co · PayPal aún está revisando tu pago; no pagues de nuevo. Te confirmamos por correo en cuanto se acredite.');
+            return;
+          }
+
           try { notifyTeam(details); } catch (e) { console.error('Notification error:', e); }
           window.location.href = 'thanks.html?payment=confirmed';
         }).catch(function (err) {
