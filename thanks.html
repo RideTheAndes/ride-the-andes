@@ -37,7 +37,19 @@
 .ty .es{margin-top:22px;font-size:.98rem;color:var(--tierra);line-height:1.58}
 .ty .back{display:inline-block;margin-top:32px;font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;
   text-transform:uppercase;color:var(--terracota);text-decoration:none;border-bottom:1px solid rgba(193,98,42,.4);padding-bottom:3px}
+/* Variante post-pago: esta página también es el destino de éxito de PayPal (?payment=confirmed) */
+#ty-paid,#es-paid{display:none}
+.paid #ty-dossier,.paid #es-dossier{display:none}
+.paid #ty-paid,.paid #es-paid{display:block}
 </style>
+<script>
+  // La clase se pone en <html> antes de pintar el body para que no parpadee el texto del dossier
+  // en la cara de alguien que acaba de pagar.
+  if (location.search.indexOf('payment=confirmed') > -1) {
+    document.documentElement.classList.add('paid');
+    document.title = 'Payment confirmed — Ride The Andes';
+  }
+</script>
 </head>
 <body>
 <main id="main">
@@ -54,9 +66,17 @@
       </g>
     </svg>
 
-    <span class="eyebrow">Ten Places · One Departure</span>
-    <h1>Your message reached Boyacá.</h1>
-    <p class="lead">The route dossier is ready — fifteen pages, stage by stage, with every road, every hotel and every price laid out plainly. Yours right now.</p>
+    <div id="ty-dossier">
+      <span class="eyebrow">Ten Places · One Departure</span>
+      <h1>Your message reached Boyacá.</h1>
+      <p class="lead">The route dossier is ready — fifteen pages, stage by stage, with every road, every hotel and every price laid out plainly. Yours right now.</p>
+    </div>
+
+    <div id="ty-paid">
+      <span class="eyebrow">Payment received · Pago recibido</span>
+      <h1>Your place is confirmed.</h1>
+      <p class="lead">We have your payment, and your place on the founding departure — October 3 to 12, 2026 — is now held in your name. PayPal has emailed you a receipt; keep it, it is your proof of payment.</p>
+    </div>
 
     <a class="dl" href="dossier/ride-the-andes-boyaca-traverse-2026.pdf"
        target="_blank" rel="noopener" onclick="plausible('Dossier Opened')">
@@ -67,7 +87,9 @@
 
     <p class="next">Now the human part: our guide will write to you personally from Boyacá, usually within a day. If you'd rather talk it through, <a href="https://wa.me/573188044428" target="_blank" rel="noopener" style="color:var(--terracota)">WhatsApp us</a> or reply to <a href="mailto:reservations@ridetheandes.co" style="color:var(--terracota)">reservations@ridetheandes.co</a>.</p>
 
-    <p class="es" lang="es">Tu mensaje llegó a Boyacá. El dossier de ruta ya es tuyo — descárgalo arriba. Nuestro guía te escribirá personalmente, normalmente en menos de un día.</p>
+    <p class="es" id="es-dossier" lang="es">Tu mensaje llegó a Boyacá. El dossier de ruta ya es tuyo — descárgalo arriba. Nuestro guía te escribirá personalmente, normalmente en menos de un día.</p>
+
+    <p class="es" id="es-paid" lang="es">Recibimos tu pago y tu cupo en la salida fundadora del 3 al 12 de octubre de 2026 queda a tu nombre. PayPal te envió el recibo por correo; guárdalo, es tu comprobante. Nuestro guía te escribirá personalmente en menos de un día.</p>
 
     <a class="back" href="index.html">← Back to the journey · Volver al viaje</a>
   </div>
