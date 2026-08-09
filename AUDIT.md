@@ -29,6 +29,68 @@
 - [ ] Revisar que reservar.html y site.js sigan teniendo UNA sola copia de la lógica de pago (nunca duplicarla)
 - [ ] Textos legales: ¿algo cambió en precios/políticas que Yésica deba re-validar?
 
+## ⚠ Fechas que apagan la venta solas (interruptor manual: FORCE_OPEN)
+
+El widget de pago tiene **dos cortes automáticos por fecha** en `reservar.html`. Nadie los
+dispara a mano: llegan solos y cambian lo que ve el comprador.
+
+| Fecha | Constante | Qué pasa ese día |
+|---|---|---|
+| **3 de septiembre de 2026** | `DEPOSIT_CUTOFF` | Se desactiva la opción de depósito. Desde el día 4 sólo se puede pagar el 100%. |
+| **17 de septiembre de 2026** | `SALES_CLOSE` | **El widget entero se oculta.** La página muestra "reservas cerradas" y ya no se puede cobrar. |
+
+### Cómo volver a abrir las ventas (una sola línea)
+
+En `reservar.html`, dentro del bloque `RTA_PAY` al inicio del script:
+
+```js
+FORCE_OPEN: false,   // ← poner en true para reabrir
+```
+
+`FORCE_OPEN: true` ignora `SALES_CLOSE` y vuelve a mostrar el widget, sin tocar ninguna
+otra línea. Úsalo si se amplía el plazo o se abre una salida nueva.
+
+**Antes de reabrir, revisa siempre:** las fechas de salida en el texto, los precios
+(`PRICES`), el `DEPOSIT_CUTOFF`, la fecha de saldo y el `price` del JSON-LD en
+`index.html`. `FORCE_OPEN` sólo reabre la caja — no actualiza nada de eso.
+
+> Ojo: `FORCE_OPEN` **no** desactiva `DEPOSIT_CUTOFF`. Si reabres después del 3 de
+> septiembre, el comprador sólo verá la opción de pago total; para reactivar el depósito
+> hay que mover también esa fecha.
+
+### Estado actual de los cobros (verificado 9 de agosto de 2026)
+
+- `USE_LIVE: true` · `TEST_MODE: false` → **se cobra dinero real**.
+- Probado en producción con dos cobros de USD 1: uno con tarjeta de crédito y otro con
+  saldo PayPal desde Canadá (cross-border). Ambos capturaron correctamente.
+- Si vuelves a poner `TEST_MODE: true` para una prueba, **acuérdate de apagarlo otra vez**:
+  con él encendido todos los botones cobran USD 1,00 en vez del precio real.
+
+## Si un pago entró pero no llegó la notificación
+
+PayPal siempre te avisa por su cuenta (correo de "recibiste un pago"), así que **una venta
+nunca se pierde**. Lo que puede perderse es el *contexto*: qué paquete, si llevaba
+suplemento individual, si fue depósito o pago total. Eso viaja en la notificación de
+Netlify Forms (`payment-notification`), no en el correo de PayPal.
+
+El navegador del comprador intenta entregarla por tres vías (`sendBeacon`, luego `fetch`
+con un reintento) y **siempre guarda una copia local antes de intentarlo**. Si nada llegó:
+
+1. Cruza el `paypal-order-id` del correo de PayPal con Netlify → **Forms** →
+   `payment-notification`.
+2. Si no aparece ahí, pídele al comprador (o al navegador donde se pagó) que abra la
+   consola en ridetheandes.co y ejecute:
+   ```js
+   JSON.parse(localStorage.getItem('rta-orders'))
+   ```
+   Devuelve los últimos 20 pedidos con `ts`, `via` y todos los datos. `via` dice por dónde
+   salió: `beacon` / `fetch` = entregado; `failed` o `pending` = no salió.
+3. Verifica el monto contra PayPal antes de confirmar el cupo. **PayPal es la fuente de
+   verdad del dinero**; esta notificación es sólo administrativa.
+
+Revisa Netlify → Forms al menos una vez por semana mientras haya campaña: es la lista de
+reservas que no se reconstruye sola.
+
 ## Cada cambio de temporada de ventas (nueva salida, nuevo precio)
 - [ ] Actualizar: fecha de corte del depósito (JS), textos de fechas (EN y ES en site.js Y en los HTML), precios en HTML + PRICES del widget + schema JSON-LD (price), sitemap `<lastmod>`
 - [ ] Prueba de pago real de $1 con TEST_MODE → reembolso → apagar TEST_MODE. **La prueba tiene que hacerla alguien fuera de Colombia**, por las dos vías (botón de tarjeta y cuenta PayPal). PayPal Colombia solo procesa pagos transfronterizos: cualquier prueba hecha desde acá — tarjeta nacional, tarjeta "internacional" emitida en Colombia, o tu propia cuenta PayPal — falla con *"This card can't be used for your payment"* y no prueba absolutamente nada
