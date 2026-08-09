@@ -324,7 +324,11 @@ var RTA_PAY = {
           purchase_units: [{
             description: 'Ride The Andes — ' + pkgLabel + suppLabel + ' (' + typeLabel + ')' + (RTA_PAY.TEST_MODE ? ' [TEST $1]' : ''),
             amount: { currency_code: 'USD', value: currentCharge().toFixed(2) }
-          }]
+          }],
+          // Un cupo de viaje no se despacha. Sin esto PayPal le pide dirección de envío al
+          // comprador (un paso más de fricción) y luego nos ofrece comprar etiqueta de envío
+          // y cargar número de rastreo sobre una reserva de cicloturismo.
+          application_context: { shipping_preference: 'NO_SHIPPING' }
         });
       },
  
