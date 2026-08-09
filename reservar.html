@@ -358,8 +358,19 @@ var RTA_PAY = {
             return;
           }
 
-          try { notifyTeam(details); } catch (e) { console.error('Notification error:', e); }
-          window.location.href = 'thanks.html?payment=confirmed';
+          // El cobro YA está hecho. A partir de aquí nada puede impedir que el comprador
+          // llegue a la confirmación: le damos a la notificación hasta 2,5 s para salir
+          // y redirigimos igual, pase lo que pase.
+          var goToThanks = function () { window.location.href = 'thanks.html?payment=confirmed'; };
+          try {
+            Promise.race([
+              notifyTeam(details),
+              new Promise(function (r) { setTimeout(r, 2500); })
+            ]).then(goToThanks, goToThanks);
+          } catch (e) {
+            console.error('Notification error:', e);
+            goToThanks();
+          }
         }).catch(function (err) {
           console.error('Capture error:', err);
           alert('Your payment could not be completed. Please try again or write to reservations@ridetheandes.co · No se pudo completar el pago; intenta de nuevo o escríbenos.');
@@ -387,14 +398,48 @@ var RTA_PAY = {
       'paypal-order-id': (details && details.id) || ''
     };
  
-    fetch('/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams(payload).toString(),
-      keepalive: true
-    }).catch(function (err) {
-      console.error('Notification form error:', err);
-    });
+    const body = new URLSearchParams(payload).toString();
+
+    // 1) Copia local ANTES de tocar la red. Si fallan todas las rutas, el pedido no se
+    //    pierde: queda en localStorage['rta-orders'] y se puede recuperar a mano
+    //    (ver AUDIT.md → "Si un pago entró pero no llegó la notificación").
+    function stash(via) {
+      try {
+        const key = 'rta-orders';
+        const all = JSON.parse(localStorage.getItem(key) || '[]');
+        all.push(Object.assign({ ts: new Date().toISOString(), via: via }, payload));
+        localStorage.setItem(key, JSON.stringify(all.slice(-20)));
+      } catch (e) { /* modo incógnito o storage lleno: seguimos igual */ }
+    }
+    stash('pending');
+
+    // 2) sendBeacon está hecho exactamente para esto: el navegador se encarga de
+    //    entregarlo aunque la página navegue justo después. Devuelve true = encolado
+    //    (no garantiza entrega, pero es la ruta más fiable que tenemos).
+    try {
+      if (navigator.sendBeacon &&
+          navigator.sendBeacon('/', new Blob([body], { type: 'application/x-www-form-urlencoded' }))) {
+        stash('beacon');
+        return Promise.resolve();
+      }
+    } catch (e) { /* cae al fetch de abajo */ }
+
+    // 3) Respaldo: fetch con keepalive y UN reintento antes de rendirse.
+    function post() {
+      return fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: body,
+        keepalive: true
+      });
+    }
+    return post()
+      .catch(function () { return post(); })
+      .then(function () { stash('fetch'); })
+      .catch(function (err) {
+        stash('failed');
+        console.error('Notification form error (pedido guardado en localStorage rta-orders):', err);
+      });
   }
  
   // header scroll state + burger (mismos comportamientos que la landing)
