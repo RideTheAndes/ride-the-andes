@@ -1,5 +1,5 @@
 # AUDIT.md — Checklist de auditoría periódica · ridetheandes.co
-*Última auditoría completa: 31 de julio de 2026. Este archivo vive en la raíz del repo; actualizar la fecha en cada revisión.*
+*Última auditoría completa: 9 de agosto de 2026. Este archivo vive en la raíz del repo; actualizar la fecha en cada revisión.*
 
 ## Antes de CADA commit a main (2 min)
 - [ ] ¿Toqué `reservar.html` o `site.js`? → probar el flujo de pago en el deploy preview de Netlify ANTES de merge (rama → preview → merge; los previews no consumen créditos)
@@ -8,7 +8,8 @@
 
 ## Semanal (10 min) — mientras haya campaña activa
 - [ ] **Formulario de leads:** enviar una prueba real desde el móvil → debe llegar a reservations@ y contarse como Goal /thanks.html en Plausible
-- [ ] **Pago:** abrir reservar.html en incógnito → botones de PayPal renderizan; cambiar paquete/suplemento → el total recalcula
+- [ ] **Pago:** abrir reservar.html en incógnito → botones de PayPal renderizan; cambiar paquete/suplemento → el total recalcula. **No hacer clic en el botón**: con TEST_MODE apagado cobra el precio real
+- [ ] **Montos recibidos:** cotejar cada pago de PayPal contra la reserva ANTES de confirmar el cupo. El precio se calcula en el navegador, así que alguien con las herramientas de desarrollador puede pagar menos de lo que vale el paquete. Un monto que no cuadra no es un cupo confirmado
 - [ ] **Plausible:** ¿visitas coherentes con la actividad de Instagram? ¿el Goal registra? (recordar `plausible_ignore` en tus propios navegadores)
 - [ ] Netlify → Forms: revisar `inquiry` y `payment-notification` por envíos no notificados o spam que pasó el honeypot
 
@@ -29,8 +30,9 @@
 
 ## Cada cambio de temporada de ventas (nueva salida, nuevo precio)
 - [ ] Actualizar: fecha de corte del depósito (JS), textos de fechas (EN y ES en site.js Y en los HTML), precios en HTML + PRICES del widget + schema JSON-LD (price), sitemap `<lastmod>`
-- [ ] Prueba de pago real de $1 con TEST_MODE → reembolso → apagar TEST_MODE
+- [ ] Prueba de pago real de $1 con TEST_MODE → reembolso → apagar TEST_MODE. **La prueba tiene que hacerla alguien fuera de Colombia**, por las dos vías (botón de tarjeta y cuenta PayPal). PayPal Colombia solo procesa pagos transfronterizos: cualquier prueba hecha desde acá — tarjeta nacional, tarjeta "internacional" emitida en Colombia, o tu propia cuenta PayPal — falla con *"This card can't be used for your payment"* y no prueba absolutamente nada
 - [ ] Verificar USE_LIVE en `true` y el Client ID correcto ANTES de anunciar
+- [ ] Si un pago falla: los logs de la app solo muestran los 201 de creación de orden, nunca el motivo del rechazo. El motivo real solo lo ve soporte de PayPal, y necesita el **Debug ID** del intento (dashboard → la app → logs)
 
 ## Qué automatizar cuando haya espacio (baja el trabajo de la próxima auditoría a la mitad)
 1. **Netlify build check ligero** (aunque el sitio no tenga build, Netlify permite un comando): script node que valide JSON-LD parseable, canonical con dominio correcto, y ausencia de "[pending]"/"PLACEHOLDER" en HTML → falla el deploy si encuentra algo
