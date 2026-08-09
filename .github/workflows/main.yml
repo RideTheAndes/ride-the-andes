@@ -1,4 +1,14 @@
-name: Check Plausible Snippet
+# Comprobaciones de PR. Ninguna de estas puede bloquear un deploy: Netlify publica
+# al hacer push a main sin build command, así que un fallo aquí marca el PR en rojo
+# pero nunca impide sacar un arreglo urgente al sitio de pagos.
+#
+# Deliberadamente NO se conecta seo-check.mjs como build command de Netlify: con
+# reservar.html cobrando de verdad, un falso positivo del validador dejaría el sitio
+# sin poder desplegar un arreglo. Ver SEO.md § "Dónde vive la comprobación".
+#
+# Los IDs de job (check-plausible, seo-check) son los nombres que usa la protección
+# de rama para exigir un check. No renombrarlos sin actualizar esa configuración.
+name: Checks
 
 on:
   push:
@@ -26,3 +36,20 @@ jobs:
             exit 1
           fi
           echo "✅ All HTML pages have the Plausible snippet."
+
+  seo-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Sin dependencias: el validador es Node puro, no hay npm install.
+      # Falla (exit 1) solo con ERRORES; los AVISOS quedan en el log del PR para
+      # revisarlos en la auditoría mensual sin bloquear a nadie.
+      - name: SEO / head validator
+        run: node tools/seo-check.mjs

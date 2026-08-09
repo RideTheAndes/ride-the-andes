@@ -36,7 +36,7 @@
 - [ ] Si un pago falla: los logs de la app solo muestran los 201 de creación de orden, nunca el motivo del rechazo. El motivo real solo lo ve soporte de PayPal, y necesita el **Debug ID** del intento (dashboard → la app → logs)
 
 ## Qué automatizar cuando haya espacio (baja el trabajo de la próxima auditoría a la mitad)
-1. ~~**Netlify build check ligero**~~ → **hecho:** `tools/seo-check.mjs`. Falta conectarlo como build command en Netlify (`node tools/seo-check.mjs`, publish dir `.`) para que un deploy con errores no llegue a publicarse
+1. ~~**Netlify build check ligero**~~ → **hecho:** `tools/seo-check.mjs`, conectado como job `seo-check` en `.github/workflows/main.yml`. Corre en cada PR y en cada push a main. **A propósito NO es build command de Netlify:** mientras `reservar.html` cobre de verdad, un falso positivo dejaría el sitio sin poder desplegar un arreglo urgente (ver `SEO.md` § "Dónde vive la comprobación")
 2. **UptimeRobot (gratis)** sobre `/` y `/reservar.html` con alerta al correo
 3. **Alerta de formularios:** notificación de Netlify Forms también a un segundo correo/WhatsApp del equipo
 4. **Lighthouse CI o PageSpeed API mensual** con registro del score para ver tendencia

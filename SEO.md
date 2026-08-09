@@ -31,6 +31,33 @@ node tools/seo-check.mjs
 Falla (exit 1) si hay algo que Search Console reportaría como defecto. Los avisos no
 bloquean pero se revisan en la auditoría mensual. `--strict` los vuelve bloqueantes.
 
+### Dónde vive la comprobación — y dónde NO
+
+Corre como job `seo-check` en `.github/workflows/main.yml`, en cada PR y en cada push a
+`main`, junto al check de Plausible.
+
+**No es el build command de Netlify, y es una decisión deliberada.** Netlify publica al
+hacer push a `main`; hoy no hay build command, así que no hay nada que pueda fallar entre
+el push y la publicación. Poner el validador ahí convertiría cualquier falso positivo en
+un bloqueo de despliegue — y `reservar.html` está cobrando de verdad desde que se apagó
+`TEST_MODE`. El día que haya que sacar un arreglo urgente al flujo de pago, nadie quiere
+descubrir que el deploy no sale porque una `description` creció tres caracteres.
+
+Que ese riesgo es real y no teórico ya está demostrado: al portar el validador a `main`
+seis de sus comprobaciones daban resultados falsos, sencillamente porque el repo había
+evolucionado (`404.html`, la escalera `srcset`, un `<h1>` dentro de un comentario). Se
+arreglaron, pero aparecerán más a medida que el sitio cambie. Un check que se equivoca en
+un PR cuesta cinco minutos; el mismo check equivocándose delante de un deploy de
+emergencia cuesta mucho más.
+
+Como gate de PR el peor caso es un PR en rojo que se revisa y se mergea igual. **Ojo:**
+en rojo *avisa*, pero solo **bloquea** de verdad si en GitHub → Settings → Branches se
+marca `seo-check` como *required status check*. Sin eso es informativo.
+
+Si algún día el sitio deja de tomar pagos, o el validador acumula meses sin un falso
+positivo, se puede reconsiderar. Los strings exactos están en `AUDIT.md`; no aplicarlos
+mientras haya cobros vivos.
+
 ---
 
 ## 2. Verificación de propiedad
@@ -98,8 +125,11 @@ Cuatro cortes, no el total:
 
 ### 3.5 Mejoras / Resultados enriquecidos
 
-`index.html` declara `WebSite`, `TravelAgency`, `SportsEvent` y `FAQPage`; el Journal
-añade `BlogPosting` y `BreadcrumbList`.
+`index.html` tiene cuatro bloques de primer nivel — `WebSite`, `TravelAgency`,
+`SportsEvent` y `FAQPage` — y dentro de `TravelAgency.makesOffer` anida `Offer`,
+`TouristTrip`, `ItemList` y `ListItem`. El Journal añade `BlogPosting` y
+`BreadcrumbList`. Al leer el informe conviene tener presente el grafo completo, no solo
+los bloques: un error en un tipo anidado invalida el bloque que lo contiene.
 
 - **Un error anula el bloque entero**, no solo el campo con el fallo.
 - El riesgo real es la **deriva** entre el schema y la copia visible. Ya ocurrió dos
