@@ -69,6 +69,45 @@ Several values are duplicated across files and must be changed in lockstep when 
 
 Every page carries: Plausible analytics snippet, `<meta name="description">`, `<link rel="canonical">` pointing at the absolute `ridetheandes.co` URL, and full Open Graph tags (`og:title`, `og:description`, `og:url`, `og:image` as an **absolute** URL to `assets/img/og-image.jpg`, plus explicit width/height and `twitter:card`). `index.html` additionally carries `TravelAgency` and `FAQPage` JSON-LD schema blocks — keep these in sync with visible copy (price, FAQ text) when either changes. New pages should follow the same `<head>` pattern; `AUDIT.md` calls this out explicitly as a pre-commit check.
 
+## Search Console: ownership verification — ⚠️ UNRECORDED
+
+Google Search Console ownership for `ridetheandes.co` is **not documented anywhere in
+this repo**, and nothing in the tree proves it: there is no `google-site-verification`
+meta tag and no `google*.html` file at the root. So verification is either a DNS record
+outside the repo, or it has lapsed. Nobody has confirmed which.
+
+That matters because **every verification method fails silently.** Search Console does
+not warn before it happens — the property stops collecting data and the historical
+Performance series is lost. Losing that series is unrecoverable; it is not backfilled
+when you re-verify.
+
+**Open action — fill this in.** Check Search Console → *Settings* → *Ownership
+verification*, then record:
+
+| Field | Value |
+|---|---|
+| Property type | Domain (DNS) / URL-prefix → **record** |
+| Verification method | → **record** |
+| Where the token lives | → **record** (Cloudflare DNS zone? file in repo?) |
+| Accounts with Owner access | → **record — at least two people** |
+| Date confirmed | → **record** |
+
+**What breaks each method**, so whoever edits infrastructure knows what not to touch:
+
+- **DNS TXT (Cloudflare)** — the record is invisible from this repo. Anyone pruning DNS
+  records, migrating the zone, or changing registrar de-verifies the property. This is
+  the most robust method against site changes and the most fragile against DNS work.
+  It is also the only one that covers `http`/`https`/`www`/subdomains in one property.
+- **HTML meta tag** — lives in `index.html`'s `<head>`. Any head refactor that drops it
+  breaks verification. `tools/seo-check.mjs` warns when no verification exists in the
+  repo, so it would catch a removal *if* this is the method in use.
+- **`google*.html` file at root** — deletion breaks it, and so does a `_redirects` rule
+  that shadows the path. Note `_redirects` already 301s `/index.html` and
+  `/journal/index.html`; a future broad rule could capture the verification file too.
+
+Prefer a **Domain property verified by DNS**: a URL-prefix property on
+`https://ridetheandes.co/` does not see traffic arriving at other host variants.
+
 ## Design system (assets/css/styles.css)
 
 Color palette and type scale are defined as CSS custom properties on `:root` — `--paramo` (deep green, primary), `--terracota`/`--terracota-bright` (accent), `--niebla`/`--niebla-soft`/`--card` (cream backgrounds), `--tierra` (clay), `--lago` (blue), `--asfalto`/`--ink` (near-black text). Fonts: `--serif` (Playfair Display, headings), `--garamond` (Cormorant Garamond, body), `--mono` (IBM Plex Mono, labels/nav/eyebrows, uppercase with wide letter-spacing). Reuse these variables rather than hard-coding colors/fonts. Remember `journal/*.html` duplicates this palette in its own inline `<style>` instead of importing the file.

@@ -2,6 +2,7 @@
 *Última auditoría completa: 9 de agosto de 2026. Este archivo vive en la raíz del repo; actualizar la fecha en cada revisión.*
 
 ## Antes de CADA commit a main (2 min)
+- [ ] **`node tools/seo-check.mjs`** → 0 errores. Cubre canonical, OG, JSON-LD, sitemap, robots y coherencia precio/FAQ. El ritual mensual de Search Console está en `SEO.md`
 - [ ] ¿Toqué `reservar.html` o `site.js`? → probar el flujo de pago en el deploy preview de Netlify ANTES de merge (rama → preview → merge; los previews no consumen créditos)
 - [ ] ¿Página nueva o `<head>` tocado? → contrastar contra `RTA-estandar-web-head.md`: Plausible limpio, canonical `https://ridetheandes.co/...`, OG completo con imagen absoluta, fuentes de marca
 - [ ] Push → esperar ~30 s de Netlify → **purgar caché de Cloudflare** → verificar en incógnito y en el teléfono
@@ -35,7 +36,7 @@
 - [ ] Si un pago falla: los logs de la app solo muestran los 201 de creación de orden, nunca el motivo del rechazo. El motivo real solo lo ve soporte de PayPal, y necesita el **Debug ID** del intento (dashboard → la app → logs)
 
 ## Qué automatizar cuando haya espacio (baja el trabajo de la próxima auditoría a la mitad)
-1. **Netlify build check ligero** (aunque el sitio no tenga build, Netlify permite un comando): script node que valide JSON-LD parseable, canonical con dominio correcto, y ausencia de "[pending]"/"PLACEHOLDER" en HTML → falla el deploy si encuentra algo
+1. ~~**Netlify build check ligero**~~ → **hecho:** `tools/seo-check.mjs`, conectado como job `seo-check` en `.github/workflows/main.yml`. Corre en cada PR y en cada push a main. **A propósito NO es build command de Netlify:** mientras `reservar.html` cobre de verdad, un falso positivo dejaría el sitio sin poder desplegar un arreglo urgente (ver `SEO.md` § "Dónde vive la comprobación")
 2. **UptimeRobot (gratis)** sobre `/` y `/reservar.html` con alerta al correo
 3. **Alerta de formularios:** notificación de Netlify Forms también a un segundo correo/WhatsApp del equipo
 4. **Lighthouse CI o PageSpeed API mensual** con registro del score para ver tendencia

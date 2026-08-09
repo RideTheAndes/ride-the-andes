@@ -107,7 +107,7 @@
     {"@type": "Question", "name": "How do you handle the altitude?", "acceptedAnswer": {"@type": "Answer", "text": "The traverse is sequenced to acclimatise you, opening with lower valley stages and building gradually toward the high country around Lago de Tota before the queen stage, with active pacing, hydration and a support vehicle always within reach."}},
     {"@type": "Question", "name": "What fitness level do I need?", "acceptedAnswer": {"@type": "Answer", "text": "A genuine cycling tour for riders comfortable with multi-hour days and sustained climbing — roughly the fitness to ride 3 to 4 hours back-to-back. Full vehicle support means you can take a lift on any stage."}},
     {"@type": "Question", "name": "Do I actually get to ride the Gran Fondo?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The final stage is an official entry to the Gran Fondo Boyacá Mundial, the 2,000-rider event our founder directs, with a full fondo (143.6 km) or Medio Fondo (103.2 km) option."}},
-    {"@type": "Question", "name": "How small are the groups?", "acceptedAnswer": {"@type": "Answer", "text": "Ten places maximum, every departure — small enough for a high support ratio, real conversation, and lodging in places that can't host a busload."}}
+    {"@type": "Question", "name": "How small are the groups, really?", "acceptedAnswer": {"@type": "Answer", "text": "Ten places maximum, every departure — small enough for a high support ratio, real conversation, and lodging in places that can't host a busload."}}
   ]
 }
 </script>
@@ -179,15 +179,22 @@
     </div>
     </div>
     <div class="hero-frame" data-rise>
-      <!-- Hero frames are decorative (alt=""): inactive frames are hidden with opacity:0
-           only, so all three stay in the accessibility tree at once — per-frame alt would
-           announce three descriptions for one visual slot. The <h1>, intro paragraph and
-           hf-chip caption already carry the message in text. -->
+      <!-- Inactive frames are hidden with opacity:0 only (see .hf-stack img in
+           styles.css), so every frame stays in the accessibility tree at once. Giving all
+           three a real alt would announce three descriptions for one visual slot — which
+           is why they used to share alt="". The split below keeps that fix while
+           recovering the indexing:
+             · THIS frame ships in the HTML, is the LCP element and the only <img> on the
+               page, so it carries a real alt and is the one Google Images can index.
+             · The two frames site.js appends are decorative duplicates: alt="" AND
+               aria-hidden="true", so they leave the accessibility tree entirely and only
+               this description is ever announced. -->
       <div class="hf-stack" id="heroStack" data-imgs="hero-band-2-lago-tota,hero-band-3-panning">
         <img src="assets/img/hero-band-1-ciclista-caballos.jpg"
              srcset="assets/img/hero-band-1-ciclista-caballos-750.jpg 750w, assets/img/hero-band-1-ciclista-caballos-900.jpg 900w, assets/img/hero-band-1-ciclista-caballos-1200.jpg 1200w, assets/img/hero-band-1-ciclista-caballos.jpg 1800w"
              sizes="(max-width:1080px) 100vw, 1200px"
-             alt="" fetchpriority="high" width="1800" height="771" class="on">
+             alt="A cyclist on the Boyacá Traverse riding a rural Andean road past grazing horses, Boyacá, Colombia"
+             fetchpriority="high" width="1800" height="771" class="on">
         <span class="hf-chip" data-i18n="hero_cap">Boyacá, Colombia · The Eastern Cordillera</span>
       </div>
       <div class="hf-meta"><span data-i18n="hero_meta">10 days · 6 stages · 385 km · +5,200 m of climbing</span></div>

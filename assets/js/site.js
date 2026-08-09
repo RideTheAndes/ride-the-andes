@@ -365,12 +365,15 @@ document.querySelectorAll(".faq .q").forEach(q => {
       img.srcset = base + '-750.jpg 750w, ' + base + '-900.jpg 900w, ' +
                    base + '-1200.jpg 1200w, ' + base + '.jpg 1800w';
       img.sizes = '(max-width:1080px) 100vw, 1200px';
-      // alt="" a propósito (decorativas). Los fotogramas inactivos se ocultan sólo con
-      // opacity:0, así que los tres siguen en el árbol de accesibilidad al mismo tiempo:
-      // ponerles alt haría que un lector de pantalla anunciara tres descripciones para
-      // lo que visualmente es un solo hueco. El mensaje ya está en el <h1>, el párrafo
-      // de intro y el chip de pie ("Boyacá, Colombia · Cordillera Oriental").
-      img.alt = ''; img.width = 1800; img.height = 771;
+      // Duplicados decorativos del primer fotograma: alt="" Y aria-hidden.
+      // Los inactivos se ocultan sólo con opacity:0, así que los tres siguen en el árbol
+      // de accesibilidad a la vez; sin aria-hidden, un lector de pantalla anunciaría tres
+      // descripciones para lo que visualmente es un solo hueco. Sacándolos del árbol, el
+      // fotograma del HTML puede llevar un alt real (es el LCP y el único <img> de la
+      // página, el que Google Images puede indexar) y se anuncia una sola vez.
+      // alt="" solo no basta aquí: deja el <img> en el árbol como imagen sin nombre.
+      img.alt = ''; img.setAttribute('aria-hidden', 'true');
+      img.width = 1800; img.height = 771;
       img.loading = 'lazy'; img.decoding = 'async';
       stack.appendChild(img);
     });

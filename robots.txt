@@ -1,6 +1,15 @@
 User-agent: *
 Allow: /
-Disallow: /thanks.html
-Disallow: /dossier/
+
+# /thanks.html y /dossier/* NO se bloquean aquí a propósito — no volver a añadirlos.
+#
+# Un Disallow impide el RASTREO. Si Google no rastrea la URL, nunca llega a leer el
+# X-Robots-Tag: noindex que _headers le pone, así que puede indexarla igual a partir
+# de un enlace entrante: aparece en resultados sin snippet, como "Indexada aunque
+# bloqueada por robots.txt" en Search Console. Los dos mecanismos juntos se anulan.
+#
+# Para sacar una URL del índice hay que dejar que Google la rastree y vea el noindex.
+# La exclusión vive en _headers y en el <meta robots> de thanks.html.
+# tools/seo-check.mjs falla si alguien reintroduce el Disallow.
 
 Sitemap: https://ridetheandes.co/sitemap.xml
