@@ -20,6 +20,10 @@
 <link rel="stylesheet" href="assets/css/styles.css">
 <meta name="description" content="Premium 10-day guided cycling tour through Boyacá, Colombia — six stages from El Dorado to the Gran Fondo Boyacá Mundial finish line. Max 10 places.">
 <link rel="canonical" href="https://ridetheandes.co/">
+<!-- hreflang: la edición en español vive en /es/ (generada por tools/build-es.mjs) -->
+<link rel="alternate" hreflang="en" href="https://ridetheandes.co/">
+<link rel="alternate" hreflang="es" href="https://ridetheandes.co/es/">
+<link rel="alternate" hreflang="x-default" href="https://ridetheandes.co/">
 <!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Ride The Andes">
@@ -162,8 +166,11 @@
       <a href="reservar.html" class="btn solid" data-i18n="nav_cta">Reserve a place</a>
     </nav>
     <div style="display:flex;align-items:center;gap:14px">
+      <!-- El idioma vive en su propia URL (/ y /es/): enlaces reales, indexables y
+           compartibles, no un swap de innerHTML. El diccionario ES de site.js sigue
+           siendo la fuente de /es/index.html vía tools/build-es.mjs. -->
       <div class="lang-toggle" id="langToggle" role="group" data-i18n-aria="aria_lang" aria-label="Switch language">
-        <button type="button" id="lang-en" class="on" aria-pressed="true">EN</button><button type="button" id="lang-es" aria-pressed="false">ES</button>
+        <a href="/" class="on" aria-current="page" hreflang="en">EN</a><a href="/es/" hreflang="es" lang="es">ES</a>
       </div>
       <button class="burger" id="burger" data-i18n-aria="aria_menu" aria-label="Menu" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
     </div>

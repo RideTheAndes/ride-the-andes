@@ -75,8 +75,8 @@ header.scrolled .brand svg.brandmark{color:var(--paramo)}
 .btn.ghost-light:hover{color:var(--paramo)}
 /* language toggle */
 .lang-toggle{display:flex;align-items:center;border:1px solid var(--line);font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;cursor:pointer;user-select:none;flex-shrink:0}
-.lang-toggle button{padding:9px 13px;color:var(--ink-soft);transition:all .25s;background:none;border:0;font:inherit;letter-spacing:inherit;cursor:pointer}
-.lang-toggle button.on{background:var(--paramo);color:var(--niebla)}
+.lang-toggle button,.lang-toggle a{padding:9px 13px;color:var(--ink-soft);transition:all .25s;background:none;border:0;font:inherit;letter-spacing:inherit;cursor:pointer}
+.lang-toggle button.on,.lang-toggle a.on{background:var(--paramo);color:var(--niebla)}
 .burger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:8px}
 .burger span{width:24px;height:2px;background:var(--paramo);transition:.3s}
 /* skip link (keyboard/screen-reader bypass for the fixed nav) */
@@ -549,7 +549,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,
 textarea:focus-visible,[role="button"]:focus-visible{
   outline:2px solid var(--terracota);outline-offset:3px;border-radius:1px}
 .lang-toggle{min-height:44px;display:inline-flex;align-items:center}
-.lang-toggle button{min-width:44px;min-height:34px;display:inline-flex;align-items:center;justify-content:center}
+.lang-toggle button,.lang-toggle a{min-width:44px;min-height:34px;display:inline-flex;align-items:center;justify-content:center}
 .faq .qh{min-height:44px}
 .rta-radio,.rta-checkbox{min-height:44px;display:flex;align-items:center;gap:10px}
 .rta-radio input,.rta-checkbox input{width:20px;height:20px;flex:0 0 auto}

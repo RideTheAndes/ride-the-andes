@@ -33,7 +33,9 @@ The marketing/booking website for Ride The Andes S.A.S., a boutique cycling tour
 
 ## i18n pattern (index.html only)
 
-`index.html` is the only bilingual page, using a runtime toggle, not build-time generation:
+**Update 2026-08: the Spanish edition is now a real page.** `es/index.html` is **generated** by `tools/build-es.mjs` from `index.html` + the `ES` dictionary — never edit it by hand. If you touch `index.html` or the `ES` dictionary, run `node tools/build-es.mjs` and commit the regenerated file; CI (`build-es --check`) fails the PR if `/es/` is stale or any key lacks a translation. The language toggle is now a pair of **links** between `/` and `/es/` (indexable, shareable), with reciprocal `hreflang` in both heads; `setLang()` remains in `site.js` as a fallback mechanism and the `ES` dictionary is the *source* of `/es/` — do not delete it. The original runtime-toggle machinery it feeds:
+
+`index.html` is the source-of-truth page for both languages:
 - English is the copy hard-coded in the HTML. On load, `site.js` captures it into an `EN` object by reading every `[data-i18n]` element's `innerHTML` keyed by its `data-i18n` attribute.
 - A parallel `ES` dictionary is hand-maintained at the top of `site.js` with the same keys.
 - `setLang()` swaps `innerHTML` per key and persists the choice to `localStorage` (`rta-lang`).

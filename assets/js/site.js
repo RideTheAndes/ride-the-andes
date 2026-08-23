@@ -261,14 +261,14 @@ function setLang(l){
   // re-expand any open FAQ to fit new text height
   document.querySelectorAll(".faq .q.open .qa").forEach(a => { a.style.maxHeight = a.scrollHeight + "px"; });
 }
-// Dos <button> reales, no un div con role="button": así el nombre accesible de cada
-// uno ES su texto visible ("EN" / "ES"), que es lo que exige WCAG 2.5.3 (Label in Name),
-// y Enter/Espacio los activa de forma nativa — sin handler de teclado propio.
+// Desde que existe /es/ (generada por tools/build-es.mjs a partir del diccionario ES
+// de arriba), el idioma vive en su propia URL y el toggle son enlaces reales entre
+// / y /es/ — indexables, compartibles y sin swap de innerHTML. setLang() se conserva
+// como mecanismo de respaldo (y el diccionario ES es la FUENTE de /es/: no borrarlo).
+// Los listeners solo se enganchan si algún HTML volviera a usar los <button> antiguos.
 const bEnBtn = document.getElementById("lang-en"), bEsBtn = document.getElementById("lang-es");
 if (bEnBtn) bEnBtn.addEventListener("click", () => setLang("en"));
 if (bEsBtn) bEsBtn.addEventListener("click", () => setLang("es"));
-// Restaurar el idioma elegido en páginas anteriores
-try { if (localStorage.getItem("rta-lang") === "es") setLang("es"); } catch (e) {}
 
 // ---------- nav ----------
 const hdr = document.getElementById("hdr");
@@ -365,7 +365,9 @@ document.querySelectorAll(".faq .q").forEach(q => {
     if(!window.matchMedia('(min-width:1080px)').matches) return;
 
     list.forEach(function(f){
-      var base = 'assets/img/' + f.trim();
+      // Ruta absoluta: este script también corre en /es/, donde 'assets/…' relativo
+      // resolvería a /es/assets/… y daría 404.
+      var base = '/assets/img/' + f.trim();
       var img = document.createElement('img');
       img.src = base + '.jpg';
       img.srcset = base + '-750.jpg 750w, ' + base + '-900.jpg 900w, ' +
