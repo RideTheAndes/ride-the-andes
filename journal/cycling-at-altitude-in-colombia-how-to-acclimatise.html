@@ -31,8 +31,9 @@
   "description":"How to arrive from sea level and ride strong above 2,500 m in Colombia.",
   "image":"https://ridetheandes.co/assets/img/journal-altitud-sergio-paramo.jpg",
   "author":{"@type":"Person","name":"Sergio · Ride The Andes"},
-  "publisher":{"@type":"Organization","name":"Ride The Andes","url":"https://ridetheandes.co"},
+  "publisher":{"@type":"Organization","@id":"https://ridetheandes.co/#org","name":"Ride The Andes","url":"https://ridetheandes.co","logo":{"@type":"ImageObject","url":"https://ridetheandes.co/assets/img/logo.png","width":512,"height":512}},
   "datePublished":"2026-08-01",
+  "dateModified":"2026-08-23",
   "mainEntityOfPage":"https://ridetheandes.co/journal/cycling-at-altitude-in-colombia-how-to-acclimatise.html",
   "about":["Colombia altitude cycling acclimatization","cycling at altitude","Boyacá cycling"],
   "inLanguage":"en"
@@ -139,6 +140,7 @@ header.scrolled{background:rgba(15,20,9,.9);backdrop-filter:blur(14px);padding:1
 .also{padding:90px 0;border-top:1px solid var(--line);margin-top:80px;text-align:center}
 .also .eyebrow{display:block;margin-bottom:14px}
 .also h3{font-size:2rem;font-weight:600;margin-bottom:30px}
+.also .row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
 
 footer{background:var(--paramo-deep);border-top:1px solid var(--line);padding:60px 0 40px;text-align:center}
 footer .name{font-family:var(--serif);font-size:1.3rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
@@ -165,15 +167,15 @@ footer .cr{font-family:var(--mono);font-size:.56rem;letter-spacing:.12em;text-tr
 
 <header id="hdr">
   <div class="wrap nav">
-    <a href="../index.html" class="brand">
+    <a href="/" class="brand">
       <svg class="brandmark" viewBox="0 0 164.49 143.96" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ride The Andes"><defs><linearGradient id="rtaj-fade1" x1="8610.53" y1="-17754.45" x2="8397.79" y2="-18168.8" gradientTransform="translate(-209.41 -336.19) scale(.03 -.03)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><mask id="rtaj-m1" x="-.17" y="34.14" width="68.89" height="104.48" maskUnits="userSpaceOnUse"><g><rect x="-.17" y="34.14" width="68.89" height="104.48" fill="url(#rtaj-fade1)"/></g></mask><linearGradient id="rtaj-fade2" x1="9407.65" y1="-16191.79" x2="8725.9" y2="-16581.27" gradientTransform="translate(-209.41 -336.19) scale(.03 -.03)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><mask id="rtaj-m2" x="30.37" y="-.57" width="71.86" height="134.59" maskUnits="userSpaceOnUse"><g><rect x="30.37" y="-.57" width="71.86" height="134.59" fill="url(#rtaj-fade2)"/></g></mask></defs><g fill="currentColor"><rect x="114.48" y="72.62" width="7.09" height="80.72" transform="translate(-45.31 116.99) rotate(-45.15)"/><rect x="69.42" y="32.27" width="5.67" height="14.39" transform="translate(-.48 78.04) rotate(-56.58)"/><g mask="url(#rtaj-m1)"><rect x="-26.83" y="85.31" width="122.2" height="2.13" transform="translate(-56.79 67.86) rotate(-56.86)"/></g><g mask="url(#rtaj-m2)"><rect x="-8.54" y="65.66" width="149.7" height="2.13" transform="translate(-23.63 94.31) rotate(-62.23)"/></g><rect x="129.36" y="-6.86" width="4.25" height="117.39" transform="translate(-7.44 77.84) rotate(-32.12)"/><rect x="32.05" y="109.36" width="73.23" height="2.13" transform="translate(-60.03 91.83) rotate(-49.9)"/></g></svg>
       <div class="name">Ride The Andes<small>Boyacá · Colombia</small></div>
     </a>
     <nav class="menu">
-      <a href="../index.html#tour">The Tour</a>
-      <a href="../index.html#route">The Route</a>
-      <a href="index.html">Journal</a>
-      <a href="../index.html#contact" class="btn solid">Reserve a place</a>
+      <a href="/#tour">The Tour</a>
+      <a href="/#route">The Route</a>
+      <a href="/journal/">Journal</a>
+      <a href="/reservar.html" class="btn solid">Reserve a place</a>
     </nav>
   </div>
 </header>
@@ -183,13 +185,14 @@ footer .cr{font-family:var(--mono);font-size:.56rem;letter-spacing:.12em;text-tr
 <section class="ahero">
   <div class="wrap">
     <div class="ahead" data-rise>
-      <div class="crumb"><a href="index.html">Journal</a> &nbsp;/&nbsp; Practical Guide</div>
+      <div class="crumb"><a href="/journal/">Journal</a> &nbsp;/&nbsp; Practical Guide</div>
       <h1>Cycling at Altitude in Colombia: How to Acclimatise</h1>
       <p class="dek">What happens to your body above 2,500 metres, what to do about it, and how we sequence ten days so the mountain works with you.</p>
       <div class="ameta">
         <span>By <b>Sergio</b> · Founder &amp; Lead Guide</span>
         <span>Boyacá, Colombia</span>
         <span>9 min read</span>
+        <span>Published <b>August 2026</b></span>
       </div>
     </div>
     <div class="slot afig" data-rise style="background-image:url('../assets/img/journal-altitud-sergio-paramo.jpg');background-size:cover;background-position:center" role="img" aria-label="Cyclist on the páramo above 3,000 metres in Boyacá"></div>
@@ -232,7 +235,7 @@ footer .cr{font-family:var(--mono);font-size:.56rem;letter-spacing:.12em;text-tr
   </ul>
 
   <h2 data-rise><span class="n">05 — How we sequence the traverse</span>The itinerary is the acclimatisation plan</h2>
-  <p data-rise>The stage order is not an aesthetic choice. We open with the lower valley stages — Guatavita to Sopó, then Puente de Boyacá toward Ráquira — where the riding is genuinely enjoyable at an effort your body can afford while it adapts. The Villa de Leyva desert loop adds distance without adding much altitude. Only then do we move into the high country around Tota for the queen stage.</p>
+  <p data-rise>The stage order is not an aesthetic choice. We open with the lower valley stages — Guatavita to Sopó, then Puente de Boyacá toward Ráquira — where the riding is genuinely enjoyable at an effort your body can afford while it adapts. <a class="inline" href="villa-de-leyva-by-bike-colonial-roads-and-cobbled-squares.html">The Villa de Leyva desert loop</a> adds distance without adding much altitude. Only then do we move into the high country around Tota for <a class="inline" href="the-tota-ascent-climbing-to-colombias-highest-lake.html">the queen stage</a>.</p>
   <p data-rise>By the time race day arrives at the Gran Fondo Boyacá Mundial, you have had more than a week on the altiplano. That is the difference between riding the event and surviving it.</p>
   <p data-rise>The support van is at the back of every stage, every day, for exactly this reason. Riders occasionally need a lift on day two and then ride every remaining stage in full. That is a good outcome, not a compromised one.</p>
 
@@ -242,8 +245,8 @@ footer .cr{font-family:var(--mono);font-size:.56rem;letter-spacing:.12em;text-tr
     <h3>Arrive properly acclimatised</h3>
     <p>The Boyacá Traverse is sequenced from the valleys upward so your body adapts before the high stages. Request the dossier to see the full altitude profile day by day.</p>
     <div class="row">
-      <a href="../index.html#route" class="btn solid big">Explore The Boyacá Traverse</a>
-      <a href="../index.html#deck" class="btn big">Request the dossier</a>
+      <a href="/#route" class="btn solid big">Explore The Boyacá Traverse</a>
+      <a href="/#deck" class="btn big">Request the dossier</a>
     </div>
   </div>
 
@@ -253,7 +256,11 @@ footer .cr{font-family:var(--mono);font-size:.56rem;letter-spacing:.12em;text-tr
   <div class="wrap">
     <span class="eyebrow">Keep Reading</span>
     <h3>More from the Journal</h3>
-    <a href="index.html" class="btn big">All Field Notes</a>
+    <div class="row">
+      <a href="the-tota-ascent-climbing-to-colombias-highest-lake.html" class="btn big">The Tota Ascent</a>
+      <a href="is-it-safe-to-cycle-in-colombia.html" class="btn big">Is It Safe to Cycle in Colombia?</a>
+      <a href="/journal/" class="btn big solid">All Field Notes</a>
+    </div>
   </div>
 </section>
 
@@ -262,10 +269,12 @@ footer .cr{font-family:var(--mono);font-size:.56rem;letter-spacing:.12em;text-tr
   <div class="wrap">
     <div class="name">Ride The Andes</div>
     <div class="links">
-      <a href="../index.html#tour">The Tour</a>
-      <a href="../index.html#route">The Route</a>
-      <a href="index.html">Journal</a>
-      <a href="../index.html#contact">Contact</a>
+      <a href="/#tour">The Tour</a>
+      <a href="/#route">The Route</a>
+      <a href="/journal/">Journal</a>
+      <a href="/#contact">Contact</a>
+      <a href="/terminos.html">Terms</a>
+      <a href="/privacy.html">Privacy</a>
     </div>
     <div class="cr">© 2026 Ride The Andes S.A.S. · Boyacá · Colombia · RNT 296185</div>
   </div>

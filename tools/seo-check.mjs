@@ -422,6 +422,16 @@ function checkStructuredDataSync() {
     try { data = JSON.parse(b.replace(/^<script[^>]*>/i, '').replace(/<\/script>$/i, '')); }
     catch { continue; }
 
+    // La Offer caduca con la temporada: un validThrough en el pasado es la misma
+    // clase de deriva estacional que un precio viejo. AVISO, no ERROR, a propósito:
+    // no debe bloquear un PR urgente el día después del cierre de ventas.
+    const vt = data?.makesOffer?.validThrough ?? data?.offers?.validThrough;
+    if (vt) {
+      const today = new Date().toISOString().slice(0, 10);
+      if (vt < today) warn(scope, `Offer.validThrough ${vt} ya pasó — actualizarlo con la nueva temporada (AUDIT.md § temporada)`);
+      else ok(scope, `Offer.validThrough ${vt} vigente`);
+    }
+
     // Precio declarado debe aparecer en la página (con o sin separador de miles).
     const price = data?.makesOffer?.price ?? data?.offers?.price;
     if (price) {

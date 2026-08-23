@@ -1,23 +1,31 @@
 # Ride The Andes — sitio web
 
-Sitio estático de Ride The Andes S.A.S (Boyacá, Colombia).
+Sitio estático de Ride The Andes S.A.S (Duitama, Boyacá, Colombia) · [ridetheandes.co](https://ridetheandes.co).
+**Sin build, sin dependencias:** editar los HTML/CSS/JS directamente es el flujo de desarrollo.
 
 ## Estructura
-- `index.html` — landing principal (bilingüe EN/ES)
-- `journal/` — blog editorial (SEO)
-- `privacy.html` — política de datos (Ley 1581)
-- `thanks.html` — página post-formulario
-- `assets/css/styles.css` — hoja de estilos compartida
-- `assets/js/site.js` — lógica del sitio (toggle idioma, nav, FAQ, formulario)
-- `assets/img/` — fotografías (26 imágenes curadas)
-- `sitemap.xml` / `robots.txt` — SEO
+- `index.html` — landing principal (bilingüe EN/ES con toggle en runtime)
+- `reservar.html` — página de reserva y pago (PayPal, lógica inline; **cobra dinero real**)
+- `journal/` — blog editorial: índice + 6 artículos
+- `terminos.html` / `privacy.html` — textos legales (T&C de compra · Ley 1581)
+- `thanks.html` — post-formulario y confirmación de pago (noindex)
+- `404.html` — página de error (todas sus rutas absolutas, a propósito)
+- `assets/` — CSS compartido, `site.js` (i18n/nav/FAQ/hero) y fotografía
+- `dossier/` — PDF del route dossier (noindex)
+- `sitemap.xml` / `robots.txt` / `_headers` / `_redirects` — SEO y despliegue
 
 ## Deploy
-Conectado a Netlify vía GitHub. Cada `git push` a `main` publica automáticamente.
-Formulario de contacto gestionado por Netlify Forms → notifica a reservations@ridetheandes.co
+Netlify vía GitHub: cada push a `main` publica en ~30 s, con Cloudflare en frente
+(purgar su caché tras cambios). Formularios por Netlify Forms (`inquiry` y
+`payment-notification`) → notifican a reservations@ridetheandes.co.
 
-## Pendiente
-- Reemplazar `poi-raquira-PLACEHOLDER-stock.jpg` por foto propia
-- Foto real de Villa de Leyva y retrato de guía definitivo
-- Imagen `og-image.jpg` para compartir en redes
-- Integración de pasarela de pago (PayPal/Stripe) cuando el banco autorice
+## Comprobaciones antes de merge
+- `node tools/seo-check.mjs` → 0 errores (canonical, OG, JSON-LD, sitemap, robots).
+- CI (`.github/workflows/main.yml`): snippet de Plausible + validador SEO en cada PR.
+- ¿Se tocó `reservar.html` o `site.js`? → probar el pago en el deploy preview (ver `AUDIT.md`).
+
+## Documentación
+- `CLAUDE.md` — guía técnica del repo (leer primero)
+- `AUDIT.md` — checklist operativo: pagos, fechas, temporada, `FORCE_OPEN`
+- `SEO.md` — ritual mensual de Search Console ↔ repo
+- `PLAN-2027.md` — trabajo SEO aplazado hasta cerrar la salida de octubre 2026

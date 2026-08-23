@@ -175,7 +175,7 @@ const ES = {
   faq_eyebrow:"Antes de Rodar",
   faq_h2:"Preguntas, respondidas.",
   q1:"¿Cómo manejan la altitud?",
-  a1:"La travesía está secuenciada para aclimatarte. Abrimos con etapas de valle más bajas y subimos gradualmente hacia la zona alta del Lago de Tota, para que tu cuerpo se adapte antes de la etapa reina. El guía monitorea al grupo de cerca, la hidratación y el ritmo se gestionan activamente, y el vehículo de apoyo siempre está al alcance.",
+  a1:"La travesía está <a href=\"journal/cycling-at-altitude-in-colombia-how-to-acclimatise.html\">secuenciada para aclimatarte</a>. Abrimos con etapas de valle más bajas y subimos gradualmente hacia la zona alta del Lago de Tota, para que tu cuerpo se adapte antes de la etapa reina. El guía monitorea al grupo de cerca, la hidratación y el ritmo se gestionan activamente, y el vehículo de apoyo siempre está al alcance.",
   q2:"¿Qué nivel de condición física necesito?",
   a2:"Este es un tour ciclístico de verdad, para ciclistas cómodos con jornadas de varias horas y ascensos sostenidos — aproximadamente la condición para rodar 3–4 horas en días consecutivos. No necesitas competir; el convoy de apoyo completo significa que puedes subirte al vehículo en cualquier etapa y rodar a tu propio ritmo el resto.",
   q3:"¿Puedo traer mi propia bicicleta, o ustedes la proveen?",
@@ -306,8 +306,13 @@ const bgio = new IntersectionObserver(es => {
 document.querySelectorAll("[data-bg]").forEach(el => bgio.observe(el));
 
 // ---------- counters ----------
+// El número final viaja en el HTML (un rastreador sin JS lee "123", no "0").
+// Aquí solo se pone a 0 para animarlo al entrar en pantalla; con
+// prefers-reduced-motion se queda quieto en su valor real.
 const cio = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting) { const el = e.target, t = +el.dataset.count; let n = 0; const step = Math.max(1, Math.round(t / 40)); const tick = () => { n += step; if (n >= t) { el.textContent = t; } else { el.textContent = n; requestAnimationFrame(tick); } }; tick(); cio.unobserve(el); } }); }, { threshold: 0.5 });
-document.querySelectorAll("[data-count]").forEach(el => cio.observe(el));
+if (!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches)) {
+  document.querySelectorAll("[data-count]").forEach(el => { el.textContent = "0"; cio.observe(el); });
+}
 
 // ---------- faq ----------
 function toggleFaq(q) {

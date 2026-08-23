@@ -92,7 +92,7 @@ Revisa Netlify → Forms al menos una vez por semana mientras haya campaña: es 
 reservas que no se reconstruye sola.
 
 ## Cada cambio de temporada de ventas (nueva salida, nuevo precio)
-- [ ] Actualizar: fecha de corte del depósito (JS), textos de fechas (EN y ES en site.js Y en los HTML), precios en HTML + PRICES del widget + schema JSON-LD (price), sitemap `<lastmod>`
+- [ ] Actualizar: fecha de corte del depósito (JS), textos de fechas (EN y ES en site.js Y en los HTML), precios en HTML + PRICES del widget + schema JSON-LD (price **y `validThrough` de la Offer** — `tools/seo-check.mjs` avisa cuando caduca), sitemap `<lastmod>`
 - [ ] Prueba de pago real de $1 con TEST_MODE → reembolso → apagar TEST_MODE. **La prueba tiene que hacerla alguien fuera de Colombia**, por las dos vías (botón de tarjeta y cuenta PayPal). PayPal Colombia solo procesa pagos transfronterizos: cualquier prueba hecha desde acá — tarjeta nacional, tarjeta "internacional" emitida en Colombia, o tu propia cuenta PayPal — falla con *"This card can't be used for your payment"* y no prueba absolutamente nada
 - [ ] Verificar USE_LIVE en `true` y el Client ID correcto ANTES de anunciar
 - [ ] Si un pago falla: los logs de la app solo muestran los 201 de creación de orden, nunca el motivo del rechazo. El motivo real solo lo ve soporte de PayPal, y necesita el **Debug ID** del intento (dashboard → la app → logs)
