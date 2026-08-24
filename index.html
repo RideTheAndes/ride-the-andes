@@ -200,8 +200,10 @@
            three a real alt would announce three descriptions for one visual slot — which
            is why they used to share alt="". The split below keeps that fix while
            recovering the indexing:
-             · THIS frame ships in the HTML, is the LCP element and the only <img> on the
-               page, so it carries a real alt and is the one Google Images can index.
+             · THIS frame ships in the HTML and is the LCP element, so it loads eagerly
+               with fetchpriority and carries a real alt for Google Images. (Desde la
+               conversión de 2026-08 los slots de etapa/POI/hotel también son <img>
+               reales; este comentario aplica solo a los fotogramas del hero.)
              · The two frames site.js appends are decorative duplicates: alt="" AND
                aria-hidden="true", so they leave the accessibility tree entirely and only
                this description is ever announced. -->
@@ -210,6 +212,7 @@
              srcset="assets/img/hero-band-1-ciclista-caballos-750.jpg 750w, assets/img/hero-band-1-ciclista-caballos-900.jpg 900w, assets/img/hero-band-1-ciclista-caballos-1200.jpg 1200w, assets/img/hero-band-1-ciclista-caballos.jpg 1800w"
              sizes="(max-width:1080px) 100vw, 1200px"
              alt="A cyclist on the Boyacá Traverse riding a rural Andean road past grazing horses, Boyacá, Colombia"
+             data-i18n-alt="hero_alt"
              fetchpriority="high" width="1800" height="771" class="on">
         <span class="hf-chip" data-i18n="hero_cap">Boyacá, Colombia · The Eastern Cordillera</span>
       </div>
@@ -281,7 +284,7 @@
  
     <div class="stages">
       <article class="stage" data-rise>
-        <div class="slot top has-photo" role="img" data-i18n-aria="aria_stage1" aria-label="Rolling countryside on the Guatavita to Sopó stage" data-bg="assets/img/stage-1-guatavita-sopo.jpg"><span class="day" data-i18n="s1_day">Stage 01</span><span class="grade g-easy" data-i18n="s1_grade">Prologue</span></div>
+        <div class="slot top has-photo"><img class="ph" src="assets/img/stage-1-guatavita-sopo.jpg" alt="Rolling countryside on the Guatavita to Sopó stage" data-i18n-alt="aria_stage1" loading="lazy" decoding="async" width="1200" height="470"><span class="day" data-i18n="s1_day">Stage 01</span><span class="grade g-easy" data-i18n="s1_grade">Prologue</span></div>
         <div class="body">
           <h3 data-i18n="s1_h">The Legend of El Dorado</h3>
           <div class="route">Guatavita › Sopó · Cundinamarca</div>
@@ -307,7 +310,7 @@
         </div>
       </article>
       <article class="stage d2" data-rise>
-        <div class="slot top has-photo" role="img" data-i18n-aria="aria_stage3" aria-label="Villa de Leyva's colonial plaza on the Stage 3 route" data-bg="assets/img/stage-3-villa-de-leyva-plaza.jpg"><span class="day" data-i18n="s3_day">Stage 03</span><span class="grade g-mid" data-i18n="s3_grade">Rolling</span></div>
+        <div class="slot top has-photo"><img class="ph" src="assets/img/stage-3-villa-de-leyva-plaza.jpg" alt="Villa de Leyva's colonial plaza on the Stage 3 route" data-i18n-alt="aria_stage3" loading="lazy" decoding="async" width="1200" height="470"><span class="day" data-i18n="s3_day">Stage 03</span><span class="grade g-mid" data-i18n="s3_grade">Rolling</span></div>
         <div class="body">
           <h3 data-i18n="s3_h">The Desert &amp; the Dinosaurs</h3>
           <div class="route">Villa de Leyva › Santa Sofía › Villa de Leyva</div>
@@ -320,7 +323,7 @@
         </div>
       </article>
       <article class="stage" data-rise>
-        <div class="slot top has-photo" role="img" data-i18n-aria="aria_stage4" aria-label="The climb to Alto del Crucero above Lago de Tota" data-bg="assets/img/stage-4-alto-crucero-tota.jpg"><span class="day" data-i18n="s4_day">Stage 04</span><span class="grade g-queen" data-i18n="s4_grade">Queen</span></div>
+        <div class="slot top has-photo"><img class="ph" src="assets/img/stage-4-alto-crucero-tota.jpg" alt="The climb to Alto del Crucero above Lago de Tota" data-i18n-alt="aria_stage4" loading="lazy" decoding="async" width="1200" height="470"><span class="day" data-i18n="s4_day">Stage 04</span><span class="grade g-queen" data-i18n="s4_grade">Queen</span></div>
         <div class="body">
           <h3 data-i18n="s4_h">The Queen Stage</h3>
           <div class="route">Rancho Tota › Iza › Sogamoso › Alto del Crucero</div>
@@ -333,7 +336,7 @@
         </div>
       </article>
       <article class="stage d1" data-rise>
-        <div class="slot top has-photo" role="img" data-i18n-aria="aria_stage5" aria-label="Playa Blanca, the white-sand beach on Lago de Tota" data-bg="assets/img/stage-5-playa-blanca-tota.jpg"><span class="day" data-i18n="s5_day">Stage 05</span><span class="grade g-mid" data-i18n="s5_grade">Circuit</span></div>
+        <div class="slot top has-photo"><img class="ph" src="assets/img/stage-5-playa-blanca-tota.jpg" alt="Playa Blanca, the white-sand beach on Lago de Tota" data-i18n-alt="aria_stage5" loading="lazy" decoding="async" width="1200" height="470"><span class="day" data-i18n="s5_day">Stage 05</span><span class="grade g-mid" data-i18n="s5_grade">Circuit</span></div>
         <div class="body">
           <h3 data-i18n="s5_h">Lago de Tota, In Full</h3>
           <div class="route">Aquitania › Tota › Cuítiva › Iza › Firavitoba</div>
@@ -346,7 +349,7 @@
         </div>
       </article>
       <article class="stage d2" data-rise>
-        <div class="slot top has-photo" role="img" data-i18n-aria="aria_stage6" aria-label="Riders at the Gran Fondo Boyacá Mundial race finish" data-bg="assets/img/stage-6-gran-fondo.jpg"><span class="day" data-i18n="s6_day">Stage 06</span><span class="grade g-race" data-i18n="s6_grade">Race Day</span></div>
+        <div class="slot top has-photo"><img class="ph" src="assets/img/stage-6-gran-fondo.jpg" alt="Riders at the Gran Fondo Boyacá Mundial race finish" data-i18n-alt="aria_stage6" loading="lazy" decoding="async" width="1200" height="470"><span class="day" data-i18n="s6_day">Stage 06</span><span class="grade g-race" data-i18n="s6_grade">Race Day</span></div>
         <div class="body">
           <h3>Gran Fondo Boyacá Mundial</h3>
           <div class="route" data-i18n="s6_route">Duitama · Official GFBM 2026 entry</div>
@@ -553,10 +556,10 @@
       <p data-i18n="poi_p">A layered route — gastronomy, history and cycling culture mapped onto every stage. The reasons you'll want to stop, even when your legs say go.</p>
     </div>
     <div class="poi">
-      <div class="slot card has-photo" data-rise role="img" data-i18n-aria="aria_poi1" aria-label="Panoramic view of Lago de Tota, Colombia's largest high-altitude lake" data-bg="assets/img/poi-lago-tota-panoramica.jpg"><div class="ov"><div class="kind" data-i18n="p1_k">Lakes &amp; Páramo</div><h3>Lago de Tota</h3><p data-i18n="p1_p">Colombia's largest lake at 3,015 m, ringed by onion fields and an improbable Andean beach.</p></div></div>
-      <div class="slot card has-photo" data-rise role="img" data-i18n-aria="aria_poi2" aria-label="The colonial plaza of Villa de Leyva, Boyacá" data-bg="assets/img/poi-villa-de-leyva-plaza.jpg"><div class="ov"><div class="kind" data-i18n="p2_k">Colonial Heritage</div><h3>Villa de Leyva</h3><p data-i18n="p2_p">The largest cobbled plaza on the continent — white stone, deep blue sky, no traffic.</p></div></div>
-      <div class="slot card has-photo" data-rise role="img" data-i18n-aria="aria_poi3" aria-label="Traditional clay pots for sale in Ráquira, Boyacá" data-bg="assets/img/poi-raquira-ollas.jpg"><div class="ov"><div class="kind" data-i18n="p3_k">Gastronomy</div><h3>Paipa &amp; Ráquira</h3><p data-i18n="p3_p">Farmhouse cheese, clay pottery towns, and the almojábana that fuels every Boyacá rider.</p></div></div>
-      <div class="slot card has-photo" data-rise role="img" data-i18n-aria="aria_poi4" aria-label="Cyclists riding through a flowering field in Boyacá" data-bg="assets/img/culture-ciclistas-prado-flores.jpg"><div class="ov"><div class="kind" data-i18n="p4_k">Cycling Culture</div><h3 data-i18n="p4_h">Climbers' Country</h3><p data-i18n="p4_p">The roads and villages that raised generations of Colombian Grand Tour champions.</p></div></div>
+      <div class="slot card has-photo" data-rise><img class="ph" src="assets/img/poi-lago-tota-panoramica.jpg" alt="Panoramic view of Lago de Tota, Colombia's largest high-altitude lake" data-i18n-alt="aria_poi1" loading="lazy" decoding="async" width="1400" height="788"><div class="ov"><div class="kind" data-i18n="p1_k">Lakes &amp; Páramo</div><h3>Lago de Tota</h3><p data-i18n="p1_p">Colombia's largest lake at 3,015 m, ringed by onion fields and an improbable Andean beach.</p></div></div>
+      <div class="slot card has-photo" data-rise><img class="ph" src="assets/img/poi-villa-de-leyva-plaza.jpg" alt="The colonial plaza of Villa de Leyva, Boyacá" data-i18n-alt="aria_poi2" loading="lazy" decoding="async" width="900" height="1070"><div class="ov"><div class="kind" data-i18n="p2_k">Colonial Heritage</div><h3>Villa de Leyva</h3><p data-i18n="p2_p">The largest cobbled plaza on the continent — white stone, deep blue sky, no traffic.</p></div></div>
+      <div class="slot card has-photo" data-rise><img class="ph" src="assets/img/poi-raquira-ollas.jpg" alt="Traditional clay pots for sale in Ráquira, Boyacá" data-i18n-alt="aria_poi3" loading="lazy" decoding="async" width="900" height="1070"><div class="ov"><div class="kind" data-i18n="p3_k">Gastronomy</div><h3>Paipa &amp; Ráquira</h3><p data-i18n="p3_p">Farmhouse cheese, clay pottery towns, and the almojábana that fuels every Boyacá rider.</p></div></div>
+      <div class="slot card has-photo" data-rise><img class="ph" src="assets/img/culture-ciclistas-prado-flores.jpg" alt="Cyclists riding through a flowering field in Boyacá" data-i18n-alt="aria_poi4" loading="lazy" decoding="async" width="1400" height="788"><div class="ov"><div class="kind" data-i18n="p4_k">Cycling Culture</div><h3 data-i18n="p4_h">Climbers' Country</h3><p data-i18n="p4_p">The roads and villages that raised generations of Colombian Grand Tour champions.</p></div></div>
     </div>
   </div>
 </section>
@@ -571,31 +574,31 @@
     </div>
     <div class="stay-grid">
       <article class="prop" data-rise>
-        <div class="p-img" role="img" data-i18n-aria="aria_stay1" aria-label="Movich Buró 26 hotel, Bogotá" data-bg="assets/img/stay-1-movich-bogota.jpg"></div>
+        <div class="p-img"><img class="ph" src="assets/img/stay-1-movich-bogota.jpg" alt="Movich Buró 26 hotel, Bogotá" data-i18n-alt="aria_stay1" loading="lazy" decoding="async" width="800" height="500"></div>
         <div class="p-when"><span data-i18n="st1_w">Night 1</span><b>Bogotá</b></div>
         <h3>Movich Buró 26</h3>
         <p data-i18n="st1_p">Minutes from El Dorado International — you land, you're received, you rest. The journey begins on a full night's sleep.</p>
       </article>
       <article class="prop" data-rise>
-        <div class="p-img" role="img" data-i18n-aria="aria_stay2" aria-label="Camino de la Sal, a colonial-style casona in Zipaquirá" data-bg="assets/img/stay-2-camino-de-la-sal.jpg"></div>
+        <div class="p-img"><img class="ph" src="assets/img/stay-2-camino-de-la-sal.jpg" alt="Camino de la Sal, a colonial-style casona in Zipaquirá" data-i18n-alt="aria_stay2" loading="lazy" decoding="async" width="1000" height="625"></div>
         <div class="p-when"><span data-i18n="st2_w">Night 2</span><b>Zipaquirá</b></div>
         <h3>Camino de la Sal</h3>
         <p data-i18n="st2_p">A colonial-style casona in the salt city — steps from the plaza, and from the cathedral carved into the mountain beneath it.</p>
       </article>
       <article class="prop" data-rise>
-        <div class="p-img" role="img" data-i18n-aria="aria_stay3" aria-label="Hotel Getsemaní courtyard in Villa de Leyva" data-bg="assets/img/stay-3-getsemani-villa-de-leyva.jpg"></div>
+        <div class="p-img"><img class="ph" src="assets/img/stay-3-getsemani-villa-de-leyva.jpg" alt="Hotel Getsemaní courtyard in Villa de Leyva" data-i18n-alt="aria_stay3" loading="lazy" decoding="async" width="1000" height="625"></div>
         <div class="p-when"><span data-i18n="st3_w">Nights 3–4</span><b>Villa de Leyva</b></div>
         <h3>Hotel Getsemaní</h3>
         <p data-i18n="st3_p">A whitewashed casona around a flowering courtyard, cobblestones from the Plaza Mayor — heated pool, sauna and steam for post-stage legs.</p>
       </article>
       <article class="prop" data-rise>
-        <div class="p-img" role="img" data-i18n-aria="aria_stay4" aria-label="Decameron Rancho Tota on the shore of Lago de Tota" data-bg="assets/img/stay-4-rancho-tota.jpg"></div>
+        <div class="p-img"><img class="ph" src="assets/img/stay-4-rancho-tota.jpg" alt="Decameron Rancho Tota on the shore of Lago de Tota" data-i18n-alt="aria_stay4" loading="lazy" decoding="async" width="800" height="500"></div>
         <div class="p-when"><span data-i18n="st4_w">Nights 5–6</span><b>Lago de Tota</b></div>
         <h3>Decameron Rancho Tota</h3>
         <p data-i18n="st4_p">On the lakeshore at 3,015 metres — wake to the water, roll out from the door. Your basecamp for the queen days.</p>
       </article>
       <article class="prop" data-rise>
-        <div class="p-img" role="img" data-i18n-aria="aria_stay5" aria-label="Estelar Hotel y Centro de Convenciones on Lake Sochagota, Paipa" data-bg="assets/img/stay-5-estelar-paipa.jpg"></div>
+        <div class="p-img"><img class="ph" src="assets/img/stay-5-estelar-paipa.jpg" alt="Estelar Hotel y Centro de Convenciones on Lake Sochagota, Paipa" data-i18n-alt="aria_stay5" loading="lazy" decoding="async" width="1000" height="625"></div>
         <div class="p-when"><span data-i18n="st5_w">Nights 7–9</span><b>Paipa</b></div>
         <h3>Estelar Hotel y Centro de Convenciones</h3>
         <p data-i18n="st5_p">The five-star resort on Lake Sochagota, fed by the thermal springs Paipa is famous for — jacuzzi, sauna, steam and massage in race week. Recovery, done properly.</p>

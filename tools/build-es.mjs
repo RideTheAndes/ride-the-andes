@@ -53,7 +53,7 @@ if (!esMatch) die('no encuentro el objeto ES en assets/js/site.js');
 const ES = (0, eval)('(' + esMatch[0].replace('const ES = ', '').replace(/;$/, '') + ')');
 
 // ---- guardarraíl: cobertura completa o nada ----
-const used = new Set([...html.matchAll(/data-i18n(?:-aria)?="([^"]+)"/g)].map(m => m[1]));
+const used = new Set([...html.matchAll(/data-i18n(?:-aria|-alt)?="([^"]+)"/g)].map(m => m[1]));
 const missing = [...used].filter(k => !(k in ES));
 if (missing.length) {
   die(`claves sin traducción en ES (${missing.length}) — NO se emite página a medias:\n  ${missing.join('\n  ')}`);
@@ -79,10 +79,13 @@ for (const m of opens.reverse()) {
   out = out.slice(0, innerStart) + ES[key] + out.slice(closeStart);
 }
 
-// ---- 2. aria-label de cada [data-i18n-aria], y fuera los atributos ----
+// ---- 2. aria-label de cada [data-i18n-aria] y alt de cada [data-i18n-alt],
+//         y fuera los atributos ----
 out = out.replace(/<[^>]*\bdata-i18n-aria="([^"]+)"[^>]*>/g, (tag, key) =>
   tag.replace(/aria-label="[^"]*"/, `aria-label="${ES[key]}"`));
-out = out.replace(/ data-i18n(?:-aria)?="[^"]*"/g, '');
+out = out.replace(/<img[^>]*\bdata-i18n-alt="([^"]+)"[^>]*>/g, (tag, key) =>
+  tag.replace(/alt="[^"]*"/, `alt="${ES[key]}"`));
+out = out.replace(/ data-i18n(?:-aria|-alt)?="[^"]*"/g, '');
 
 // ---- 3. lang + head ----
 function swap(old, neu, label) {

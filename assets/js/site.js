@@ -230,7 +230,9 @@ const ES = {
   aria_tour:"Ciclista subiendo una carretera de páramo en Boyacá",
   aria_guide:"Sergio, fundador y guía líder de Ride The Andes, en Boyacá",
   aria_menu:"Menú",
-  aria_lang:"Cambiar idioma"
+  aria_lang:"Cambiar idioma",
+  // alt del <img> del hero (hook data-i18n-alt: solo lo usa tools/build-es.mjs)
+  hero_alt:"Un ciclista de la Boyacá Traverse por una carretera rural andina entre caballos que pastan, Boyacá, Colombia"
 };
 
 // Capture English from the DOM, then toggle
@@ -377,8 +379,8 @@ document.querySelectorAll(".faq .q").forEach(q => {
       // Los inactivos se ocultan sólo con opacity:0, así que los tres siguen en el árbol
       // de accesibilidad a la vez; sin aria-hidden, un lector de pantalla anunciaría tres
       // descripciones para lo que visualmente es un solo hueco. Sacándolos del árbol, el
-      // fotograma del HTML puede llevar un alt real (es el LCP y el único <img> de la
-      // página, el que Google Images puede indexar) y se anuncia una sola vez.
+      // fotograma del HTML puede llevar un alt real (es el LCP, indexable por Google
+      // Images) y se anuncia una sola vez.
       // alt="" solo no basta aquí: deja el <img> en el árbol como imagen sin nombre.
       img.alt = ''; img.setAttribute('aria-hidden', 'true');
       img.width = 1800; img.height = 771;

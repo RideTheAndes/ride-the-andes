@@ -156,8 +156,10 @@
            three a real alt would announce three descriptions for one visual slot — which
            is why they used to share alt="". The split below keeps that fix while
            recovering the indexing:
-             · THIS frame ships in the HTML, is the LCP element and the only <img> on the
-               page, so it carries a real alt and is the one Google Images can index.
+             · THIS frame ships in the HTML and is the LCP element, so it loads eagerly
+               with fetchpriority and carries a real alt for Google Images. (Desde la
+               conversión de 2026-08 los slots de etapa/POI/hotel también son <img>
+               reales; este comentario aplica solo a los fotogramas del hero.)
              · The two frames site.js appends are decorative duplicates: alt="" AND
                aria-hidden="true", so they leave the accessibility tree entirely and only
                this description is ever announced. -->
@@ -165,7 +167,8 @@
         <img src="/assets/img/hero-band-1-ciclista-caballos.jpg"
              srcset="/assets/img/hero-band-1-ciclista-caballos-750.jpg 750w, /assets/img/hero-band-1-ciclista-caballos-900.jpg 900w, /assets/img/hero-band-1-ciclista-caballos-1200.jpg 1200w, /assets/img/hero-band-1-ciclista-caballos.jpg 1800w"
              sizes="(max-width:1080px) 100vw, 1200px"
-             alt="A cyclist on the Boyacá Traverse riding a rural Andean road past grazing horses, Boyacá, Colombia"
+             alt="Un ciclista de la Boyacá Traverse por una carretera rural andina entre caballos que pastan, Boyacá, Colombia"
+            
              fetchpriority="high" width="1800" height="771" class="on">
         <span class="hf-chip">Boyacá, Colombia · Cordillera Oriental</span>
       </div>
@@ -237,7 +240,7 @@
  
     <div class="stages">
       <article class="stage" data-rise>
-        <div class="slot top has-photo" role="img" aria-label="Campiña ondulada en la etapa de Guatavita a Sopó" data-bg="/assets/img/stage-1-guatavita-sopo.jpg"><span class="day">Etapa 01</span><span class="grade g-easy">Prólogo</span></div>
+        <div class="slot top has-photo"><img class="ph" src="/assets/img/stage-1-guatavita-sopo.jpg" alt="Campiña ondulada en la etapa de Guatavita a Sopó" loading="lazy" decoding="async" width="1200" height="470"><span class="day">Etapa 01</span><span class="grade g-easy">Prólogo</span></div>
         <div class="body">
           <h3>La Leyenda de El Dorado</h3>
           <div class="route">Guatavita › Sopó · Cundinamarca</div>
@@ -263,7 +266,7 @@
         </div>
       </article>
       <article class="stage d2" data-rise>
-        <div class="slot top has-photo" role="img" aria-label="La plaza colonial de Villa de Leyva en la ruta de la Etapa 3" data-bg="/assets/img/stage-3-villa-de-leyva-plaza.jpg"><span class="day">Etapa 03</span><span class="grade g-mid">Ondulada</span></div>
+        <div class="slot top has-photo"><img class="ph" src="/assets/img/stage-3-villa-de-leyva-plaza.jpg" alt="La plaza colonial de Villa de Leyva en la ruta de la Etapa 3" loading="lazy" decoding="async" width="1200" height="470"><span class="day">Etapa 03</span><span class="grade g-mid">Ondulada</span></div>
         <div class="body">
           <h3>El Desierto y los Dinosaurios</h3>
           <div class="route">Villa de Leyva › Santa Sofía › Villa de Leyva</div>
@@ -276,7 +279,7 @@
         </div>
       </article>
       <article class="stage" data-rise>
-        <div class="slot top has-photo" role="img" aria-label="La subida al Alto del Crucero sobre el Lago de Tota" data-bg="/assets/img/stage-4-alto-crucero-tota.jpg"><span class="day">Etapa 04</span><span class="grade g-queen">Reina</span></div>
+        <div class="slot top has-photo"><img class="ph" src="/assets/img/stage-4-alto-crucero-tota.jpg" alt="La subida al Alto del Crucero sobre el Lago de Tota" loading="lazy" decoding="async" width="1200" height="470"><span class="day">Etapa 04</span><span class="grade g-queen">Reina</span></div>
         <div class="body">
           <h3>La Etapa Reina</h3>
           <div class="route">Rancho Tota › Iza › Sogamoso › Alto del Crucero</div>
@@ -289,7 +292,7 @@
         </div>
       </article>
       <article class="stage d1" data-rise>
-        <div class="slot top has-photo" role="img" aria-label="Playa Blanca, la playa de arena blanca del Lago de Tota" data-bg="/assets/img/stage-5-playa-blanca-tota.jpg"><span class="day">Etapa 05</span><span class="grade g-mid">Circuito</span></div>
+        <div class="slot top has-photo"><img class="ph" src="/assets/img/stage-5-playa-blanca-tota.jpg" alt="Playa Blanca, la playa de arena blanca del Lago de Tota" loading="lazy" decoding="async" width="1200" height="470"><span class="day">Etapa 05</span><span class="grade g-mid">Circuito</span></div>
         <div class="body">
           <h3>Lago de Tota, Completo</h3>
           <div class="route">Aquitania › Tota › Cuítiva › Iza › Firavitoba</div>
@@ -302,7 +305,7 @@
         </div>
       </article>
       <article class="stage d2" data-rise>
-        <div class="slot top has-photo" role="img" aria-label="Ciclistas en la meta del Gran Fondo Boyacá Mundial" data-bg="/assets/img/stage-6-gran-fondo.jpg"><span class="day">Etapa 06</span><span class="grade g-race">Día de Carrera</span></div>
+        <div class="slot top has-photo"><img class="ph" src="/assets/img/stage-6-gran-fondo.jpg" alt="Ciclistas en la meta del Gran Fondo Boyacá Mundial" loading="lazy" decoding="async" width="1200" height="470"><span class="day">Etapa 06</span><span class="grade g-race">Día de Carrera</span></div>
         <div class="body">
           <h3>Gran Fondo Boyacá Mundial</h3>
           <div class="route">Duitama · Inscripción oficial GFBM 2026</div>
@@ -509,10 +512,10 @@
       <p>Una ruta con capas — gastronomía, historia y cultura ciclística mapeadas en cada etapa. Las razones por las que querrás parar, incluso cuando las piernas digan que sigas.</p>
     </div>
     <div class="poi">
-      <div class="slot card has-photo" data-rise role="img" aria-label="Vista panorámica del Lago de Tota, el lago de altura más grande de Colombia" data-bg="/assets/img/poi-lago-tota-panoramica.jpg"><div class="ov"><div class="kind">Lagos y Páramo</div><h3>Lago de Tota</h3><p>El lago más grande de Colombia a 3.015 m, rodeado de cultivos de cebolla y una playa andina improbable.</p></div></div>
-      <div class="slot card has-photo" data-rise role="img" aria-label="La plaza colonial de Villa de Leyva, Boyacá" data-bg="/assets/img/poi-villa-de-leyva-plaza.jpg"><div class="ov"><div class="kind">Patrimonio Colonial</div><h3>Villa de Leyva</h3><p>La plaza empedrada más grande del continente — piedra blanca, cielo azul profundo, cero tráfico.</p></div></div>
-      <div class="slot card has-photo" data-rise role="img" aria-label="Ollas de barro tradicionales a la venta en Ráquira, Boyacá" data-bg="/assets/img/poi-raquira-ollas.jpg"><div class="ov"><div class="kind">Gastronomía</div><h3>Paipa &amp; Ráquira</h3><p>Queso de finca, pueblos alfareros, y la almojábana que alimenta a todo ciclista boyacense.</p></div></div>
-      <div class="slot card has-photo" data-rise role="img" aria-label="Ciclistas rodando por un prado florecido en Boyacá" data-bg="/assets/img/culture-ciclistas-prado-flores.jpg"><div class="ov"><div class="kind">Cultura Ciclística</div><h3>Tierra de Escaladores</h3><p>Los caminos y pueblos que criaron generaciones de campeones colombianos de las grandes vueltas.</p></div></div>
+      <div class="slot card has-photo" data-rise><img class="ph" src="/assets/img/poi-lago-tota-panoramica.jpg" alt="Vista panorámica del Lago de Tota, el lago de altura más grande de Colombia" loading="lazy" decoding="async" width="1400" height="788"><div class="ov"><div class="kind">Lagos y Páramo</div><h3>Lago de Tota</h3><p>El lago más grande de Colombia a 3.015 m, rodeado de cultivos de cebolla y una playa andina improbable.</p></div></div>
+      <div class="slot card has-photo" data-rise><img class="ph" src="/assets/img/poi-villa-de-leyva-plaza.jpg" alt="La plaza colonial de Villa de Leyva, Boyacá" loading="lazy" decoding="async" width="900" height="1070"><div class="ov"><div class="kind">Patrimonio Colonial</div><h3>Villa de Leyva</h3><p>La plaza empedrada más grande del continente — piedra blanca, cielo azul profundo, cero tráfico.</p></div></div>
+      <div class="slot card has-photo" data-rise><img class="ph" src="/assets/img/poi-raquira-ollas.jpg" alt="Ollas de barro tradicionales a la venta en Ráquira, Boyacá" loading="lazy" decoding="async" width="900" height="1070"><div class="ov"><div class="kind">Gastronomía</div><h3>Paipa &amp; Ráquira</h3><p>Queso de finca, pueblos alfareros, y la almojábana que alimenta a todo ciclista boyacense.</p></div></div>
+      <div class="slot card has-photo" data-rise><img class="ph" src="/assets/img/culture-ciclistas-prado-flores.jpg" alt="Ciclistas rodando por un prado florecido en Boyacá" loading="lazy" decoding="async" width="1400" height="788"><div class="ov"><div class="kind">Cultura Ciclística</div><h3>Tierra de Escaladores</h3><p>Los caminos y pueblos que criaron generaciones de campeones colombianos de las grandes vueltas.</p></div></div>
     </div>
   </div>
 </section>
@@ -527,31 +530,31 @@
     </div>
     <div class="stay-grid">
       <article class="prop" data-rise>
-        <div class="p-img" role="img" aria-label="Hotel Movich Buró 26, Bogotá" data-bg="/assets/img/stay-1-movich-bogota.jpg"></div>
+        <div class="p-img"><img class="ph" src="/assets/img/stay-1-movich-bogota.jpg" alt="Hotel Movich Buró 26, Bogotá" loading="lazy" decoding="async" width="800" height="500"></div>
         <div class="p-when"><span>Noche 1</span><b>Bogotá</b></div>
         <h3>Movich Buró 26</h3>
         <p>A minutos del Aeropuerto El Dorado — aterrizas, te recibimos, descansas. El viaje empieza con una noche completa de sueño.</p>
       </article>
       <article class="prop" data-rise>
-        <div class="p-img" role="img" aria-label="Camino de la Sal, una casona de estilo colonial en Zipaquirá" data-bg="/assets/img/stay-2-camino-de-la-sal.jpg"></div>
+        <div class="p-img"><img class="ph" src="/assets/img/stay-2-camino-de-la-sal.jpg" alt="Camino de la Sal, una casona de estilo colonial en Zipaquirá" loading="lazy" decoding="async" width="1000" height="625"></div>
         <div class="p-when"><span>Noche 2</span><b>Zipaquirá</b></div>
         <h3>Camino de la Sal</h3>
         <p>Una casona de estilo colonial en la ciudad de la sal — a pasos de la plaza, y de la catedral tallada en la montaña que tiene debajo.</p>
       </article>
       <article class="prop" data-rise>
-        <div class="p-img" role="img" aria-label="El patio del Hotel Getsemaní en Villa de Leyva" data-bg="/assets/img/stay-3-getsemani-villa-de-leyva.jpg"></div>
+        <div class="p-img"><img class="ph" src="/assets/img/stay-3-getsemani-villa-de-leyva.jpg" alt="El patio del Hotel Getsemaní en Villa de Leyva" loading="lazy" decoding="async" width="1000" height="625"></div>
         <div class="p-when"><span>Noches 3–4</span><b>Villa de Leyva</b></div>
         <h3>Hotel Getsemaní</h3>
         <p>Una casona encalada alrededor de un patio florido, a pasos del empedrado de la Plaza Mayor — piscina climatizada, sauna y turco para las piernas después de la etapa.</p>
       </article>
       <article class="prop" data-rise>
-        <div class="p-img" role="img" aria-label="Decameron Rancho Tota a orillas del Lago de Tota" data-bg="/assets/img/stay-4-rancho-tota.jpg"></div>
+        <div class="p-img"><img class="ph" src="/assets/img/stay-4-rancho-tota.jpg" alt="Decameron Rancho Tota a orillas del Lago de Tota" loading="lazy" decoding="async" width="800" height="500"></div>
         <div class="p-when"><span>Noches 5–6</span><b>Lago de Tota</b></div>
         <h3>Decameron Rancho Tota</h3>
         <p>A orillas del lago a 3.015 metros — despiertas frente al agua y arrancas desde la puerta. Tu campamento base para los días reina.</p>
       </article>
       <article class="prop" data-rise>
-        <div class="p-img" role="img" aria-label="Estelar Hotel y Centro de Convenciones sobre el Lago Sochagota, Paipa" data-bg="/assets/img/stay-5-estelar-paipa.jpg"></div>
+        <div class="p-img"><img class="ph" src="/assets/img/stay-5-estelar-paipa.jpg" alt="Estelar Hotel y Centro de Convenciones sobre el Lago Sochagota, Paipa" loading="lazy" decoding="async" width="1000" height="625"></div>
         <div class="p-when"><span>Noches 7–9</span><b>Paipa</b></div>
         <h3>Estelar Hotel y Centro de Convenciones</h3>
         <p>El resort cinco estrellas sobre el Lago Sochagota, alimentado por las aguas termales que hicieron famosa a Paipa — jacuzzi, sauna, turco y masaje en semana de carrera. Recuperación, bien hecha.</p>
