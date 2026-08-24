@@ -87,9 +87,10 @@ Si una página no está indexada, nada más importa.
 | "Google eligió una canónica distinta" | ⚠️ Ignora tu `<link rel="canonical">` | Revisar `canonical` + `og:url` de esa página |
 | "Indexada aunque bloqueada por robots.txt" | ⚠️ La trampa de §3.6 | Ver §3.6 |
 
-**Comprobación fija: deben ser 11 páginas indexadas.** El repo tiene 13 HTML; se
+**Comprobación fija: deben ser 12 páginas indexadas** *(11 hasta agosto 2026; +1 al
+publicarse `/es/`)*. El repo tiene 14 HTML; se
 excluyen `thanks.html` y `404.html`, ambas `noindex` y ambas fuera del sitemap a
-propósito. Más de 11 = se coló algo. Menos = hay una página caída del índice.
+propósito. Más de 12 = se coló algo. Menos = hay una página caída del índice.
 `tools/seo-check.mjs` verifica la correspondencia sitemap ↔ páginas en cada commit.
 
 ### 3.2 Sitemaps
@@ -185,7 +186,14 @@ Pendiente → §5. Hallazgos nuevos sin arreglar → `FINDINGS-2026-08-09.md`.
 
 ## 5. Plan de visibilidad
 
-### 5.1 El sitio en español es invisible para Google — *impacto máximo*
+### 5.1 El sitio en español es invisible para Google — *impacto máximo* · **HECHO 2026-08-23**
+
+> **Resuelto:** `/es/index.html` existe, generada por `tools/build-es.mjs` desde el
+> diccionario `ES`, con `hreflang` recíproco, canonical propia, entrada en el sitemap
+> y regla en `_redirects`. El toggle EN/ES son ahora enlaces entre `/` y `/es/`.
+> CI (`build-es --check`) impide que `/es/` se quede atrás. Queda por vigilar en la
+> mensual: que Google la indexe y empiecen las impresiones en español (§3.3).
+> El texto original de la propuesta, para contexto:
 
 `site.js` tiene un diccionario `ES` con **334 claves** (contadas ejecutando el objeto y
 leyendo `Object.keys().length`, no con regex sobre el código: el objeto declara varias

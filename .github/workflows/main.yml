@@ -53,3 +53,10 @@ jobs:
       # revisarlos en la auditoría mensual sin bloquear a nadie.
       - name: SEO / head validator
         run: node tools/seo-check.mjs
+
+      # /es/ es un archivo generado: si index.html o el diccionario ES cambian sin
+      # regenerarlo, la edición en español se queda atrás EN SILENCIO. Este check
+      # convierte ese silencio en un PR en rojo. También falla si a alguna clave
+      # data-i18n le falta traducción (guardarraíl de PLAN-2027 § Fase 1).
+      - name: /es/ al día con index.html + diccionario ES
+        run: node tools/build-es.mjs --check

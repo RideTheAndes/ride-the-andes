@@ -5,6 +5,7 @@
 # corresponds to a real file on disk, so it is served as-is. These 301s are
 # therefore load-bearing, not duplicates of built-in behaviour.
 /index.html            /            301
+/es/index.html         /es/         301
 /journal/index.html    /journal/    301
 
 # /journal (no trailing slash) previously used a 200 rewrite to /journal/index.html.

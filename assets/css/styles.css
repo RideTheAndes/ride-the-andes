@@ -75,8 +75,8 @@ header.scrolled .brand svg.brandmark{color:var(--paramo)}
 .btn.ghost-light:hover{color:var(--paramo)}
 /* language toggle */
 .lang-toggle{display:flex;align-items:center;border:1px solid var(--line);font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;cursor:pointer;user-select:none;flex-shrink:0}
-.lang-toggle button{padding:9px 13px;color:var(--ink-soft);transition:all .25s;background:none;border:0;font:inherit;letter-spacing:inherit;cursor:pointer}
-.lang-toggle button.on{background:var(--paramo);color:var(--niebla)}
+.lang-toggle button,.lang-toggle a{padding:9px 13px;color:var(--ink-soft);transition:all .25s;background:none;border:0;font:inherit;letter-spacing:inherit;cursor:pointer}
+.lang-toggle button.on,.lang-toggle a.on{background:var(--paramo);color:var(--niebla)}
 .burger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:8px}
 .burger span{width:24px;height:2px;background:var(--paramo);transition:.3s}
 /* skip link (keyboard/screen-reader bypass for the fixed nav) */
@@ -520,7 +520,11 @@ a[href^="mailto:"]{overflow-wrap:anywhere}
   background:var(--card);overflow:hidden;box-shadow:0 18px 44px rgba(26,26,26,.07);transition:border-color .4s,box-shadow .4s}
 .hero-frame:hover{border-color:rgba(193,98,42,.4);box-shadow:0 22px 54px rgba(26,26,26,.1)}
 @media(max-width:680px){.hero-frame{margin-top:38px}}
-.hf-stack{position:relative;aspect-ratio:21/9;max-height:460px;overflow:hidden;background:var(--paramo-deep)}
+/* Sin max-height: con aspect-ratio 21/9, un tope de altura ENCOGÍA el ancho del
+   stack (la caja obedece la proporción) y dejaba una franja de fondo card a la
+   derecha en viewports >~1073px. Las fotos vienen pre-recortadas a 21:9 justo
+   para no recortar con object-fit; a ancho máximo de .wrap son ~514px de alto. */
+.hf-stack{position:relative;aspect-ratio:21/9;overflow:hidden;background:var(--paramo-deep)}
 @media(max-width:680px){.hf-stack{aspect-ratio:16/10}}
 .hf-stack::after{content:"";position:absolute;inset:auto 0 0 0;height:38%;z-index:1;pointer-events:none;
   background:linear-gradient(to top,rgba(15,36,8,.55),transparent)}
@@ -549,7 +553,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,
 textarea:focus-visible,[role="button"]:focus-visible{
   outline:2px solid var(--terracota);outline-offset:3px;border-radius:1px}
 .lang-toggle{min-height:44px;display:inline-flex;align-items:center}
-.lang-toggle button{min-width:44px;min-height:34px;display:inline-flex;align-items:center;justify-content:center}
+.lang-toggle button,.lang-toggle a{min-width:44px;min-height:34px;display:inline-flex;align-items:center;justify-content:center}
 .faq .qh{min-height:44px}
 .rta-radio,.rta-checkbox{min-height:44px;display:flex;align-items:center;gap:10px}
 .rta-radio input,.rta-checkbox input{width:20px;height:20px;flex:0 0 auto}

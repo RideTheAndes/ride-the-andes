@@ -20,6 +20,10 @@
 <link rel="stylesheet" href="assets/css/styles.css">
 <meta name="description" content="Premium 10-day guided cycling tour through Boyacá, Colombia — six stages from El Dorado to the Gran Fondo Boyacá Mundial finish line. Max 10 places.">
 <link rel="canonical" href="https://ridetheandes.co/">
+<!-- hreflang: la edición en español vive en /es/ (generada por tools/build-es.mjs) -->
+<link rel="alternate" hreflang="en" href="https://ridetheandes.co/">
+<link rel="alternate" hreflang="es" href="https://ridetheandes.co/es/">
+<link rel="alternate" hreflang="x-default" href="https://ridetheandes.co/">
 <!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Ride The Andes">
@@ -37,27 +41,33 @@
 {
   "@context": "https://schema.org",
   "@type": "WebSite",
+  "@id": "https://ridetheandes.co/#website",
   "name": "Ride The Andes",
-  "url": "https://ridetheandes.co"
+  "url": "https://ridetheandes.co",
+  "publisher": {"@id": "https://ridetheandes.co/#org"}
 }
 </script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "TravelAgency",
+  "@id": "https://ridetheandes.co/#org",
   "name": "Ride The Andes",
   "legalName": "RIDE THE ANDES S.A.S",
   "url": "https://ridetheandes.co",
   "email": "reservations@ridetheandes.co",
   "telephone": "+57 318 804 4428",
+  "logo": {"@type": "ImageObject", "url": "https://ridetheandes.co/assets/img/logo.png", "width": 512, "height": 512},
   "image": "https://ridetheandes.co/assets/img/og-image.jpg",
+  "founder": {"@type": "Person", "name": "Sergio", "jobTitle": "Founder & Lead Guide"},
   "priceRange": "$3,250–$3,950 USD",
   "address": {"@type": "PostalAddress", "addressLocality": "Duitama", "addressRegion": "Boyacá", "addressCountry": "CO"},
+  "geo": {"@type": "GeoCoordinates", "latitude": 5.8167, "longitude": -73.0333},
   "areaServed": "Boyacá, Colombia",
   "sameAs": [
-    "https://instagram.com/ridetheandes.co",
-    "https://wa.me/573188044428"
+    "https://instagram.com/ridetheandes.co"
   ],
+  "contactPoint": {"@type": "ContactPoint", "contactType": "reservations", "email": "reservations@ridetheandes.co", "telephone": "+57 318 804 4428", "url": "https://wa.me/573188044428"},
   "makesOffer": {
     "@type": "Offer",
     "itemOffered": {
@@ -79,7 +89,10 @@
       }
     },
     "price": "3950",
-    "priceCurrency": "USD"
+    "priceCurrency": "USD",
+    "url": "https://ridetheandes.co/reservar.html",
+    "availability": "https://schema.org/LimitedAvailability",
+    "validThrough": "2026-09-17"
   }
 }
 </script>
@@ -111,7 +124,7 @@
   ]
 }
 </script>
-<noscript><style>[data-rise]{opacity:1;transform:none}[data-count]{visibility:hidden}</style></noscript>
+<noscript><style>[data-rise]{opacity:1;transform:none}</style></noscript>
 </head>
 <body>
 <a href="#main" class="skip-link" data-i18n="skip_link">Skip to content</a>
@@ -149,12 +162,15 @@
       <a href="#included" data-i18n="nav_incl">Included</a>
       <a href="#guide" data-i18n="nav_guide">Your Guide</a>
       <a href="#price" data-i18n="nav_price">Pricing</a>
-      <a href="journal/index.html">Journal</a>
+      <a href="/journal/">Journal</a>
       <a href="reservar.html" class="btn solid" data-i18n="nav_cta">Reserve a place</a>
     </nav>
     <div style="display:flex;align-items:center;gap:14px">
+      <!-- El idioma vive en su propia URL (/ y /es/): enlaces reales, indexables y
+           compartibles, no un swap de innerHTML. El diccionario ES de site.js sigue
+           siendo la fuente de /es/index.html vía tools/build-es.mjs. -->
       <div class="lang-toggle" id="langToggle" role="group" data-i18n-aria="aria_lang" aria-label="Switch language">
-        <button type="button" id="lang-en" class="on" aria-pressed="true">EN</button><button type="button" id="lang-es" aria-pressed="false">ES</button>
+        <a href="/" class="on" aria-current="page" hreflang="en">EN</a><a href="/es/" hreflang="es" lang="es">ES</a>
       </div>
       <button class="burger" id="burger" data-i18n-aria="aria_menu" aria-label="Menu" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
     </div>
@@ -206,9 +222,11 @@
 <!-- ============ CREDIBILITY ============ -->
 <section class="trust">
   <div class="grid">
-    <div class="cell" data-rise><div class="num" data-count="123">0</div><div class="lbl" data-i18n="t1">Municipalities of Boyacá<br>ridden by our lead guide</div></div>
+    <!-- El número real viaja en el HTML (lo lee cualquier rastreador sin JS);
+         site.js lo pone a 0 solo para animarlo al entrar en pantalla. -->
+    <div class="cell" data-rise><div class="num" data-count="123">123</div><div class="lbl" data-i18n="t1">Municipalities of Boyacá<br>ridden by our lead guide</div></div>
     <div class="cell" data-rise><div class="num"><em>2,000</em></div><div class="lbl" data-i18n="t2">Riders per edition at the Gran Fondo<br>Boyacá Mundial — nine years running</div></div>
-    <div class="cell" data-rise><div class="num" data-count="10">0</div><div class="lbl" data-i18n="t3">Maximum riders per tour —<br>a deliberately small field</div></div>
+    <div class="cell" data-rise><div class="num" data-count="10">10</div><div class="lbl" data-i18n="t3">Maximum riders per tour —<br>a deliberately small field</div></div>
     <div class="cell" data-rise><div class="num">4+</div><div class="lbl" data-i18n="t4">Crew on every stage — two riding guides,<br>a lead moto &amp; the follow van</div></div>
   </div>
 </section>
@@ -679,7 +697,7 @@
       <h2 data-i18n="faq_h2">Questions, answered.</h2>
     </div>
     <div class="faq" data-rise>
-      <div class="q"><div class="qh" role="button" tabindex="0" aria-expanded="false"><h3 data-i18n="q1">How do you handle the altitude?</h3><span class="plus">+</span></div><div class="qa"><p data-i18n="a1">The traverse is sequenced to acclimatise you. We open with lower valley stages and build gradually toward the high country around Lago de Tota, so your body adapts before the queen stage. Our guide monitors the group closely, hydration and pacing are managed actively, and the support vehicle is always within reach.</p></div></div>
+      <div class="q"><div class="qh" role="button" tabindex="0" aria-expanded="false"><h3 data-i18n="q1">How do you handle the altitude?</h3><span class="plus">+</span></div><div class="qa"><p data-i18n="a1">The traverse is <a href="journal/cycling-at-altitude-in-colombia-how-to-acclimatise.html">sequenced to acclimatise you</a>. We open with lower valley stages and build gradually toward the high country around Lago de Tota, so your body adapts before the queen stage. Our guide monitors the group closely, hydration and pacing are managed actively, and the support vehicle is always within reach.</p></div></div>
       <div class="q"><div class="qh" role="button" tabindex="0" aria-expanded="false"><h3 data-i18n="q2">What fitness level do I need?</h3><span class="plus">+</span></div><div class="qa"><p data-i18n="a2">This is a genuine cycling tour for riders comfortable with multi-hour days and sustained climbing — roughly the fitness to ride 3–4 hours back-to-back. You don't need to race; the full support convoy means you can take a lift on any stage and ride within yourself the rest.</p></div></div>
       <div class="q"><div class="qh" role="button" tabindex="0" aria-expanded="false"><h3 data-i18n="q3">Can I bring my own bike, or do you provide one?</h3><span class="plus">+</span></div><div class="qa"><p data-i18n="a3">Both. You're welcome to bring your own — we'll receive, build and maintain it at our workshop. Or rent a professionally fitted carbon road or all-road bike from our own fleet at La Ciclería Café Taller.</p></div></div>
       <div class="q"><div class="qh" role="button" tabindex="0" aria-expanded="false"><h3 data-i18n="q4">What's the weather like in October?</h3><span class="plus">+</span></div><div class="qa"><p data-i18n="a4">High-Andean spring: crisp mornings around 8–12°C, riding hours of 15–20°C, strong sun at altitude and the chance of an afternoon shower. Layers, leg warmers and a rain shell are your friends — a full packing list comes with your confirmation. Boyacá rides year-round, but October is when the Gran Fondo happens, and that is what this departure is built around.</p></div></div>
@@ -701,7 +719,7 @@
         <span class="eyebrow" style="display:block;margin-bottom:18px" data-i18n="jt_eyebrow">The Journal</span>
         <h2 style="font-size:clamp(2rem,3.8vw,3rem)" data-i18n="jt_h2">Field notes from the Cordillera</h2>
       </div>
-      <a href="journal/index.html" class="btn" data-i18n="jt_all">All field notes</a>
+      <a href="/journal/" class="btn" data-i18n="jt_all">All field notes</a>
     </div>
     <div class="jt-grid">
       <a href="journal/riding-all-123-municipalities-of-boyaca.html" class="jt-card" data-rise>
