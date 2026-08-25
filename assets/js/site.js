@@ -38,7 +38,12 @@ const ES = {
   s6_hook:"El gran final: una salida oficial en la décima edición del evento que dirige tu guía, junto a 2.000 ciclistas. Opción Medio Fondo: 103,2 km / +1.403 m.",
   m_dist1:"Distancia", m_dist2:"Distancia", m_dist3:"Distancia", m_dist4:"Distancia", m_dist5:"Distancia", m_dist6:"Distancia",
   m_asc1:"Ascenso", m_asc2:"Ascenso", m_asc3:"Ascenso", m_asc4:"Ascenso", m_asc5:"Ascenso", m_asc6:"Ascenso",
-  s_view1:"Ver ruta completa →", s_view2:"Ver ruta completa →", s_view3:"Ver ruta completa →", s_view4:"Ver ruta completa →", s_view5:"Ver ruta completa →", s_view6:"Ver ruta completa →",
+  s_view1:"Ver ruta de la Etapa 1 →",
+  s_view2:"Ver ruta de la Etapa 2 →",
+  s_view3:"Ver ruta de la Etapa 3 →",
+  s_view4:"Ver ruta de la Etapa 4 →",
+  s_view5:"Ver ruta de la Etapa 5 →",
+  s_view6:"Ver ruta de la Etapa 6 →",
   route_note:"// Datos en vivo de nuestras rutas publicadas en Ride with GPS. La telemetría completa, superficies y hojas de ruta van en el Route Dossier.",
   incl_eyebrow:"Qué Incluye",
   incl_h2:"¿Qué incluye?",
@@ -229,8 +234,17 @@ const ES = {
   aria_jt3:"Sergio rodando por el páramo alto de Boyacá",
   aria_tour:"Ciclista subiendo una carretera de páramo en Boyacá",
   aria_guide:"Sergio, fundador y guía líder de Ride The Andes, en Boyacá",
+  // Nombres accesibles de los 6 enlaces a Ride with GPS (contienen el texto visible: WCAG 2.5.3)
+  aria_route1:"Ver ruta de la Etapa 1 — Guatavita a Sopó — en Ride with GPS (abre en una pestaña nueva)",
+  aria_route2:"Ver ruta de la Etapa 2 — Puente de Boyacá a Ráquira — en Ride with GPS (abre en una pestaña nueva)",
+  aria_route3:"Ver ruta de la Etapa 3 — el circuito de Villa de Leyva y Santa Sofía — en Ride with GPS (abre en una pestaña nueva)",
+  aria_route4:"Ver ruta de la Etapa 4 — Rancho Tota al Alto del Crucero — en Ride with GPS (abre en una pestaña nueva)",
+  aria_route5:"Ver ruta de la Etapa 5 — Aquitania a Firavitoba — en Ride with GPS (abre en una pestaña nueva)",
+  aria_route6:"Ver ruta de la Etapa 6 — Duitama · Gran Fondo Boyacá Mundial — en Ride with GPS (abre en una pestaña nueva)",
   aria_menu:"Menú",
-  aria_lang:"Cambiar idioma"
+  aria_lang:"Cambiar idioma",
+  // alt del <img> del hero (hook data-i18n-alt: solo lo usa tools/build-es.mjs)
+  hero_alt:"Un ciclista de la Boyacá Traverse por una carretera rural andina entre caballos que pastan, Boyacá, Colombia"
 };
 
 // Capture English from the DOM, then toggle
@@ -377,8 +391,8 @@ document.querySelectorAll(".faq .q").forEach(q => {
       // Los inactivos se ocultan sólo con opacity:0, así que los tres siguen en el árbol
       // de accesibilidad a la vez; sin aria-hidden, un lector de pantalla anunciaría tres
       // descripciones para lo que visualmente es un solo hueco. Sacándolos del árbol, el
-      // fotograma del HTML puede llevar un alt real (es el LCP y el único <img> de la
-      // página, el que Google Images puede indexar) y se anuncia una sola vez.
+      // fotograma del HTML puede llevar un alt real (es el LCP, indexable por Google
+      // Images) y se anuncia una sola vez.
       // alt="" solo no basta aquí: deja el <img> en el árbol como imagen sin nombre.
       img.alt = ''; img.setAttribute('aria-hidden', 'true');
       img.width = 1800; img.height = 771;

@@ -4,6 +4,7 @@
 ## Antes de CADA commit a main (2 min)
 - [ ] **`node tools/seo-check.mjs`** → 0 errores. Cubre canonical, OG, JSON-LD, sitemap, robots y coherencia precio/FAQ. El ritual mensual de Search Console está en `SEO.md`
 - [ ] ¿Toqué `index.html` o el diccionario `ES` de `site.js`? → **`node tools/build-es.mjs`** y commitear el `es/index.html` regenerado (el job de CI falla si `/es/` queda atrás)
+- [ ] ¿Artículo nuevo en `journal/`? → añadirlo a `sitemap.xml` **y** como `<item>` en `journal/feed.xml` (con `lastBuildDate` actualizado)
 - [ ] ¿Toqué `reservar.html` o `site.js`? → probar el flujo de pago en el deploy preview de Netlify ANTES de merge (rama → preview → merge; los previews no consumen créditos)
 - [ ] ¿Página nueva o `<head>` tocado? → contrastar contra `RTA-estandar-web-head.md`: Plausible limpio, canonical `https://ridetheandes.co/...`, OG completo con imagen absoluta, fuentes de marca
 - [ ] Push → esperar ~30 s de Netlify → **purgar caché de Cloudflare** → verificar en incógnito y en el teléfono

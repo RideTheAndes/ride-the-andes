@@ -159,6 +159,9 @@ Donde el sitio está más flojo, y no depende de escribir código:
   reciprocidad.
 - **Ride with GPS** — las 6 rutas publicadas son activos indexables; que el perfil
   enlace al sitio.
+- **Google Business Profile** — ⚠ pendiente de crear (Duitama, Boyacá). Es la palanca
+  local más barata que existe y vive fuera del repo: al crearlo, anotar aquí la cuenta
+  propietaria y la fecha, igual que la verificación de Search Console en §2.
 
 ---
 
@@ -244,7 +247,14 @@ Cinco páginas tienen `<title>` de 68–73 caracteres: los cuatro artículos lar
 Journal y `terminos.html`. Se cortan en el resultado de búsqueda, que es exactamente
 donde se decide el clic. Acortar a ≤60 sube CTR sin tocar posiciones.
 
-### 5.4 Las fotos no existen para Google Images — *impacto medio*
+### 5.4 Las fotos no existen para Google Images — *impacto medio* · **PARCIAL 2026-08-24**
+
+> **Hecho en `index.html` (y `/es/` vía el generador):** los 6 slots de etapa, los 4
+> POI y los 5 hoteles son ahora `<img class="ph">` reales con `alt` descriptivo (el
+> texto de los antiguos `aria-label`, ya traducido), `loading="lazy"` y dimensiones.
+> El patrón CSS vive en styles.css § "FOTOS REALES <img> EN SLOTS". **Pendiente:** los
+> fondos del journal (tarjetas del índice + heros de artículo), tour-media/guide-media/
+> deck-mock del index, y las entradas `<image:image>` del sitemap. El texto original:
 
 Hay **un solo `<img>`** en todo el sitio (el hero, que ahora ya lleva `alt` real). El
 resto de la fotografía se carga como `background-image` CSS, que Google Images no indexa

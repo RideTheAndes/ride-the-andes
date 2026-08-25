@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Feed del Journal. Al publicar un artículo nuevo: añadir su <item> aquí (más
+     reciente primero), actualizar lastBuildDate y sumarlo también a sitemap.xml.
+     Ver AUDIT.md § "Antes de CADA commit". -->
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ride The Andes — Journal</title>
+    <link>https://ridetheandes.co/journal/</link>
+    <description>Field notes from Colombia's cycling heartland — climb profiles, route guides, altitude advice and stories from Boyacá, by the team behind Ride The Andes.</description>
+    <language>en</language>
+    <lastBuildDate>Mon, 24 Aug 2026 12:00:00 +0000</lastBuildDate>
+    <atom:link href="https://ridetheandes.co/journal/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Why Colombia Produces the World’s Best Climbers</title>
+      <link>https://ridetheandes.co/journal/why-colombian-climbers-are-the-best-in-the-world.html</link>
+      <guid isPermaLink="true">https://ridetheandes.co/journal/why-colombian-climbers-are-the-best-in-the-world.html</guid>
+      <description>Altitude, gradient and a century of cycling culture — the real reasons Boyacá and the Colombian altiplano keep producing Grand Tour climbers.</description>
+      <pubDate>Sat, 01 Aug 2026 12:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Villa de Leyva by Bike: Colonial Roads</title>
+      <link>https://ridetheandes.co/journal/villa-de-leyva-by-bike-colonial-roads-and-cobbled-squares.html</link>
+      <guid isPermaLink="true">https://ridetheandes.co/journal/villa-de-leyva-by-bike-colonial-roads-and-cobbled-squares.html</guid>
+      <description>Routes, seasons and practicalities for cycling around Villa de Leyva — the desert loop through Santa Sofía, and what the cobbles do to a road bike.</description>
+      <pubDate>Sat, 01 Aug 2026 12:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>The Tota Ascent: Colombia's Highest Lake</title>
+      <link>https://ridetheandes.co/journal/the-tota-ascent-climbing-to-colombias-highest-lake.html</link>
+      <guid isPermaLink="true">https://ridetheandes.co/journal/the-tota-ascent-climbing-to-colombias-highest-lake.html</guid>
+      <description>Gradient, altitude, surface and pacing for the climb around Lago de Tota — Colombia's largest lake at 3,015 m, and the queen stage of the Boyacá Traverse.</description>
+      <pubDate>Sat, 01 Aug 2026 12:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Is It Safe to Cycle in Colombia?</title>
+      <link>https://ridetheandes.co/journal/is-it-safe-to-cycle-in-colombia.html</link>
+      <guid isPermaLink="true">https://ridetheandes.co/journal/is-it-safe-to-cycle-in-colombia.html</guid>
+      <description>What's outdated, what genuinely requires care, and how we keep international riders safe across rural Boyacá — by people who ride these roads every week.</description>
+      <pubDate>Sat, 01 Aug 2026 12:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Cycling at Altitude in Colombia</title>
+      <link>https://ridetheandes.co/journal/cycling-at-altitude-in-colombia-how-to-acclimatise.html</link>
+      <guid isPermaLink="true">https://ridetheandes.co/journal/cycling-at-altitude-in-colombia-how-to-acclimatise.html</guid>
+      <description>How to arrive from sea level and ride well above 2,500 m in Boyacá — what happens to your body, the first 72 hours, and the warning signs that matter.</description>
+      <pubDate>Sat, 01 Aug 2026 12:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Riding All 123 Municipalities of Boyacá</title>
+      <link>https://ridetheandes.co/journal/riding-all-123-municipalities-of-boyaca.html</link>
+      <guid isPermaLink="true">https://ridetheandes.co/journal/riding-all-123-municipalities-of-boyaca.html</guid>
+      <description>Two riders, 123 municipalities, thirteen months. What Diego Supelano's Reto 123 taught us about Colombia's cycling heartland — and why it became Ride The Andes.</description>
+      <pubDate>Tue, 02 Jun 2026 12:00:00 +0000</pubDate>
+    </item>
+  </channel>
+</rss>
