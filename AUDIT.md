@@ -4,6 +4,7 @@
 ## Antes de CADA commit a main (2 min)
 - [ ] **`node tools/seo-check.mjs`** → 0 errores. Cubre canonical, OG, JSON-LD, sitemap, robots y coherencia precio/FAQ. El ritual mensual de Search Console está en `SEO.md`
 - [ ] ¿Toqué `index.html` o el diccionario `ES` de `site.js`? → **`node tools/build-es.mjs`** y commitear el `es/index.html` regenerado (el job de CI falla si `/es/` queda atrás)
+- [ ] ¿Aviso nuevo en la barra superior? → un `<li class="ann-item">` más en `index.html` con `data-id` y `data-until`, más sus claves `annN_tag`/`annN_txt` en el diccionario `ES`. El validador avisa cuando uno caduca
 - [ ] ¿Artículo nuevo en `journal/`? → añadirlo a `sitemap.xml` **y** como `<item>` en `journal/feed.xml` (con `lastBuildDate` actualizado)
 - [ ] ¿Toqué `reservar.html` o `site.js`? → probar el flujo de pago en el deploy preview de Netlify ANTES de merge (rama → preview → merge; los previews no consumen créditos)
 - [ ] ¿Página nueva o `<head>` tocado? → contrastar contra `RTA-estandar-web-head.md`: Plausible limpio, canonical `https://ridetheandes.co/...`, OG completo con imagen absoluta, fuentes de marca
@@ -92,6 +93,35 @@ con un reintento) y **siempre guarda una copia local antes de intentarlo**. Si n
 
 Revisa Netlify → Forms al menos una vez por semana mientras haya campaña: es la lista de
 reservas que no se reconstruye sola.
+
+## Barra de avisos (arriba del todo, en `index.html`)
+
+Tira fina sobre el header para lo que pasa **ahora**: una entrada nueva del Journal,
+la próxima salida del ecosistema GFBM. Rota entre avisos cada 7 s y el visitante
+puede cerrarla con la ×.
+
+**Añadir un aviso** = un `<li class="ann-item">` más dentro de `.ann-list`:
+
+```html
+<li class="ann-item" data-id="gfbm-ride-3" data-until="2026-09-27">
+  <a href="https://gfboyacamundial.com" target="_blank" rel="noopener">
+    <span class="ann-tag" data-i18n="ann3_tag">Next ride</span><span class="ann-txt" data-i18n="ann3_txt">3rd GFBM Ride · … — September 27</span>
+  </a>
+</li>
+```
+
+Y sus dos claves en el diccionario `ES` de `site.js`. Después: `node tools/build-es.mjs`.
+
+- **`data-until` es obligatorio en cualquier aviso con fecha.** Pasada esa fecha el
+  aviso se oculta solo en el navegador (antes del primer pintado, sin parpadeo) y
+  `tools/seo-check.mjs` empieza a avisar en cada commit para que lo retires.
+- Sin avisos vigentes la barra desaparece y el header vuelve arriba: no queda un
+  hueco vacío.
+- `data-id` identifica el aviso para recordar quién cerró la barra. Al publicar un
+  aviso nuevo cambia el conjunto de ids y **la barra reaparece** aunque el visitante
+  hubiera cerrado la anterior. Por eso: id nuevo para cada aviso nuevo, no reciclar.
+- Un aviso **sin** `data-until` (p. ej. un artículo del Journal) se queda hasta que
+  alguien lo quite. Revisarlo en la mensual.
 
 ## Cada cambio de temporada de ventas (nueva salida, nuevo precio)
 - [ ] Actualizar: fecha de corte del depósito (JS), textos de fechas (EN y ES en site.js Y en los HTML), precios en HTML + PRICES del widget + schema JSON-LD (price **y `validThrough` de la Offer** — `tools/seo-check.mjs` avisa cuando caduca), sitemap `<lastmod>`

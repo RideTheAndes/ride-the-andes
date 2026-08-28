@@ -459,6 +459,32 @@ function checkStructuredDataSync() {
   }
 }
 
+// ---------- barra de avisos: fechas caducadas ----------
+// El script de index.html oculta un aviso caducado en el navegador, así que el
+// visitante nunca ve una fecha vieja. Pero un aviso caducado que nadie retira
+// deja la barra vacía (o peor, el sitio sin nada que anunciar) sin que nadie se
+// entere. AVISO, no ERROR: no debe bloquear un despliegue urgente.
+function checkAnnouncements() {
+  const scope = 'index.html · avisos';
+  const file = join(ROOT, 'index.html');
+  if (!existsSync(file)) return;
+  const html = readFileSync(file, 'utf8');
+  const items = [...html.matchAll(/<li class="ann-item"[^>]*>/g)].map(m => m[0]);
+  if (!items.length) return;
+  const today = new Date().toISOString().slice(0, 10);
+  let live = 0;
+  for (const tag of items) {
+    const id = attr(tag, 'data-id') ?? '(sin id)';
+    const until = attr(tag, 'data-until');
+    if (!until) { live++; continue; }
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(until)) { err(scope, `data-until con formato inválido en "${id}": ${until}`); continue; }
+    if (until < today) warn(scope, `el aviso "${id}" caducó el ${until} — quitarlo o darle fecha nueva (AUDIT.md § Barra de avisos)`);
+    else live++;
+  }
+  if (!live) warn(scope, 'ningún aviso vigente: la barra no se mostrará a nadie');
+  else ok(scope, `${live} aviso(s) vigentes de ${items.length}`);
+}
+
 // ---------- verificación de Search Console ----------
 
 function checkSearchConsole() {
@@ -482,6 +508,7 @@ checkRobots();
 imageReport();
 checkStructuredDataSync();
 checkSearchConsole();
+checkAnnouncements();
 
 // Idiomas indexables: base del argumento hreflang.
 const langs = new Set(pages.filter(p => !p.isNoindex).map(p => p.lang));

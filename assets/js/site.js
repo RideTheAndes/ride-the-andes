@@ -243,6 +243,11 @@ const ES = {
   aria_route4:"Ver ruta de la Etapa 4 — Rancho Tota al Alto del Crucero — en Ride with GPS (abre en una pestaña nueva)",
   aria_route5:"Ver ruta de la Etapa 5 — Aquitania a Firavitoba — en Ride with GPS (abre en una pestaña nueva)",
   aria_route6:"Ver ruta de la Etapa 6 — Duitama · Gran Fondo Boyacá Mundial — en Ride with GPS (abre en una pestaña nueva)",
+  // Barra de avisos (arriba del todo). Cambiar aquí y en index.html a la vez.
+  aria_ann:"Avisos",
+  aria_ann_close:"Ocultar avisos",
+  ann1_tag:"Próxima salida", ann1_txt:"2ª Salida GFBM · Bogotá — 30 de agosto",
+  ann2_tag:"Del Journal", ann2_txt:"¿Es seguro rodar en Colombia? Una respuesta local y honesta",
   aria_menu:"Menú",
   aria_lang:"Cambiar idioma",
   // alt del <img> del hero (hook data-i18n-alt: solo lo usa tools/build-es.mjs)
@@ -414,4 +419,48 @@ document.querySelectorAll(".faq .q").forEach(q => {
   }
   if(document.readyState === 'complete') start();
   else window.addEventListener('load', start);
+})();
+
+/* ---------- BARRA DE AVISOS · rotación y descarte ----------
+   El marcado y la caducidad por fecha viven inline en index.html (corren durante
+   el parseo para no provocar salto de layout). Aquí solo va lo que puede esperar:
+   rotar entre avisos y recordar que el visitante la cerró.
+
+   WCAG 2.2.2 (Pause, Stop, Hide): el botón × es el mecanismo de "hide"; además
+   la rotación se pausa al pasar el ratón o al enfocar con teclado, y con
+   prefers-reduced-motion no rota en absoluto (se queda el primer aviso). */
+(function () {
+  var bar = document.getElementById('annbar');
+  if (!bar || !document.body.classList.contains('has-ann')) return;
+
+  var close = document.getElementById('annClose');
+  if (close) close.addEventListener('click', function () {
+    document.body.classList.remove('has-ann');
+    try { localStorage.setItem(bar.dataset.key || 'rta-ann', '1'); } catch (e) {}
+  });
+
+  var items = [].filter.call(bar.querySelectorAll('.ann-item'), function (li) { return !li.hidden; });
+  if (items.length < 2) return;
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var i = 0, timer = null;
+  function step() {
+    var cur = items[i];
+    cur.classList.add('fade');
+    setTimeout(function () {
+      cur.classList.remove('on', 'fade');
+      i = (i + 1) % items.length;
+      var next = items[i];
+      next.classList.add('on', 'fade');
+      requestAnimationFrame(function () { requestAnimationFrame(function () { next.classList.remove('fade'); }); });
+    }, 400);
+  }
+  function play() { if (!timer) timer = setInterval(step, 7000); }
+  function pause() { clearInterval(timer); timer = null; }
+  bar.addEventListener('mouseenter', pause);
+  bar.addEventListener('mouseleave', play);
+  bar.addEventListener('focusin', pause);
+  bar.addEventListener('focusout', play);
+  document.addEventListener('visibilitychange', function () { document.hidden ? pause() : play(); });
+  play();
 })();
