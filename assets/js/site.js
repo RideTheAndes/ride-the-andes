@@ -217,6 +217,7 @@ const ES = {
   // reword freely, these carry no brand-voice requirement.
   skip_link:"Saltar al contenido",
   aria_stage1:"Campiña ondulada en la etapa de Guatavita a Sopó",
+  aria_stage2:"Banderas sobre el campo verde del Puente de Boyacá, donde arranca la Etapa 2",
   aria_stage3:"La plaza colonial de Villa de Leyva en la ruta de la Etapa 3",
   aria_stage4:"La subida al Alto del Crucero sobre el Lago de Tota",
   aria_stage5:"Playa Blanca, la playa de arena blanca del Lago de Tota",
@@ -248,6 +249,7 @@ const ES = {
   aria_ann_close:"Ocultar avisos",
   ann1_tag:"Próxima salida", ann1_txt:"2ª Salida GFBM · Bogotá — 30 de agosto",
   ann2_tag:"Del Journal", ann2_txt:"¿Es seguro rodar en Colombia? Una respuesta local y honesta",
+  ann3_tag:"Próximamente", ann3_txt:"3ª Salida GFBM · Bogotá — 20 de septiembre",
   aria_menu:"Menú",
   aria_lang:"Cambiar idioma",
   // alt del <img> del hero (hook data-i18n-alt: solo lo usa tools/build-es.mjs)
