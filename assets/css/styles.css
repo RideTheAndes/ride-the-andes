@@ -169,6 +169,17 @@ header.scrolled .brand svg.brandmark{color:var(--paramo)}
 .stage .metrics div .ml{font-family:var(--mono);font-size:.5rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-top:4px}
 .stage .rlink{display:inline-block;margin-top:16px;font-family:var(--mono);font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--terracota-text);transition:color .25s}
 .stage .rlink:hover{color:var(--paramo)}
+/* ---------- TARJETA DE ETAPA CLICABLE ENTERA ----------
+   El <a> de la ruta estira un ::after transparente sobre toda la tarjeta
+   (.stage ya es position:relative). Así TODA la tarjeta abre su ruta en RWGPS
+   sin anidar un <a> dentro de otro — que sería HTML inválido — y sin duplicar
+   el enlace: sigue habiendo UNO por tarjeta, con su aria-label completo, así que
+   un lector de pantalla anuncia seis enlaces distintos, no doce.
+   z-index:4 = por encima de la foto (0), el degradado (1), los chips (2) y
+   .slot .tag (3). El cursor de enlace lo hereda el ::after por ser parte del <a>. */
+.stage .rlink::after{content:"";position:absolute;inset:0;z-index:4}
+/* El foco de teclado cae en el texto del enlace; esto lo hace visible en toda la tarjeta. */
+.stage:has(.rlink:focus-visible){outline:2px solid var(--terracota);outline-offset:3px}
 .note{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--tierra-text);margin-top:40px;text-align:center}
  
 /* ---------- INCLUDED ---------- */

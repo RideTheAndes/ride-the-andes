@@ -53,7 +53,7 @@ if (!esMatch) die('no encuentro el objeto ES en assets/js/site.js');
 const ES = (0, eval)('(' + esMatch[0].replace('const ES = ', '').replace(/;$/, '') + ')');
 
 // ---- guardarraíl: cobertura completa o nada ----
-const used = new Set([...html.matchAll(/data-i18n(?:-aria|-alt)?="([^"]+)"/g)].map(m => m[1]));
+const used = new Set([...html.matchAll(/data-i18n(?:-aria|-alt|-title)?="([^"]+)"/g)].map(m => m[1]));
 const missing = [...used].filter(k => !(k in ES));
 if (missing.length) {
   die(`claves sin traducción en ES (${missing.length}) — NO se emite página a medias:\n  ${missing.join('\n  ')}`);
@@ -85,7 +85,10 @@ out = out.replace(/<[^>]*\bdata-i18n-aria="([^"]+)"[^>]*>/g, (tag, key) =>
   tag.replace(/aria-label="[^"]*"/, `aria-label="${ES[key]}"`));
 out = out.replace(/<img[^>]*\bdata-i18n-alt="([^"]+)"[^>]*>/g, (tag, key) =>
   tag.replace(/alt="[^"]*"/, `alt="${ES[key]}"`));
-out = out.replace(/ data-i18n(?:-aria|-alt)?="[^"]*"/g, '');
+// title del <iframe>: es su nombre accesible, y no lo alcanza ningún otro hook.
+out = out.replace(/<iframe[^>]*\bdata-i18n-title="([^"]+)"[^>]*>/g, (tag, key) =>
+  tag.replace(/title="[^"]*"/, `title="${ES[key]}"`));
+out = out.replace(/ data-i18n(?:-aria|-alt|-title)?="[^"]*"/g, '');
 
 // ---- 3. lang + head ----
 function swap(old, neu, label) {
