@@ -16,6 +16,7 @@
   --ink-soft:#5B5A4C;
   --line:rgba(26,58,15,0.16);
   --line-soft:rgba(26,58,15,0.10);
+  --ann-h:34px;            /* alto de la barra de avisos (única fuente: .annbar y el offset del header) */
   --serif:'Playfair Display',Georgia,serif;
   --garamond:'Cormorant Garamond',Georgia,serif;
   --mono:'IBM Plex Mono',monospace;
@@ -51,7 +52,7 @@ section{position:relative}
 .slot .tag::before{content:"▢ ";color:var(--terracota-bright)}
  
 /* ---------- NAV ---------- */
-header{position:fixed;top:0;left:0;right:0;z-index:1000;transition:background .4s,backdrop-filter .4s,padding .4s,box-shadow .4s;padding:26px 0}
+header{position:fixed;top:0;left:0;right:0;z-index:1000;transition:background .4s,backdrop-filter .4s,padding .4s,box-shadow .4s,top .3s;padding:26px 0}
 header.scrolled{background:rgba(240,236,224,.92);backdrop-filter:blur(14px);padding:14px 0;border-bottom:1px solid var(--line-soft);box-shadow:0 6px 24px rgba(26,26,26,.06)}
 .nav{display:flex;align-items:center;justify-content:space-between;gap:28px}
 .brand{display:flex;align-items:center;gap:14px;flex-shrink:0}
@@ -84,6 +85,40 @@ header.scrolled .brand svg.brandmark{color:var(--paramo)}
 .skip-link{position:absolute;left:-9999px;top:0;z-index:2000;background:var(--paramo);color:var(--niebla);padding:12px 20px;font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.1em}
 .skip-link:focus{left:12px;top:12px}
  
+
+/* ---------- BARRA DE AVISOS ----------
+   Fija sobre el header, que cuelga de --ann-h. El valor por defecto es 0px, así
+   que las páginas sin barra no cambian nada. body.has-ann viene en el HTML (no
+   lo pone el JS): la barra funciona sin JavaScript y el script sólo la RETIRA
+   si todos los avisos caducaron o el visitante la cerró. */
+body.has-ann header{top:var(--ann-h)}
+body:not(.has-ann) .annbar{display:none}
+.annbar{position:fixed;top:0;left:0;right:0;height:var(--ann-h);z-index:1001;
+  background:var(--paramo-deep);color:var(--niebla);border-bottom:1px solid rgba(240,236,224,.14)}
+.ann-wrap{max-width:1280px;margin:0 auto;padding:0 40px;height:100%;display:flex;align-items:center;gap:14px}
+.ann-list{list-style:none;margin:0;padding:0;flex:1;min-width:0}
+.ann-item{display:none;min-width:0}
+.ann-item.on{display:flex}
+.ann-item[hidden]{display:none}          /* caducado: gana al .on */
+.ann-item a{display:flex;align-items:baseline;gap:12px;min-width:0;
+  font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--niebla);transition:color .25s}
+.ann-item a:hover{color:var(--terracota-bright)}
+.ann-tag{color:var(--terracota-bright);font-weight:500;flex-shrink:0}
+.ann-tag::after{content:"·";margin-left:12px;color:rgba(240,236,224,.4)}
+.ann-txt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.ann-item.fade{opacity:0;transition:opacity .4s}
+.ann-x{flex-shrink:0;background:none;border:0;color:rgba(240,236,224,.55);font-size:1.1rem;
+  line-height:1;cursor:pointer;padding:6px 2px;transition:color .2s}
+.ann-x:hover{color:var(--niebla)}
+@media(max-width:680px){
+  :root{--ann-h:30px}
+  .ann-wrap{padding:0 22px;gap:10px}
+  .ann-item a{font-size:.52rem;letter-spacing:.1em;gap:8px}
+  .ann-tag::after{margin-left:8px}
+}
+@media(prefers-reduced-motion:reduce){.ann-item.fade{transition:none}}
+
 /* ---------- HERO ---------- */
 .hero{min-height:100vh;display:flex;align-items:flex-end;position:relative;overflow:hidden;
   background:radial-gradient(110% 80% at 78% 8%, rgba(74,122,181,.14), transparent 55%),

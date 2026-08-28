@@ -126,8 +126,61 @@
 </script>
 <noscript><style>[data-rise]{opacity:1;transform:none}</style></noscript>
 </head>
-<body>
+<body class="has-ann">
 <a href="#main" class="skip-link" data-i18n="skip_link">Skip to content</a>
+
+<!-- ============ BARRA DE AVISOS ============
+     Cada aviso lleva data-until (AAAA-MM-DD). El script de abajo oculta los
+     caducados y, si no queda ninguno, le quita .has-ann al <body> para que la
+     barra no ocupe sitio. Va aquí, inline y justo después del marcado, para que
+     corra durante el parseo: sin parpadeo y sin salto de layout.
+     Añadir un aviso = un <li> más. Ver AUDIT.md § "Barra de avisos". -->
+<aside class="annbar" id="annbar" data-i18n-aria="aria_ann" aria-label="Announcements">
+  <div class="ann-wrap">
+    <ul class="ann-list">
+      <li class="ann-item" data-id="gfbm-ride-2" data-until="2026-08-30">
+        <a href="https://gfboyacamundial.com" target="_blank" rel="noopener">
+          <span class="ann-tag" data-i18n="ann1_tag">Next ride</span>
+          <span class="ann-txt" data-i18n="ann1_txt">2nd GFBM Ride · Bogotá — August 30</span>
+        </a>
+      </li>
+      <li class="ann-item" data-id="gfbm-ride-3" data-until="2026-09-20">
+        <a href="https://gfboyacamundial.com" target="_blank" rel="noopener">
+          <span class="ann-tag" data-i18n="ann3_tag">Upcoming</span>
+          <span class="ann-txt" data-i18n="ann3_txt">3rd GFBM Ride · Bogotá — September 20</span>
+        </a>
+      </li>
+      <li class="ann-item" data-id="journal-safety">
+        <a href="journal/is-it-safe-to-cycle-in-colombia.html">
+          <span class="ann-tag" data-i18n="ann2_tag">From the Journal</span>
+          <span class="ann-txt" data-i18n="ann2_txt">Is It Safe to Cycle in Colombia? An honest local answer</span>
+        </a>
+      </li>
+    </ul>
+    <button type="button" class="ann-x" id="annClose" data-i18n-aria="aria_ann_close" aria-label="Hide announcements">&times;</button>
+  </div>
+</aside>
+<script>
+(function(){
+  var bar = document.getElementById('annbar'), body = document.body;
+  if (!bar) return;
+  var today = new Date().toLocaleDateString('en-CA');   // AAAA-MM-DD en hora local
+  var live = [];
+  Array.prototype.forEach.call(bar.querySelectorAll('.ann-item'), function (li) {
+    var until = li.getAttribute('data-until');
+    if (until && until < today) { li.hidden = true; return; }   // caducado
+    live.push(li);
+  });
+  // La clave de descarte incluye los ids vivos: si publicas un aviso nuevo,
+  // la barra reaparece aunque el visitante hubiera cerrado la anterior.
+  var key = 'rta-ann:' + live.map(function (li) { return li.getAttribute('data-id'); }).join(',');
+  var closed = false;
+  try { closed = localStorage.getItem(key) === '1'; } catch (e) {}
+  if (!live.length || closed) { body.classList.remove('has-ann'); return; }
+  live[0].classList.add('on');
+  bar.dataset.key = key;
+})();
+</script>
 
 <!-- ============ NAV ============ -->
 <header id="hdr">
@@ -297,7 +350,7 @@
         </div>
       </article>
       <article class="stage d1" data-rise>
-        <div class="slot top"><span class="day" data-i18n="s2_day">Stage 02</span><span class="grade g-mid" data-i18n="s2_grade">Build</span></div>
+        <div class="slot top has-photo"><img class="ph" src="assets/img/stage-2-puente-de-boyaca.jpg" alt="Flags across the green field at the Puente de Boyacá historic site, where Stage 2 begins" data-i18n-alt="aria_stage2" loading="lazy" decoding="async" width="1200" height="470"><span class="day" data-i18n="s2_day">Stage 02</span><span class="grade g-mid" data-i18n="s2_grade">Build</span></div>
         <div class="body">
           <h3 data-i18n="s2_h">The Road to Independence</h3>
           <div class="route">Puente de Boyacá › Ráquira</div>
