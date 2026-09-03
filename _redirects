@@ -14,3 +14,12 @@
 # Netlify's own /journal -> /journal/ directory redirect. A 301 keeps the URL
 # working while consolidating it onto the canonical form.
 /journal               /journal/    301
+
+# Semana de la Leyenda / Legend Week. La URL que se imprime en los carruseles de
+# Instagram es ridetheandes.co/legends (sin barra): estas reglas la consolidan en
+# /legends/, que es lo que declaran la canonical y el sitemap. Mismo trato para la
+# edición en español. Son rutas exactas, no comodines: no capturan nada más.
+/legends               /legends/       301
+/legends/index.html    /legends/       301
+/es/legends            /es/legends/    301
+/es/legends/index.html /es/legends/    301
