@@ -132,6 +132,10 @@ swap(faqBlock[0], `<script type="application/ld+json">\n${JSON.stringify(faqEs, 
 out = out.replace(/(["(,]\s*)assets\//g, '$1/assets/');
 out = out.replace(/href="(reservar\.html|privacy\.html|terminos\.html)/g, 'href="/$1');
 out = out.replace(/href="journal\//g, 'href="/journal/');
+// /legends/ SÍ tiene edición en español propia (/es/legends/, escrita a mano, no
+// generada): en la edición ES el enlace del footer tiene que apuntar allí. El
+// journal, en cambio, es sólo en inglés y por eso no se reescribe arriba.
+out = out.replace(/href="\/legends\//g, 'href="/es/legends/');
 
 // ---- sello de archivo generado ----
 out = out.replace('<!DOCTYPE html>',

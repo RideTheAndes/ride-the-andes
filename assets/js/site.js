@@ -210,6 +210,7 @@ const ES = {
   ft_tl:"Sube donde se forjan las leyendas. Ciclismo guiado premium en el corazón del ciclismo colombiano.",
   ft_h1:"Viajes", ft_l1:"Etapas y ruta", ft_l2:"Route dossier", ft_l3:"Precio",
   ft_h2:"Compañía", ft_l4:"Tu guía", ft_l5:"Términos y Condiciones", ft_l6:"Política de privacidad",
+  ft_l7:"Semana de la Leyenda — bases del sorteo",
   ft_h3:"Contacto",
   ft_cr:"© 2026 Ride The Andes S.A.S. · RNT 296185",
   // --- Accessible names (screen-reader only; never visible on screen). ---
