@@ -202,7 +202,7 @@ footer .brand{font-family:var(--display);font-weight:900;font-size:1.2rem;color:
 .ask-form{display:grid;gap:10px}
 .ask-form label{display:grid;gap:4px;font-family:var(--display);font-weight:700;font-size:.86rem}
 .ask-form label .small{font-family:var(--body);font-weight:400}
-.ask-form textarea,.ask-form input{font:inherit;font-size:16px;padding:8px 10px;border:1px solid var(--ink-3);border-radius:6px;background:var(--panel);color:var(--ink);width:100%}
+.ask-form textarea,.ask-form input{font:inherit;font-family:var(--body);font-weight:400;font-size:16px;padding:8px 10px;border:1px solid var(--ink-3);border-radius:6px;background:var(--panel);color:var(--ink);width:100%}
 .ask-form textarea{resize:vertical;min-height:5.5em}
 .ask-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .ask .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
@@ -761,8 +761,8 @@ function buildAsk(){
     if(qa.length) h+=`<dl class="qa">${qa.map(x=>`<div><dt>${esc(x.q)}</dt><dd>${esc(x.a)}${x.date?` <span class="qa-d">${esc(x.date)}</span>`:''}</dd></div>`).join('')}</dl>`;
     if(HOSTED) h+=`<div class="ask-row"><button type="button" class="ask-btn" aria-expanded="false">Ask a question</button><button type="button" class="ask-more" aria-expanded="false">Ask for more detail</button></div>
       <form class="ask-form" hidden>
-        <label>Your question <span class="small">(English or Polish)</span><textarea name="question" rows="3" maxlength="2000" required></textarea></label>
-        <div class="ask-2"><label>Name <input name="name" autocomplete="name" maxlength="80"></label><label>Email or WhatsApp <span class="small">(optional)</span><input name="contact" maxlength="120"></label></div>
+        <label><span>Your question <span class="small">(English or Polish)</span></span><textarea name="question" rows="3" maxlength="2000" required></textarea></label>
+        <div class="ask-2"><label><span>Name</span><input name="name" autocomplete="name" maxlength="80"></label><label><span>Email or WhatsApp <span class="small">(optional)</span></span><input name="contact" maxlength="120"></label></div>
         <p class="hp" aria-hidden="true"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
         <div class="ask-row"><button type="submit" class="ask-send">Send to Sergio</button></div>
       </form>
