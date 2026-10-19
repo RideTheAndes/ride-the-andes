@@ -38,6 +38,9 @@ const LADDER_WIDTHS = [750, 900, 1200];
 //   404.html    → la sirve Netlify como respuesta de error; no tiene canonical
 //                 propia ni OG a propósito, y no debe estar en el sitemap.
 const NOINDEX = new Set(['thanks.html', '404.html']);
+//   briefings/* → asesorías privadas de ruta para un cliente: enlace oculto, noindex
+//                 (meta + _headers), fuera del sitemap y sin enlaces desde el sitio.
+const NOINDEX_PREFIXES = ['briefings/'];
 
 let errors = 0, warns = 0;
 const log = [];
@@ -116,7 +119,8 @@ function jpegSize(path) {
 function checkPage(file) {
   const raw = readFileSync(join(ROOT, file), 'utf8');
   const html = stripComments(raw);   // los comentarios no son marcado real
-  const isNoindex = NOINDEX.has(file.split(sep).join('/'));
+  const posix = file.split(sep).join('/');
+  const isNoindex = NOINDEX.has(posix) || NOINDEX_PREFIXES.some(p => posix.startsWith(p));
   const scope = file;
 
   // --- lang ---

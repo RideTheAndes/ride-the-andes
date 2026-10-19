@@ -20,3 +20,9 @@
 
 /thanks.html
   X-Robots-Tag: noindex
+
+# Asesorías privadas de ruta (enlace oculto para un cliente). Caché corta: se
+# actualizan cuando respondemos sus preguntas.
+/briefings/*
+  X-Robots-Tag: noindex, nofollow
+  Cache-Control: public, max-age=0, must-revalidate
