@@ -33,9 +33,9 @@ const SITE = 'https://ridetheandes.co';
 // ---- head en español (editar aquí; el validador vigila las longitudes) ----
 const ES_HEAD = {
   title: 'Ride The Andes — Ciclismo Premium en Boyacá, Colombia',
-  description: 'Tour guiado premium de 10 días por Boyacá, Colombia — seis etapas desde El Dorado hasta la meta del Gran Fondo Boyacá Mundial. Máximo 10 cupos.',
+  description: 'Tour guiado premium de 10 días por Boyacá, Colombia — seis etapas de El Dorado al recorrido del Gran Fondo Boyacá Mundial. 22–31 de enero de 2027.',
   ogTitle: 'Ride The Andes — Ciclismo Premium en Boyacá, Colombia',
-  ogDescription: 'Diez días desde El Dorado hasta la meta del Gran Fondo Boyacá Mundial. Guiado por el hombre que recorrió los 123 municipios de Boyacá.',
+  ogDescription: '22–31 de enero de 2027: diez días de El Dorado al recorrido del Gran Fondo Boyacá Mundial, guiados por el hombre que recorrió los 123 municipios de Boyacá.',
 };
 // Preguntas del FAQ que van al schema de /es/ (mismas cuatro que la versión EN).
 const FAQ_KEYS = [['q1', 'a1'], ['q2', 'a2'], ['q5', 'a5'], ['q6', 'a6']];

@@ -27,7 +27,8 @@ The marketing/booking website for Ride The Andes S.A.S., a boutique cycling tour
 | `dossier/` | PDF route dossier asset, `noindex`'d via `_headers`. |
 | `briefings/<slug>/` | Private route briefings for one client (unlisted link, `noindex` in `<meta>` and `_headers`, not in the sitemap, linked from nowhere). Generated outside this repo and committed as a single self-contained `index.html`; its per-section question form posts to the Netlify form `briefing-question`. `tools/seo-check.mjs` treats the whole prefix as noindex. Don't link to these pages from the site. |
 | `assets/css/styles.css` | Shared stylesheet for `index.html`, `reservar.html`, `privacy.html`, `thanks.html`. |
-| `assets/js/site.js` | Shared JS: i18n toggle, nav/burger menu, scroll-reveal animations, stat counters, FAQ accordion, hero photo carousel. Loaded by `index.html` only (other pages inline what they need or don't need it). |
+| `assets/js/site.js` | Shared JS: i18n toggle, nav/burger menu, scroll-reveal animations, stat counters, FAQ accordion, hero photo carousel, the `.ics` export of the `#departures` cards. Loaded by `index.html` only (other pages inline what they need or don't need it). |
+| `assets/js/route-explorer.js` | The `#rx` route explorer in `#route`: own SVG map over a shaded-relief image + linked elevation profile, lazy-loaded when the section nears the viewport. Reads stage names/route/hook **from the `.stage` cards in the DOM**, so `/es/` is Spanish with no extra dictionary. Data: `assets/data/traverse.json` + `assets/img/relief/*.webp`, both **generated** by `tools/route/build-explorer.py` from `tools/route/src/` — never edit by hand. |
 | `assets/img/` | Curated photography. Filename prefixes indicate section: `hero-*`, `hero-band-*`, `stage-*` (route stages), `poi-*` (points of interest), `stay-*` (hotels), `culture-*`, `journal-*`, `stat-*`. **Roughly 21 of the 47 files here are referenced by nothing** (`stat-*`, most `culture-*`, `poi-etapafinal-*`, the `hero-1..4-*` legacy variants, `your-guide.jpg`) — ~20.7 MB of the 29.1 MB total. They are not dead weight for visitors (never fetched), and they are **not an invitation to wire them into pages**; assume they are unused on purpose unless the operator says otherwise. Note `hero-band-2/3` *are* used, via the `data-imgs` attribute on `#heroStack` as bare filenames — check `site.js` and `styles.css`, not just HTML, before calling an image unused. |
 | `AUDIT.md` | **Repo root.** The operator's living maintenance checklist (Spanish): pre-commit checks, weekly/monthly/quarterly audits, and a per-sales-season procedure. Referenced throughout this file — read it before touching pricing, dates, images, or the payment widget. |
 | `sitemap.xml`, `robots.txt` | SEO — update `sitemap.xml` `<lastmod>` whenever page content changes materially. |
@@ -56,7 +57,7 @@ The PayPal checkout logic lives **only** inline in `reservar.html` — there is 
 - Config block `RTA_PAY` at the top of the inline script has two flags that gate real money:
   - `USE_LIVE`: `true` uses the live PayPal Client ID (real charges), `false` uses sandbox.
   - `TEST_MODE`: `true` forces **every** button to charge $1.00 USD regardless of package/deposit selection, for live-mode smoke testing. Must be turned off (`false`) before advertising real bookings, and `USE_LIVE`/Client ID must be verified correct before any campaign launch (see `AUDIT.md`'s seasonal checklist).
-- Pricing (`PRICES`, `SINGLE_SUPPLEMENT`, `DEPOSIT`) and the `DEPOSIT_CUTOFF` date are hard-coded constants in this script. The deposit option auto-disables past `DEPOSIT_CUTOFF`, falling back to full payment.
+- Departures, dates and prices live in one object, `DEPARTURES` (one entry per departure: `start`, labels, `prices`, `single`), plus `DEPOSIT`. Per departure the deposit closes 30 days before `start` and sales/balance 16 days before (T&C clauses 2 and 4); a closed departure is disabled and the widget jumps to the next open one. `?salida=2027-05` preselects a departure (the `#departures` cards link that way); the choice travels in the PayPal description, the `departure` field of the Netlify notification and `thanks.html?salida=`.
 - On successful capture, `notifyTeam()` POSTs order details to Netlify's form-handling endpoint (`/`) as `form-name: payment-notification`, matching the hidden `<form name="payment-notification" data-netlify="true" hidden>` declared later in the same file — this is how Netlify learns to route notification emails for a payment that never submits a real HTML form.
 - The main lead-capture form on `index.html` is a separate Netlify form, `name="inquiry"`, with a honeypot field (`netlify-honeypot="bot-field"`) and `action="/thanks.html"`.
 
@@ -64,7 +65,7 @@ The PayPal checkout logic lives **only** inline in `reservar.html` — there is 
 
 Several values are duplicated across files and must be changed in lockstep when a new departure/pricing season opens (see `AUDIT.md` → "Cada cambio de temporada de ventas"):
 - Departure/date copy in the `ES` dictionary and English HTML in `index.html`.
-- `PRICES`, `DEPOSIT`, `DEPOSIT_CUTOFF`, and the balance-due date text in `reservar.html`.
+- `DEPARTURES`/`DEPOSIT` in `reservar.html`, the `#departures` cards in `index.html`, the calendar table in `terminos.html` clause 2 and the `D` map in `thanks.html`.
 - The `price` field in the `TravelAgency`/`Offer` JSON-LD schema block in `index.html`'s `<head>`.
 - `sitemap.xml` `<lastmod>` values for touched pages.
 
