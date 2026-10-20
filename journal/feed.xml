@@ -8,8 +8,15 @@
     <link>https://ridetheandes.co/journal/</link>
     <description>Field notes from Colombia's cycling heartland — climb profiles, route guides, altitude advice and stories from Boyacá, by the team behind Ride The Andes.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 24 Aug 2026 12:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 20 Oct 2026 12:00:00 +0000</lastBuildDate>
     <atom:link href="https://ridetheandes.co/journal/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>La 10: The Tenth Gran Fondo Boyacá Mundial, and the Tech Behind It</title>
+      <link>https://ridetheandes.co/journal/gran-fondo-boyaca-mundial-2026-la-10-and-the-tech-behind-it.html</link>
+      <guid isPermaLink="true">https://ridetheandes.co/journal/gran-fondo-boyaca-mundial-2026-la-10-and-the-tech-behind-it.html</guid>
+      <description>The tenth Gran Fondo Boyacá Mundial in numbers, and what Ride The Andes built as its tech sponsor: the website, 16,000 free photos and 1,780 personal films.</description>
+      <pubDate>Tue, 20 Oct 2026 12:00:00 +0000</pubDate>
+    </item>
     <item>
       <title>Why Colombia Produces the World’s Best Climbers</title>
       <link>https://ridetheandes.co/journal/why-colombian-climbers-are-the-best-in-the-world.html</link>
