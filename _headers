@@ -26,3 +26,8 @@
 /briefings/*
   X-Robots-Tag: noindex, nofollow
   Cache-Control: public, max-age=0, must-revalidate
+
+# Fuentes y scripts (fuentes HTML del dossier, datos del explorador, validadores):
+# Netlify publica todo el repo, pero esto no son páginas del sitio.
+/tools/*
+  X-Robots-Tag: noindex, nofollow
