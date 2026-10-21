@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paramo:#1A3A0F; --paramo-deep:#0F2408; --niebla:#F0ECE0; --niebla-soft:#F7F3E8; --card:#FBF8EF;
+  --terracota:#C1622A; --terracota-bright:#D9762F; --tierra:#8B6914; --lago:#4A7AB5; --asfalto:#1A1A1A;
+  --ink:#1A1A1A; --ink-soft:#5B5A4C; --line:rgba(26,58,15,.18); --line-soft:rgba(26,58,15,.10);
+  --serif:'Playfair Display',serif; --garamond:'Cormorant Garamond',serif; --mono:'IBM Plex Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+@page{size:A4;margin:0}
+body{font-family:var(--garamond);color:var(--ink);background:#fff;font-size:11.5pt;line-height:1.5;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.page{width:210mm;height:297mm;position:relative;overflow:hidden;page-break-after:always;background:var(--niebla)}
+.page.dark{background:linear-gradient(165deg,#12280a 0%,#1A3A0F 45%,#0F2408 100%);color:var(--niebla)}
+.pad{padding:18mm 16mm}
+.mono{font-family:var(--mono);text-transform:uppercase;letter-spacing:.22em;font-size:6.6pt}
+.eyebrow{font-family:var(--mono);text-transform:uppercase;letter-spacing:.3em;font-size:7pt;color:var(--terracota);font-weight:500}
+h1,h2,h3{font-family:var(--serif);color:var(--paramo);line-height:1.05;font-weight:600}
+.dark h1,.dark h2,.dark h3{color:var(--niebla)}
+em.brand{font-style:italic;font-weight:400;color:var(--terracota)}
+.folio{position:absolute;bottom:9mm;left:16mm;right:16mm;display:flex;justify-content:space-between;font-family:var(--mono);font-size:6pt;letter-spacing:.2em;text-transform:uppercase;color:var(--tierra)}
+.dark .folio{color:rgba(240,236,224,.55)}
+
+/* photo slots */
+.ph{position:relative;background:linear-gradient(160deg,#16300d,#0f2408);overflow:hidden}
+.ph .tag{position:absolute;left:4mm;bottom:3.5mm;font-family:var(--mono);font-size:5.6pt;letter-spacing:.16em;text-transform:uppercase;color:rgba(240,236,224,.85);border:.5pt solid rgba(240,236,224,.35);padding:1.4mm 2.4mm;background:rgba(0,0,0,.28)}
+.ph .tag::before{content:"▢ ";color:var(--terracota-bright)}
+.ph .loc{position:absolute;left:4mm;top:3.5mm;right:4mm;font-family:var(--serif);font-size:11pt;color:var(--niebla);font-weight:600;z-index:2}
+.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.ph.photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,20,6,.62),rgba(10,20,6,.28) 22%,rgba(10,20,6,0) 46%);z-index:1}
+.hgrid{display:grid;grid-template-columns:1fr 1fr;gap:4mm;margin-top:1mm}
+.hcard{border:.6pt solid var(--line);background:var(--card);overflow:hidden}
+.hph{position:relative;height:30mm;overflow:hidden}
+.hph img{width:100%;height:100%;object-fit:cover;display:block}
+.hbody{padding:3mm 4mm 3.5mm}
+.hk{font-family:var(--mono);font-size:5.8pt;letter-spacing:.16em;text-transform:uppercase;color:var(--terracota);font-weight:500;margin-bottom:1.2mm}
+.hcard h3{font-size:11.5pt;margin-bottom:1mm}
+.hcard p{font-size:8.6pt;color:var(--ink-soft);line-height:1.45}
+.hfeature{border:.6pt solid var(--line);background:var(--card);margin-top:4mm;display:grid;grid-template-columns:1.35fr 1fr}
+.hfeature .hph{height:42mm}
+.hfeature .hbody{padding:4mm 5mm;align-self:center}
+.hfeature h3{font-size:12.5pt;margin-bottom:1.2mm}
+.hfeature p{font-size:9pt;color:var(--ink-soft);line-height:1.5}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:0;border:.6pt solid var(--line);margin-top:1mm}
+.split>div{padding:6mm 6mm 5.5mm}
+.split .lft{border-right:.6pt solid var(--line)}
+.split .rgt{background:var(--card)}
+.split h3{font-size:15pt;margin:1.5mm 0 3mm;line-height:1.15}
+.split p{font-size:9.4pt;color:var(--ink-soft);line-height:1.55;margin-bottom:2.6mm}
+.split .lede{font-size:10.4pt;color:#33321f}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:3mm 4mm;margin-top:4mm;padding-top:4mm;border-top:.6pt solid var(--line)}
+.facts .f .n{font-family:var(--serif);font-size:15pt;color:var(--paramo);font-weight:700;line-height:1}
+.facts .f .l{font-family:var(--mono);font-size:5.6pt;letter-spacing:.14em;text-transform:uppercase;color:var(--tierra);margin-top:1.2mm}
+.whyrow{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm;margin-top:5mm}
+.whyrow .w{border:.6pt solid var(--line);padding:3.5mm 4mm;background:var(--card)}
+.whyrow .w .k{font-family:var(--mono);font-size:5.8pt;letter-spacing:.16em;text-transform:uppercase;color:var(--terracota);margin-bottom:1.5mm;font-weight:500}
+.whyrow .w p{font-size:8.6pt;color:var(--ink-soft);line-height:1.45;margin:0}
+
+/* logo mark */
+.mark{display:block}
+.mark g{fill:currentColor}
+
+/* ---------- COVER ---------- */
+.cover{display:flex;flex-direction:column;justify-content:space-between;padding:16mm}
+.cover .frame{position:absolute;inset:9mm;border:.6pt solid rgba(240,236,224,.28);pointer-events:none}
+.cover .top{display:flex;justify-content:space-between;align-items:flex-start}
+.cover .coords{font-family:var(--mono);font-size:7pt;letter-spacing:.32em;color:#8B6914}
+.cover .mid{text-align:center}
+.cover .doss{font-family:var(--mono);font-size:8pt;letter-spacing:.55em;color:var(--terracota-bright);margin-bottom:9mm}
+.cover h1{font-size:37pt;letter-spacing:.045em;color:var(--niebla);text-transform:uppercase;font-weight:700}
+.cover .es{font-family:var(--garamond);font-style:italic;font-size:14.5pt;color:#cfc9b8;margin-top:5mm}
+.cover .rule{width:34mm;height:.8pt;background:var(--terracota);margin:8mm auto}
+.cover .arc{font-family:var(--garamond);font-size:13pt;font-style:italic;color:#cfc9b8}
+.cover .bottom{text-align:center}
+.cover .dates{font-family:var(--mono);font-size:8pt;letter-spacing:.3em;color:var(--niebla);border:.6pt solid rgba(240,236,224,.4);display:inline-block;padding:3mm 7mm;margin-bottom:5mm}
+.cover .numbers{font-family:var(--mono);font-size:6.6pt;letter-spacing:.24em;color:#8B6914}
+.cover .ridge{position:absolute;bottom:0;left:0;right:0;height:52mm;z-index:0;opacity:.55}
+
+/* ---------- LETTER ---------- */
+.letter .lead{font-size:14.5pt;line-height:1.55;color:var(--ink)}
+.letter .lead::first-letter{float:left;font-family:var(--serif);font-size:34pt;line-height:.8;padding:1.5mm 3mm 0 0;color:var(--terracota);font-weight:700}
+.letter p{margin-bottom:4.5mm;font-size:11.8pt;color:#33321f}
+.letter .sig{margin-top:8mm}
+.letter .sig .name{font-family:var(--serif);font-size:14pt;color:var(--paramo);font-weight:600}
+.letter .sig .role{font-family:var(--mono);font-size:6.4pt;letter-spacing:.22em;text-transform:uppercase;color:var(--tierra);margin-top:1.5mm}
+.pull{font-family:var(--serif);font-style:italic;font-size:15.5pt;line-height:1.3;color:var(--paramo);border-left:1.6pt solid var(--terracota);padding-left:5mm;margin:7mm 0}
+
+/* ---------- GLANCE ---------- */
+.numstrip{display:grid;grid-template-columns:repeat(6,1fr);border:.6pt solid var(--line);background:var(--card);margin:6mm 0 8mm}
+.numstrip .n{padding:4.5mm 2mm;text-align:center;border-right:.6pt solid var(--line-soft)}
+.numstrip .n:last-child{border-right:none}
+.numstrip .v{font-family:var(--serif);font-size:15pt;font-weight:600;color:var(--paramo)}
+.numstrip .v small{font-size:7pt;color:var(--tierra);font-family:var(--mono)}
+.numstrip .l{font-family:var(--mono);font-size:5.4pt;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-top:1.6mm}
+table.stages{width:100%;border-collapse:collapse;font-size:9.5pt}
+table.stages th{font-family:var(--mono);font-size:6pt;letter-spacing:.16em;text-transform:uppercase;color:var(--niebla);background:var(--paramo);padding:2.6mm 3mm;text-align:left}
+table.stages td{padding:2.6mm 3mm;border-bottom:.5pt solid var(--line-soft);color:#33321f}
+table.stages tr:nth-child(even) td{background:#F5F1E4}
+table.stages td.km{font-family:var(--serif);font-weight:600;color:var(--paramo);white-space:nowrap}
+table.stages td.d{font-family:var(--mono);font-size:7pt;color:var(--tierra);white-space:nowrap}
+table.stages tr.total td{border-top:1pt solid var(--paramo);font-weight:600;color:var(--paramo);background:var(--card)}
+.diff{display:grid;grid-template-columns:1fr 1fr;gap:4mm;margin-top:7mm}
+.diff .b{border:.6pt solid var(--line);background:var(--card);padding:4.5mm 5mm}
+.diff .b h3{font-size:11.5pt;margin-bottom:1.6mm}
+.diff .b p{font-size:9.8pt;color:var(--ink-soft);line-height:1.45}
+.pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:3.5mm;margin-top:6mm}
+.pillars .b{border:.6pt solid var(--line);background:var(--card);padding:4mm 4mm}
+.pillars .k{font-family:var(--mono);font-size:6pt;letter-spacing:.16em;text-transform:uppercase;color:var(--terracota);margin-bottom:1.8mm;font-weight:500}
+.pillars p{font-size:8.8pt;color:var(--ink-soft);line-height:1.42}
+
+/* ---------- DAYS ---------- */
+.dayhead{display:flex;align-items:baseline;gap:4mm;border-bottom:1pt solid var(--paramo);padding-bottom:2.5mm;margin-bottom:3.5mm}
+.dayhead .dn{font-family:var(--serif);font-size:19pt;font-weight:700;color:var(--terracota);line-height:1}
+.dayhead .dt{flex:1}
+.dayhead .dt h3{font-size:13.5pt;line-height:1.1}
+.dayhead .dt .sub{font-family:var(--mono);font-size:6pt;letter-spacing:.16em;text-transform:uppercase;color:var(--tierra);margin-top:1.2mm}
+.dayhead .night{font-family:var(--mono);font-size:5.8pt;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);text-align:right;line-height:1.6}
+.dayhead .night b{color:var(--paramo);display:block;font-size:7pt}
+.tl{margin-bottom:7mm}
+.tl .row{display:flex;gap:3.5mm;margin-bottom:1.8mm;align-items:baseline}
+.tl .t{flex:0 0 15mm;font-family:var(--mono);font-size:7pt;color:var(--terracota);letter-spacing:.06em;text-align:right;font-weight:500}
+.tl .a{flex:1;font-size:10pt;line-height:1.42;color:#33321f}
+.tl .a b{color:var(--paramo);font-weight:600}
+.tl .a .inc{font-family:var(--mono);font-size:5.6pt;letter-spacing:.1em;color:var(--tierra);text-transform:uppercase}
+.stagechip{display:inline-block;font-family:var(--mono);font-size:6pt;letter-spacing:.14em;text-transform:uppercase;padding:1.2mm 2.6mm;margin-left:2mm;vertical-align:middle}
+.chip-ride{background:var(--paramo);color:var(--niebla)}
+.chip-rest{border:.6pt solid var(--tierra);color:var(--tierra)}
+.chip-queen{background:var(--terracota);color:#fff}
+.chip-race{background:var(--lago);color:#fff}
+
+/* ---------- LEGENDS (dark interstitial) ---------- */
+.legends h2{font-size:24pt;max-width:120mm}
+.legends .grid{display:grid;grid-template-columns:1fr 1fr;gap:4mm;margin-top:8mm}
+.legends .c{border:.6pt solid rgba(240,236,224,.22);padding:5mm 5.5mm;background:rgba(240,236,224,.04)}
+.legends .c h3{font-size:12.5pt;color:var(--niebla)}
+.legends .c .k{font-family:var(--mono);font-size:5.8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--terracota-bright);margin-bottom:1.6mm}
+.legends .c p{font-size:9.6pt;color:#cfc9b8;line-height:1.45;margin-top:1.6mm}
+
+/* ---------- INCLUDED ---------- */
+.incgrid{display:grid;grid-template-columns:1fr 1fr;gap:0;border:.6pt solid var(--line);background:var(--card)}
+.incgrid .it{padding:4mm 5mm;border-right:.6pt solid var(--line-soft);border-bottom:.6pt solid var(--line-soft);display:flex;gap:3.5mm}
+.incgrid .it:nth-child(2n){border-right:none}
+.incgrid .ic{flex:0 0 7mm;height:7mm;border:.7pt solid var(--terracota);color:var(--terracota);display:flex;align-items:center;justify-content:center;font-size:9pt}
+.incgrid h3{font-size:10.5pt;margin-bottom:1mm}
+.incgrid p{font-size:8.8pt;color:var(--ink-soft);line-height:1.4}
+.notinc{margin-top:5mm;border:.7pt dashed var(--line);padding:3.5mm 5mm;display:flex;gap:5mm;align-items:baseline}
+.notinc .l{font-family:var(--mono);font-size:6pt;letter-spacing:.2em;text-transform:uppercase;color:var(--tierra);flex-shrink:0}
+.notinc p{font-size:8.8pt;color:var(--ink-soft)}
+
+/* ---------- PRICING ---------- */
+.pcards{display:grid;grid-template-columns:1.1fr .9fr;gap:5mm;margin-top:7mm}
+.pcard{border:1pt solid var(--terracota);background:var(--card);padding:8mm 7mm;text-align:center;position:relative}
+.pcard.alt{border-color:var(--line)}
+.pcard .badge{position:absolute;top:0;left:50%;transform:translate(-50%,-50%);background:var(--terracota);color:var(--niebla);font-family:var(--mono);font-size:6pt;letter-spacing:.24em;text-transform:uppercase;padding:1.8mm 4.5mm;white-space:nowrap}
+.pcard.alt .badge{background:var(--tierra)}
+.pcard .nm{font-family:var(--serif);font-size:14pt;font-weight:600;color:var(--paramo);text-transform:uppercase;letter-spacing:.02em;margin-top:2mm}
+.pcard .sb{font-family:var(--mono);font-size:6pt;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);margin:2mm 0 4mm}
+.pcard .anchor{font-family:var(--serif);font-size:12pt;color:var(--ink-soft);text-decoration:line-through;text-decoration-color:var(--terracota)}
+.pcard .amt{font-family:var(--serif);font-size:30pt;font-weight:700;color:var(--paramo);line-height:1.05}
+.pcard .amt small{font-size:9pt;color:var(--tierra);font-family:var(--mono)}
+.pcard .per{font-family:var(--mono);font-size:6pt;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-top:1.6mm}
+.pcard ul{list-style:none;text-align:left;margin:5mm auto 0;max-width:62mm}
+.pcard li{font-size:9.2pt;color:var(--ink-soft);padding-left:5mm;position:relative;margin-bottom:2mm}
+.pcard li::before{content:"—";position:absolute;left:0;color:var(--terracota)}
+.pcard .note{font-size:9.2pt;color:var(--ink-soft);text-align:left;line-height:1.45;margin-top:4mm}
+.supp{margin-top:5mm;border:.7pt dashed var(--line);padding:4mm 6mm;text-align:center}
+.supp .l{font-family:var(--mono);font-size:6pt;letter-spacing:.22em;text-transform:uppercase;color:var(--tierra)}
+.supp p{font-size:9.6pt;color:var(--ink-soft);margin-top:1.6mm}
+.supp b{color:var(--paramo)}
+.booking{margin-top:5mm;border:.7pt solid var(--line);background:var(--card);padding:5mm 6mm}
+.booking .l{font-family:var(--mono);font-size:6pt;letter-spacing:.22em;text-transform:uppercase;color:var(--terracota);text-align:center;display:block;margin-bottom:3.5mm}
+.bkgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm}
+.bkgrid .b .k{font-family:var(--mono);font-size:5.6pt;letter-spacing:.14em;text-transform:uppercase;color:var(--tierra);margin-bottom:1.4mm}
+.bkgrid .b .v{font-family:var(--serif);font-size:13pt;color:var(--paramo);font-weight:700;line-height:1.1}
+.bkgrid .b p{font-size:8.2pt;color:var(--ink-soft);line-height:1.42;margin-top:1.2mm}
+.booking .fine{font-size:8.4pt;color:var(--ink-soft);line-height:1.5;margin-top:4mm;padding-top:3.5mm;border-top:.6pt solid var(--line);text-align:center}
+
+/* ---------- PRACTICAL ---------- */
+.prac{display:grid;grid-template-columns:1fr 1fr;gap:5mm 6mm;margin-top:6mm}
+.prac .q h3{font-size:11pt;margin-bottom:1.6mm}
+.prac .q p{font-size:9.4pt;color:var(--ink-soft);line-height:1.45}
+.flightbox{margin-top:6mm;border-left:1.6pt solid var(--terracota);background:var(--card);padding:4mm 5.5mm}
+.flightbox h3{font-size:10.5pt;margin-bottom:1.6mm}
+.flightbox p{font-size:9.4pt;color:var(--ink-soft);line-height:1.5}
+
+/* ---------- BACK ---------- */
+.back{display:flex;flex-direction:column;justify-content:space-between;padding:18mm;text-align:center}
+.back .frame{position:absolute;inset:9mm;border:.6pt solid rgba(240,236,224,.28)}
+.back h2{font-size:26pt;color:var(--niebla);text-transform:uppercase;line-height:1}
+.back h2 em{font-style:italic;font-weight:400;color:var(--terracota-bright);text-transform:none}
+.back .steps{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4mm;margin:9mm 0}
+.back .s{border:.6pt solid rgba(240,236,224,.25);padding:5mm 4mm}
+.back .s .n{font-family:var(--serif);font-size:16pt;color:var(--terracota-bright);font-weight:700}
+.back .s h3{font-size:10.5pt;color:var(--niebla);margin:1.6mm 0}
+.back .s p{font-size:8.6pt;color:#cfc9b8;line-height:1.4}
+.back .contact{font-family:var(--mono);font-size:7.4pt;letter-spacing:.18em;color:var(--niebla);line-height:2.4;text-transform:uppercase}
+.back .contact span{color:var(--terracota-bright)}
+.sechead{margin-bottom:5mm}
+.sechead .eyebrow{display:block;margin-bottom:2.5mm}
+.sechead h2{font-size:20pt}
+.sechead p.intro{font-size:11pt;color:var(--ink-soft);margin-top:2.5mm;max-width:150mm}
+
+/* --- ES edition: micro-adjustments for longer Spanish copy --- */
+.stages td,.stages th{padding:1.5mm 2mm}
+.diff{margin-top:5mm;gap:3.5mm}
+.diff .b{padding:3.6mm 4mm}
+.diff .b p{font-size:9.4pt;line-height:1.4}
+.pcards{margin-top:5.5mm}
+.pcard ul li{margin-bottom:1.4mm}
+.supp{margin-top:4mm;padding:3.4mm 6mm}
+.booking{margin-top:3mm;padding:3.4mm 5.5mm}
+.pcard{padding-bottom:2.4mm}
+.pcard ul li{margin-bottom:1.1mm;font-size:9pt}
+.pcards{margin-top:4.5mm}
+.supp{margin-top:3mm;padding:2.6mm 6mm}
+.bkgrid .b p{font-size:8pt;line-height:1.38}
+.booking .fine{margin-top:2.8mm;padding-top:2.4mm;font-size:8.1pt}
+.dep{margin-top:3mm;padding-top:2.4mm}
+.dep p{font-size:8.2pt;line-height:1.42}
+.pcard ul{margin-top:2mm}
+.pcard .anchor{margin-bottom:.5mm}
+.booking .fine{margin-top:3.4mm;padding-top:3mm}
+
+.closer{font-family:var(--serif);font-style:italic;font-size:13pt;line-height:1.45;color:#F0ECE0;text-align:center;max-width:132mm;margin:8mm auto 0;padding-top:6mm;border-top:.6pt solid rgba(240,236,224,.22)}
+
+.cta{margin:7mm auto 0;display:flex;align-items:center;justify-content:center;gap:5.5mm}
+.cta .qrchip{background:var(--niebla);padding:1.6mm;line-height:0;flex:0 0 auto}
+.cta .qrchip svg{width:26mm;height:26mm;display:block}
+.cta .txt{text-align:left;max-width:74mm}
+.cta .k{font-family:var(--mono);font-size:5.6pt;letter-spacing:.2em;text-transform:uppercase;color:var(--terracota-bright);margin-bottom:1.4mm}
+.cta h4{font-family:var(--serif);font-size:13pt;color:#F0ECE0;line-height:1.15;margin-bottom:1.2mm;font-weight:600}
+.cta p{font-size:8.6pt;color:#cfc9b8;line-height:1.4}
+.cta a{color:#F0ECE0;text-decoration:none;border-bottom:.5pt solid rgba(240,236,224,.4)}
+
+.kit{margin-top:5mm;border:.7pt solid var(--terracota);background:var(--card);padding:4.6mm 5.5mm}
+.kit .hd{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:3mm;
+         padding-bottom:2.4mm;border-bottom:.6pt solid var(--line)}
+.kit h3{font-size:12.5pt;color:var(--paramo);font-weight:700}
+.kit .tag{font-family:var(--mono);font-size:5.6pt;letter-spacing:.16em;text-transform:uppercase;color:var(--terracota)}
+.kit .items{display:grid;grid-template-columns:repeat(3,1fr);gap:2.4mm 5mm}
+.kit .it{font-size:8.6pt;color:var(--ink-soft);line-height:1.38}
+.kit .it b{color:var(--paramo);font-weight:700}
+.kit .ft{margin-top:3mm;padding-top:2.4mm;border-top:.6pt solid var(--line);font-size:8.4pt;color:var(--ink-soft);line-height:1.45}
+
+.dep{margin-top:3.6mm;border-top:.7pt solid var(--line);padding-top:2.8mm}
+.dep .l{font-family:var(--mono);font-size:5.6pt;letter-spacing:.2em;text-transform:uppercase;color:var(--tierra);margin-bottom:1.6mm}
+.dep p{font-size:8.5pt;color:var(--ink-soft);line-height:1.5}
+.dep p b{color:var(--paramo)}
+.dep .dates{font-family:var(--mono);font-size:6.4pt;letter-spacing:.08em;color:var(--paramo);margin-top:1.8mm}
+</style>
+</head>
+<body>
+
+<!-- ============ PAGE 1 · COVER ============ -->
+<div class="page dark cover">
+  <div class="frame"></div>
+  <svg class="ridge" viewBox="0 0 1440 400" preserveAspectRatio="none"><path d="M0 400V230L120 180L240 250L360 150L480 210L600 110L720 190L840 90L960 200L1080 140L1200 230L1320 160L1440 240V400Z" fill="#0a1a05"/><path d="M0 400V300L160 260L320 310L480 240L640 300L800 230L960 290L1120 250L1280 300L1440 270V400Z" fill="#08130477"/></svg>
+  <div class="top" style="position:relative;z-index:2">
+    <svg class="mark" width="52" viewBox="0 0 164.49 143.96" style="color:#F0ECE0">
+      <defs>
+        <linearGradient id="cf1" x1="8610.53" y1="-17754.45" x2="8397.79" y2="-18168.8" gradientTransform="translate(-209.41 -336.19) scale(.03 -.03)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+        <mask id="cm1" x="-.17" y="34.14" width="68.89" height="104.48" maskUnits="userSpaceOnUse"><rect x="-.17" y="34.14" width="68.89" height="104.48" fill="url(#cf1)"/></mask>
+        <linearGradient id="cf2" x1="9407.65" y1="-16191.79" x2="8725.9" y2="-16581.27" gradientTransform="translate(-209.41 -336.19) scale(.03 -.03)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+        <mask id="cm2" x="30.37" y="-.57" width="71.86" height="134.59" maskUnits="userSpaceOnUse"><rect x="30.37" y="-.57" width="71.86" height="134.59" fill="url(#cf2)"/></mask>
+      </defs>
+      <g>
+        <rect x="114.48" y="72.62" width="7.09" height="80.72" transform="translate(-45.31 116.99) rotate(-45.15)"/>
+        <rect x="69.42" y="32.27" width="5.67" height="14.39" transform="translate(-.48 78.04) rotate(-56.58)"/>
+        <g mask="url(#cm1)"><rect x="-26.83" y="85.31" width="122.2" height="2.13" transform="translate(-56.79 67.86) rotate(-56.86)"/></g>
+        <g mask="url(#cm2)"><rect x="-8.54" y="65.66" width="149.7" height="2.13" transform="translate(-23.63 94.31) rotate(-62.23)"/></g>
+        <rect x="129.36" y="-6.86" width="4.25" height="117.39" transform="translate(-7.44 77.84) rotate(-32.12)"/>
+        <rect x="32.05" y="109.36" width="73.23" height="2.13" transform="translate(-60.03 91.83) rotate(-49.9)"/>
+      </g>
+    </svg>
+    <div class="coords">05°49′N · 73°02′W</div>
+  </div>
+  <div class="mid" style="position:relative;z-index:2">
+    <div class="doss">DOSSIER DE RUTA · SALIDAS 2027</div>
+    <h1>Pedalea la Leyenda<br>de Boyacá</h1>
+    <div class="es">The Boyacá Traverse</div>
+    <div class="rule"></div>
+    <div class="arc">Desde la laguna sagrada de El Dorado<br>hasta las carreteras del Gran Fondo Boyacá Mundial.</div>
+  </div>
+  <div class="bottom" style="position:relative;z-index:2">
+    <div class="dates">SALIDA PRINCIPAL · 22 – 31 DE ENERO, 2027</div>
+    <div class="numbers">10 DÍAS · 9 NOCHES · 6 ETAPAS · 385 KM · +5.200 M · 10 CUPOS</div>
+    <div class="mono" style="margin-top:4mm;color:#8B6914">RIDETHEANDES.CO · BOYACÁ · COLOMBIA</div>
+  </div>
+</div>
+
+<!-- ============ PAGE 2 · THE INVITATION ============ -->
+<div class="page letter">
+  <div class="pad">
+    <span class="eyebrow">La Invitación</span>
+    <h2 style="font-size:22pt;margin:3mm 0 6mm">Esto no es un tour.<br>Es un regreso a casa.</h2>
+    <p class="lead">En Boyacá hay ciento veintitrés municipios, y he entrado en bicicleta a todos y cada uno de ellos. No por un récord — porque necesitaba saber, kilómetro a kilómetro, de qué estaba hecha mi tierra.</p>
+    <p>Lo que encontré fue un territorio que produce escaladores como otros lugares producen trigo: niños entrenando a tres mil metros, pendientes que no regalan nada, pueblos donde un campeón nacional nació en la calle principal. Y entre las subidas — pueblos de barro cocido, lagunas sagradas, plazas coloniales, y una calidez que convierte un día duro sobre la bicicleta en algo más parecido a la familia.</p>
+    <p>Ride The Andes existe para devolverle esa Boyacá al mundo como merece: desde el sillín, en la altura, ganada. Este dossier es el viaje que construimos para eso — diez días desde la laguna donde nació la leyenda de El Dorado hasta las carreteras del <b>Gran Fondo Boyacá Mundial</b>, el evento de 2.000 ciclistas que tengo el honor de dirigir hombro a hombro con mi padre — diez ediciones y contando.</p>
+    <div class="pull">No vas a visitar Boyacá. Te van a dejar entrar — la gente que <em>es</em> Boyacá.</div>
+    <p>Diez cupos por salida. Cuatro ventanas en 2027, con enero como la principal — y siempre el mismo grupo pequeño, rodando como uno solo.</p>
+    <p>Nos vemos en la carretera,</p>
+    <div class="sig">
+      <div class="name">Sergio Contreras</div>
+      <div class="role">Fundador y Guía Principal · Director, Gran Fondo Boyacá Mundial · Ciclista de los 123</div>
+    </div>
+    <div class="ph photo" style="height:58mm;margin-top:6mm">
+      <img src="img/reto123.jpg" style="object-position:center 58%">
+      <div class="loc">El Reto 123 · donde todo empezó</div>
+    </div>
+  </div>
+  <div class="folio"><span>Ride The Andes · Dossier de Ruta</span><span>02</span></div>
+</div>
+
+<!-- ============ PAGE 3 · WHY BOYACÁ / WHY THE GRAN FONDO ============ -->
+<div class="page">
+  <div class="pad">
+    <div class="sechead">
+      <span class="eyebrow">Por Qué Aquí · Por Qué Esta Carrera</span>
+      <h2>El lugar, y la razón.</h2>
+      <p class="intro">Dos cosas que conviene entender antes de leer un solo día del itinerario: a dónde vas, y hacia qué estás pedaleando la última mañana.</p>
+    </div>
+    <div class="split">
+      <div class="lft">
+        <span class="eyebrow">El Territorio</span>
+        <h3>Por qué Boyacá</h3>
+        <p class="lede">Colombia produce escaladores, y Boyacá produce los escaladores de Colombia.</p>
+        <p>Nairo Quintana, Miguel Ángel &ldquo;Supermán&rdquo; López, Mauricio Soler — todos boyacenses — y, en el más amplio altiplano cundiboyacense, Lucho Herrera, Egan Bernal y Daniel Felipe Martínez. Una porción desproporcionada de la nobleza ciclística del país aprendió a sufrir en estas carreteras. No es misticismo. Es altitud: una tierra alta entera viviendo, trabajando y compitiendo entre los 2.500 y los 3.500 metros, donde los niños suben al colegio por pendientes que acabarían con el fin de semana de la mayoría de los aficionados.</p>
+        <p>El resto es lo que nadie cuenta. Boyacá es donde Colombia se hizo país — el Puente de Boyacá, el Pantano de Vargas. Aquí está la plaza empedrada más grande del continente, un antiguo lecho marino convertido en desierto, y el lago más alto del país con una playa de arena blanca a 3.000 metros.</p>
+        <p>A noventa minutos de Bogotá, y casi por completo ausente de los itinerarios ciclísticos internacionales.</p>
+        <div class="facts">
+          <div class="f"><div class="n">123</div><div class="l">Municipios · todos rodados</div></div>
+          <div class="f"><div class="n">3,015 m</div><div class="l">Lago de Tota · tu campamento base</div></div>
+          <div class="f"><div class="n">1819</div><div class="l">Aquí se selló la independencia</div></div>
+          <div class="f"><div class="n">1995</div><div class="l">Mundial de Ruta · Duitama</div></div>
+        </div>
+      </div>
+      <div class="rgt">
+        <span class="eyebrow">El Final</span>
+        <h3>Por qué el Gran Fondo Boyacá Mundial</h3>
+        <p class="lede">La mayoría de los viajes ciclísticos terminan con una salida más. El tuyo termina en un recorrido legendario.</p>
+        <p>El Gran Fondo Boyacá Mundial es el evento de ruta masivo más grande de Boyacá: más de 2.000 ciclistas saliendo de Duitama con vías cerradas, atravesando el departamento que crió a media mitad del pelotón colombiano. Lleva diez ediciones desde 2016 — y lo dirige tu propio guía.</p>
+        <p>Su recorrido no es casual. Sube el Alto del Cogollo, el ascenso del Campeonato Mundial de Ruta UCI de 1995, cuando Indurain, Pantani y Olano pasaron por las puertas de las casas en Duitama. Los ciclistas de la región nunca han dejado de medirse en él.</p>
+        <p>Tu etapa final rueda ese recorrido con el hombre que lo dirige — cada subida, cada pueblo y la misma llegada a Duitama, en vías abiertas y a tu ritmo. En la salida de octubre es la carrera de verdad: partida oficial, un resultado real, y 2.000 colombianos que te van a arrastrar en las subidas, gritarte en español y pasarte una <em>aguapanela</em> arriba. De cualquier forma terminas algo que existía mucho antes de que llegaras y seguirá mucho después.</p>
+        <div class="facts">
+          <div class="f"><div class="n">2,000+</div><div class="l">Ciclistas en la partida</div></div>
+          <div class="f"><div class="n">11ª</div><div class="l">Edición · 17 de octubre, 2027</div></div>
+          <div class="f"><div class="n">143.6 km</div><div class="l">Fondo completo · +2.120 m</div></div>
+          <div class="f"><div class="n">103.2 km</div><div class="l">Medio fondo · +1.403 m</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="whyrow">
+      <div class="w"><div class="k">No es un circuito cerrado</div><p>Ruedas las mismas carreteras que los locales, toda la semana — perros de pueblo, chivas, campesinos en la berma. Esto es un territorio vivo, no un corredor.</p></div>
+      <div class="w"><div class="k">No eres espectador</div><p>No observas la cultura ciclística colombiana. Ruedas su recorrido más legendario con el hombre que lo dirige — y en octubre, con un número en la espalda.</p></div>
+      <div class="w"><div class="k">No es replicable</div><p>Diez días construidos por el director del propio evento, en carreteras que ha rodado en los 123 municipios. Ningún operador externo tiene este acceso.</p></div>
+    </div>
+  </div>
+  <div class="folio"><span>Ride The Andes · Dossier de Ruta</span><span>03</span></div>
+</div>
+
+<!-- ============ PAGE 4 · AT A GLANCE ============ -->
+<div class="page">
+  <div class="pad">
+    <div class="sechead">
+      <span class="eyebrow">El Viaje en un Vistazo</span>
+      <h2>De El Dorado a la línea de llegada.</h2>
+      <p class="intro">Seis etapas hiladas en diez días de gastronomía, historia y recuperación — secuenciadas para que te aclimates antes de los días grandes, con el recorrido del Gran Fondo Boyacá Mundial guardado para el final.</p>
+    </div>
+    <div class="numstrip">
+      <div class="n"><div class="v">10</div><div class="l">Días · 9 noches</div></div>
+      <div class="n"><div class="v">6</div><div class="l">Etapas en bici</div></div>
+      <div class="n"><div class="v">385<small>km</small></div><div class="l">Total · fondo completo</div></div>
+      <div class="n"><div class="v">5.200<small>m</small></div><div class="l">Ascenso total</div></div>
+      <div class="n"><div class="v">3.015<small>m</small></div><div class="l">Lago de Tota</div></div>
+      <div class="n"><div class="v">10</div><div class="l">Cupos máx.</div></div>
+    </div>
+    <table class="stages">
+      <tr><th>Día</th><th>Etapa</th><th style="text-align:right">Distancia</th><th style="text-align:right">Ascenso</th><th>Noche en</th></tr>
+      <tr><td class="d">Sáb 23</td><td>E1 · Prólogo — La Leyenda de El Dorado</td><td class="km" style="text-align:right">34.0 km</td><td class="km" style="text-align:right">+290 m</td><td>Zipaquirá</td></tr>
+      <tr><td class="d">Dom 24</td><td>E2 · El Camino a la Independencia</td><td class="km" style="text-align:right">53.0 km</td><td class="km" style="text-align:right">+527 m</td><td>Villa de Leyva</td></tr>
+      <tr><td class="d">Lun 25</td><td>E3 · El Desierto y los Dinosaurios</td><td class="km" style="text-align:right">53.3 km</td><td class="km" style="text-align:right">+759 m</td><td>Villa de Leyva</td></tr>
+      <tr><td class="d">Mar 26</td><td>Día de descanso · La Ruta de las Leyendas</td><td class="km" style="text-align:right">—</td><td class="km" style="text-align:right">—</td><td>Lago de Tota</td></tr>
+      <tr><td class="d">Mié 27</td><td>E4 · La Etapa Reina — Alto del Crucero</td><td class="km" style="text-align:right">51.6 km</td><td class="km" style="text-align:right">+1.004 m</td><td>Lago de Tota</td></tr>
+      <tr><td class="d">Jue 28</td><td>E5 · Lago de Tota, Completo</td><td class="km" style="text-align:right">49.8 km</td><td class="km" style="text-align:right">+506 m</td><td>Paipa</td></tr>
+      <tr><td class="d">Vie 29</td><td>Reconocimiento · Monguí y tejo</td><td class="km" style="text-align:right">—</td><td class="km" style="text-align:right">—</td><td>Paipa</td></tr>
+      <tr><td class="d">Sáb 30</td><td>E6 · El recorrido del Gran Fondo Boyacá Mundial</td><td class="km" style="text-align:right">143,6 km*</td><td class="km" style="text-align:right">+2.120 m</td><td>Paipa</td></tr>
+      <tr class="total"><td></td><td>Seis etapas, una leyenda</td><td class="km" style="text-align:right">385 km</td><td class="km" style="text-align:right">+5.200 m</td><td>9 noches</td></tr>
+    </table>
+    <p style="font-family:var(--mono);font-size:6pt;letter-spacing:.1em;text-transform:uppercase;color:var(--tierra);margin-top:2mm">* Opción Medio Fondo en la etapa final: 103,2 km / +1.403 m. Fechas de la salida de enero; mayo, agosto y octubre siguen la misma secuencia. Todas las etapas publicadas en Ride with GPS.</p>
+    <div class="diff">
+      <div class="b"><h3>El recorrido del Gran Fondo</h3><p>Tu final rueda el recorrido del Gran Fondo Boyacá Mundial con el hombre que lo dirige. En la salida de octubre es día de carrera: partida oficial entre más de 2.000 ciclistas.</p></div>
+      <div class="b"><h3>Guiado por el hombre que rodó los 123</h3><p>Cada carretera de esta ruta la ha rodado — muchas veces — el fundador que recorrió en bicicleta los 123 municipios de Boyacá. Esto es territorio, no itinerario.</p></div>
+      <div class="b"><h3>La Ruta de las Leyendas</h3><p>La finca de Rigoberto Urán, la Zipaquirá de Egan Bernal, las subidas de infancia de Nairo Quintana — la peregrinación del ciclismo colombiano, tejida en tu semana.</p></div>
+      <div class="b"><h3>Secuenciado para la altura</h3><p>Primero los valles bajos, después la alta montaña, con recuperación incorporada — termales, tardes de spa y un día de descanso justo donde tus piernas lo piden.</p></div>
+    </div>
+  </div>
+  <div class="folio"><span>Ride The Andes · Dossier de Ruta</span><span>04</span></div>
+</div>
+
+<!-- ============ PAGE 4 · DAYS 1-2 ============ -->
+<div class="page">
+  <div class="pad">
+    <span class="eyebrow">Día a Día</span>
+    <h2 style="font-size:18pt;margin:2.5mm 0 6mm">El viaje, hora a hora</h2>
+
+    <div class="dayhead">
+      <div class="dn">01</div>
+      <div class="dt"><h3>Bienvenidos a Colombia</h3><div class="sub">Viernes, 22 de enero · Día de llegada</div></div>
+      <div class="night">Noche en<b>Bogotá · cerca al aeropuerto</b></div>
+    </div>
+    <div class="tl">
+      <div class="row"><div class="t">Tu vuelo</div><div class="a">Recepción personal en el Aeropuerto Internacional El Dorado — un miembro del equipo de Ride The Andes te espera en llegadas. Traslado privado al hotel, a minutos de allí; tu maleta de bicicleta queda bajo custodia del equipo desde ese momento — durante la noche, nuestro mecánico la arma y la ajusta, lista antes que tú.</div></div>
+      <div class="row"><div class="t">20:30</div><div class="a"><b>Cena de bienvenida y briefing de ruta</b> <span class="inc">· incluido</span> — conoce al equipo, repasamos la ruta, recomendaciones de altura y la logística de los próximos diez días. Empezamos en Cundinamarca, en la Sabana de Bogotá, antes de adentrarnos en Boyacá. ¿Llegas tarde? Te recibimos y te ponemos al día.</div></div>
+    </div>
+
+    <div class="dayhead">
+      <div class="dn">02</div>
+      <div class="dt"><h3>La Leyenda de El Dorado <span class="stagechip chip-ride">Etapa 1 · 34 km · +290 m</span></h3><div class="sub">Sábado, 23 de enero · Prólogo</div></div>
+      <div class="night">Noche en<b>Zipaquirá · casona colonial</b></div>
+    </div>
+    <div class="tl">
+      <div class="row"><div class="t">07:00</div><div class="a">Desayuno en el hotel <span class="inc">· incluido</span></div></div>
+      <div class="row"><div class="t">07:45</div><div class="a">Van a <b>Guatavita</b>, el pueblo de la laguna sagrada donde nació la leyenda de El Dorado.</div></div>
+      <div class="row"><div class="t">10:00</div><div class="a"><b>Etapa 1 — el Prólogo:</b> una rodada de apertura desde la tierra de la leyenda hacia Sopó, cruzando la Sabana. Piernas suaves, primer contacto con la altura — y el primero de los cafés de la región que iremos probando durante la semana (siempre hay un <em>emergency coffee</em> en la van de apoyo).</div></div>
+      <div class="row"><div class="t">12:00</div><div class="a">Almuerzo en la <b>Finca de Rigo</b> <span class="inc">· incluido</span> — el restaurante de Rigoberto Urán en la Sabana de Bogotá, parada de peregrinación para los ciclistas del país. Urán es de Urrao, Antioquia, pero esta mesa cerca de Chía es querida en toda Colombia. Historia del ciclismo en cada pared.</div></div>
+      <div class="row"><div class="t">16:00</div><div class="a">Zipaquirá histórica a pie: los murales en honor a <b>Egan Bernal</b>, campeón del Tour de Francia criado en estas calles — y después la <b>Catedral de Sal</b>, una maravilla arquitectónica tallada a 180 metros bajo tierra dentro de una mina de sal en operación.</div></div>
+      <div class="row"><div class="t">19:00</div><div class="a">Cena en el hotel <span class="inc">· incluido</span></div></div>
+    </div>
+
+    <div class="ph photo" style="height:58mm">
+      <img src="img/guatavita.jpg" style="object-position:center 55%">
+      <div class="loc">Guatavita — donde empieza la leyenda</div>
+    </div>
+  </div>
+  <div class="folio"><span>Ride The Andes · Dossier de Ruta</span><span>05</span></div>
+</div>
+
+<!-- ============ PAGE 5 · DAYS 3-4 ============ -->
+<div class="page">
+  <div class="pad">
+    <div class="dayhead">
+      <div class="dn">03</div>
+      <div class="dt"><h3>El Camino a la Independencia <span class="stagechip chip-ride">Etapa 2 · 53 km · +527 m</span></h3><div class="sub">Domingo, 24 de enero</div></div>
+      <div class="night">Noche en<b>Villa de Leyva</b></div>
+    </div>
+    <div class="tl">
+      <div class="row"><div class="t">07:45</div><div class="a">Van al <b>Puente de Boyacá</b> — el puente donde se selló la independencia de Colombia en 1819.</div></div>
+      <div class="row"><div class="t">09:30</div><div class="a"><b>Etapa 2:</b> ya en Boyacá — del puente de la libertad al pueblo de los artesanos, por caminos coloniales entre los valles del departamento.</div></div>
+      <div class="row"><div class="t">12:00</div><div class="a">Llegada a <b>Ráquira</b>, capital artesanal de Colombia y pueblo de los ollas de barro. Refrigerio <span class="inc">· incluido</span> y fotos en una de las plazas más coloridas del país.</div></div>
+      <div class="row"><div class="t">14:00</div><div class="a">Almuerzo en Villa de Leyva <span class="inc">· incluido</span> — y de postre, una parada obligatoria: la legendaria <b>milhoja de La Galleta</b>.</div></div>
+      <div class="row"><div class="t">17:00</div><div class="a">Piscina climatizada cubierta, sauna y baño turco en el hotel; masajes de spa reservables en recepción (USD 38, no incluido). O simplemente recorre la <b>Plaza Mayor</b> — la plaza empedrada más grande del continente.</div></div>
+      <div class="row"><div class="t">Noche</div><div class="a"><b>Noche libre en Villa de Leyva:</b> cena donde quieras — el pueblo está lleno de buenas mesas — una cerveza o dos, y la magia de la noche colonial.</div></div>
+    </div>
+
+    <div class="dayhead">
+      <div class="dn">04</div>
+      <div class="dt"><h3>El Desierto y los Dinosaurios <span class="stagechip chip-ride">Etapa 3 · 53,3 km · +759 m</span></h3><div class="sub">Lunes, 25 de enero</div></div>
+      <div class="night">Noche en<b>Villa de Leyva</b></div>
+    </div>
+    <div class="tl">
+      <div class="row"><div class="t">09:00</div><div class="a"><b>Etapa 3:</b> un antiguo lecho marino convertido en tierras ocres — el paisaje más inesperado del tour.</div></div>
+      <div class="row"><div class="t">11:00</div><div class="a">Parada en <b>Gondava, el valle de los dinosaurios</b>: fósiles reales de la era en que este desierto era mar, justo sobre la ruta. Refrigerio <span class="inc">· incluido</span></div></div>
+      <div class="row"><div class="t">13:30</div><div class="a">A Sutamarchán para el almuerzo más boyacense de todos: <b>la fritanga</b> <span class="inc">· incluido</span> — construida alrededor de la mejor longaniza de Colombia, artesanal, de cerdo magro, humo profundo y especias naturales, con chicharrón, morcilla, papa criolla y ají de la casa.</div></div>
+      <div class="row"><div class="t">16:00</div><div class="a"><b>Termales</b> — dos horas de recuperación en agua caliente para las piernas.</div></div>
+      <div class="row"><div class="t">20:00</div><div class="a">Segunda noche libre en Villa de Leyva.</div></div>
+    </div>
+
+    <div class="ph photo" style="height:52mm">
+      <img src="img/villadeleyva.jpg">
+      <div class="loc">Villa de Leyva — la plaza empedrada más grande del continente</div>
+    </div>
+  </div>
+  <div class="folio"><span>Ride The Andes · Dossier de Ruta</span><span>06</span></div>
+</div>
+
+<!-- ============ PAGE 6 · DAY 5 REST + LEGENDS ============ -->
+<div class="page dark legends">
+  <div class="pad">
+    <span class="eyebrow" style="color:var(--terracota-bright)">Día 05 · Martes, 26 de enero · Día de Descanso</span>
+    <h2 style="margin:3mm 0 2mm">Tierra de campeones:<br>La Ruta de las Leyendas.</h2>
+    <p style="font-size:11pt;color:#cfc9b8;max-width:150mm">Hoy no se pedalea — tus piernas se recuperan mientras tu imaginación sigue andando. Un día recorriendo las carreteras donde se hicieron los campeones, que termina a 3.015 metros a la orilla del lago más grande de Colombia.</p>
+    <div class="grid">
+      <div class="c"><div class="k">09:00 · Arcabuco</div><h3>Las carreteras de entrenamiento de Nairo Quintana</h3><p>Las mismas subidas donde se forjó el escarabajo más grande de su generación — ganador del Giro de Italia y de la Vuelta a España.</p></div>
+      <div class="c"><div class="k">10:00 · La casa de Nairo</div><h3>Donde empezó la historia</h3><p>Una parada en la casa donde Nairo vivió con sus padres — fotos y onces (el algo boyacense de media mañana, incluido) en el punto de origen de una leyenda.</p></div>
+      <div class="c"><div class="k">12:30 · Nobsa</div><h3>Almuerzo a la brasa, Rincón de las Campanas</h3><p>Una parrilla a fuego vivo en el centro de tu propia mesa: eliges tus cortes y ves al parrillero llevarlos de la brasa al plato, frente a ti. Fuego, humo y sabor boyacense. <span style="font-family:var(--mono);font-size:5.6pt;letter-spacing:.1em;text-transform:uppercase;color:var(--terracota-bright)">Incluido</span></p></div>
+      <div class="c"><div class="k">14:00 · Tibasosa y Nobsa</div><h3>La tarde de los pueblos</h3><p>Tierra de ruanas — balcones coloniales, talleres de tejido y tradición artesanal, a ritmo de van y con todas las paradas que valen la pena.</p></div>
+    </div>
+    <div style="margin-top:6mm;border:.6pt solid rgba(240,236,224,.25);padding:4.5mm 5.5mm">
+      <div class="k" style="font-family:var(--mono);font-size:5.8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--terracota-bright);margin-bottom:1.6mm">18:00 · Lago de Tota</div>
+      <p style="font-size:10pt;color:#cfc9b8;line-height:1.5">Check-in a la orilla del lago a <b style="color:#F0ECE0">3.015 metros</b> — tu campamento base para los días reina. Cena junto al agua <span style="font-family:var(--mono);font-size:5.6pt;letter-spacing:.1em;text-transform:uppercase;color:var(--terracota-bright)">· incluido</span>. Mañana, la montaña.</p>
+    </div>
+    <div class="ph photo" style="height:56mm;margin-top:6mm">
+      <img src="img/lagopano.jpg">
+      <div class="loc">Lago de Tota — campamento base a 3.015 m</div>
+    </div>
+  </div>
+  <div class="folio"><span>Ride The Andes · Dossier de Ruta</span><span>07</span></div>
+</div>
+
+<!-- ============ PAGE 7 · DAYS 6-7 ============ -->
+<div class="page">
+  <div class="pad">
+    <div class="dayhead">
+      <div class="dn">06</div>
+      <div class="dt"><h3>La Etapa Reina <span class="stagechip chip-queen">Etapa 4 · 51,6 km · +1.004 m</span></h3><div class="sub">Miércoles, 27 de enero · Alto del Crucero</div></div>
+      <div class="night">Noche en<b>Lago de Tota</b></div>
+    </div>
+    <div class="tl">
+      <div class="row"><div class="t">07:45</div><div class="a"><b>La Etapa Reina:</b> desciende del lago al pueblo termal de <b>Iza</b>, y después la gran prueba del tour — la subida al <b>Alto del Crucero</b>, el puerto que todo ciclista sueña con conquistar. Verificada en campo, con el equipo a tu lado.</div></div>
+      <div class="row"><div class="t">12:30</div><div class="a">Almuerzo en el hotel <span class="inc">· incluido</span> — ducha, descanso, y la satisfacción de tener la subida más grande ya detrás.</div></div>
+      <div class="row"><div class="t">14:00</div><div class="a"><b>Catamarán a la Isla San Pedro</b>, la isla lacustre más grande de Colombia — a bordo de un catamarán de dos cubiertas único en la región: reposeras, hamaca, estación de café permanente, música y una cubierta panorámica de 360°.</div></div>
+      <div class="row"><div class="t">16:00</div><div class="a"><b>Playa Blanca</b> — arena blanca en la altura: una playa natural a 3.000 metros. El contraste imposible — playa, frío de montaña y luz andina — con fotos y café de la región.</div></div>
+      <div class="row"><div class="t">19:30</div><div class="a"><b>Cena a la orilla del lago</b> <span class="inc">· incluido</span> — una experiencia gastronómica alrededor de la trucha pescada en el propio Lago de Tota.</div></div>
+    </div>
+
+        <div class="ph photo" style="height:47mm;margin-bottom:6mm">
+      <img src="img/playablanca.jpg" style="object-position:center 55%">
+      <div class="loc">Playa Blanca — arena blanca a 3.000 metros</div>
+    </div>
+    <div class="dayhead">
+      <div class="dn">07</div>
+      <div class="dt"><h3>Lago de Tota, Completo <span class="stagechip chip-ride">Etapa 5 · 49,8 km · +506 m</span></h3><div class="sub">Jueves, 28 de enero</div></div>
+      <div class="night">Noche en<b>Paipa · Estelar Hotel</b></div>
+    </div>
+    <div class="tl">
+      <div class="row"><div class="t">07:45</div><div class="a"><b>Etapa 5:</b> el lago más alto de Colombia recorrido completo en bicicleta, entre cultivos de cebolla y agua andina azul.</div></div>
+      <div class="row"><div class="t">11:00</div><div class="a">La etapa termina en <b>Firavitoba</b> — refrigerio <span class="inc">· incluido</span>, y después traslado en van al <b>Pantano de Vargas</b>: sitio de la batalla que dio vuelta a la campaña libertadora, coronado por la escultura más grande de Colombia — 33 metros para la carga de los 14 lanceros.</div></div>
+      <div class="row"><div class="t">13:00</div><div class="a">Check-in en el <b>Estelar Hotel y Centro de Convenciones</b> de Paipa, a orillas del Lago Sochagota. Almuerzo <span class="inc">· incluido</span></div></div>
+      <div class="row"><div class="t">15:00</div><div class="a"><b>Tarde de spa:</b> jacuzzi, baño turco, sauna y masaje — la recuperación que tus piernas están pidiendo antes del gran final.</div></div>
+      <div class="row"><div class="t">19:00</div><div class="a">Cena en el <b>Club Náutico</b> <span class="inc">· incluido</span>, con vista al Lago Sochagota.</div></div>
+    </div>
+
+    <div class="ph photo" style="height:44mm">
+      <img src="img/burro.jpg" style="object-position:center 46%">
+      <div class="loc">Las mismas carreteras, todos los ritmos — Lago de Tota</div>
+    </div>
+  </div>
+  <div class="folio"><span>Ride The Andes · Dossier de Ruta</span><span>08</span></div>
+</div>
+
+<!-- ============ PAGE 8 · DAYS 8-9 RACE ============ -->
+<div class="page">
+  <div class="pad">
+    <div class="dayhead">
+      <div class="dn">08</div>
+      <div class="dt"><h3>Monguí y Tejo <span class="stagechip chip-rest">Víspera del final</span></h3><div class="sub">Viernes, 29 de enero</div></div>
+      <div class="night">Noche en<b>Paipa</b></div>
+    </div>
+    <div class="tl">
+      <div class="row"><div class="t">10:00</div><div class="a"><b>Pueblito Boyacense</b>, patrimonio cultural de Colombia: techos de teja de barro, balcones y empedrados — la arquitectura de la región reunida en un solo pueblo vivo de artistas y artesanos.</div></div>
+      <div class="row"><div class="t">12:00</div><div class="a"><b>Monguí</b> — uno de los pueblos más bellos de Colombia y la cuna de los balones cosidos a mano. Más que un almuerzo: un reconocimiento parcial de ruta con nuestros riders — leyendo el estado de la vía, el clima y parte del ascenso a Monguí de mañana. Almuerzo a la orilla del río, cerca del Puente de Calicanto <span class="inc">· incluido</span></div></div>
+      <div class="row"><div class="t">15:00</div><div class="a"><b>Tarde de tejo</b> de vuelta en Duitama: el deporte tradicional de Boyacá. Pólvora, puntería y risas — el ritual perfecto antes del gran final.</div></div>
+      <div class="row"><div class="t">18:00</div><div class="a">De regreso al hotel — alistar el kit y bajar revoluciones temprano.</div></div>
+      <div class="row"><div class="t">19:00</div><div class="a"><b>Cena previa a la etapa</b> en el hotel <span class="inc">· incluido</span> — el ritual de carga de carbohidratos que todo ciclista conoce. Temprano a la cama; mañana es la grande.</div></div>
+    </div>
+
+    <div class="dayhead">
+      <div class="dn">09</div>
+      <div class="dt"><h3>El Recorrido del Gran Fondo <span class="stagechip chip-race">Etapa 6 · El gran final</span></h3><div class="sub">Sábado, 30 de enero · 143,6 km / +2.120 m — o Medio Fondo 103,2 km / +1.403 m</div></div>
+      <div class="night">Noche en<b>Paipa</b></div>
+    </div>
+    <div class="tl">
+      <div class="row"><div class="t">Mañana</div><div class="a">Desayuno temprano <span class="inc">· incluido</span> — y a Duitama con el equipo.</div></div>
+      <div class="row"><div class="t">La etapa</div><div class="a"><b>El recorrido del Gran Fondo Boyacá Mundial, rodado con el hombre que lo dirige</b> — por Monguí y sobre el Alto del Cogollo. Completo o Medio Fondo, en vías abiertas: moto guía adelante, van de apoyo atrás, avituallamiento desde la van. Apriétalo, o ruédalo como una celebración rodante.</div></div>
+      <div class="row"><div class="t">Llegada</div><div class="a"><b>Entras a Duitama. La travesía está completa.</b> Almuerzo <span class="inc">· incluido</span></div></div>
+      <div class="row"><div class="t">19:30</div><div class="a"><b>Cena de despedida</b> <span class="inc">· incluido</span> — música, baile y una última noche boyacense como debe ser. Las historias son para siempre.</div></div>
+      <div class="row"><div class="t">Octubre</div><div class="a">En la salida del <b>9 al 18 de octubre</b> este día es <b>día de carrera</b>: partida oficial en la undécima edición, el domingo 17 de octubre de 2027 — vías cerradas, cronometraje, medalla y más de 2.000 ciclistas.</div></div>
+    </div>
+    <div class="dayhead">
+      <div class="dn">10</div>
+      <div class="dt"><h3>Hasta pronto, Boyacá</h3><div class="sub">Domingo, 31 de enero · Salida</div></div>
+      <div class="night"><b>Fin del tour</b></div>
+    </div>
+    <div class="tl" style="margin-bottom:4mm">
+      <div class="row"><div class="t">09:30</div><div class="a">Van privada a Bogotá — bicicletas empacadas por nuestro mecánico.</div></div>
+      <div class="row"><div class="t">14:00</div><div class="a">Llegada al Aeropuerto Internacional El Dorado. Un abrazo — y nos vemos en la próxima subida.</div></div>
+    </div>
+
+    <div class="ph photo" style="height:44mm">
+      <img src="img/peloton.jpg" style="object-position:center 52%">
+      <div class="loc">El Gran Fondo Boyacá Mundial — las carreteras de tu etapa final</div>
+    </div>
+  </div>
+  <div class="folio"><span>Ride The Andes · Dossier de Ruta</span><span>09</span></div>
+</div>
+
+<!-- ============ PAGE 9 · INCLUDED ============ -->
+<div class="page">
+  <div class="pad">
+    <div class="sechead">
+      <span class="eyebrow">Qué Incluye</span>
+      <h2>Un solo precio, transparente.</h2>
+      <p class="intro">Esto es exactamente lo que cubre tu viaje — y, con la misma claridad, las pocas cosas que no.</p>
+    </div>
+    <div class="incgrid">
+      <div class="it"><div class="ic">✦</div><div><h3>Alojamiento boutique y patrimonial</h3><p>Hoteles cuatro estrellas en toda la ruta — casonas coloniales en Villa de Leyva y Zipaquirá, una estadía a orillas del Lago de Tota y el Estelar Hotel y Centro de Convenciones, cinco estrellas, en Paipa. Nueve noches, acomodación doble, todos los desayunos, piscinas y zonas húmedas termales.</p></div></div>
+      <div class="it"><div class="ic">⌖</div><div><h3>Apoyo completo en ruta</h3><p>Dos guías rodando contigo en cada etapa — guía principal bilingüe y mecánico-ciclista local — además de moto de avanzada y van de apoyo siempre al final del grupo.</p></div></div>
+      <div class="it"><div class="ic">★</div><div><h3>La Ruta de las Leyendas — tours y entradas</h3><p>Finca de Rigo, la Zipaquirá de Egan Bernal, la Catedral de Sal, el Arcabuco de Nairo, Gondava, catamarán en el Lago de Tota, Pantano de Vargas, Pueblito Boyacense y Monguí — todas las entradas incluidas.</p></div></div>
+      <div class="it"><div class="ic">⊹</div><div><h3>Gastronomía boyacense curada</h3><p>Ocho almuerzos y siete cenas — sabores auténticos de Boyacá en armonía con cocina internacional — más refrigerios regionales diarios e hidratación ajustada a cada etapa.</p></div></div>
+      <div class="it"><div class="ic">◎</div><div><h3>El recorrido del Gran Fondo, guiado</h3><p>La Etapa 6 rueda el recorrido del Gran Fondo Boyacá Mundial con el hombre que lo dirige — completo o Medio Fondo, con el equipo en ruta. En la salida de octubre: tu inscripción oficial a la carrera.</p></div></div>
+      <div class="it"><div class="ic">▣</div><div><h3>Tu viaje, filmado</h3><p>Un fotógrafo y un videógrafo acompañan los diez días — cada subida, cada esfuerzo y cada triunfo entregados como un archivo personal de fotos y video.</p></div></div>
+      <div class="it"><div class="ic">✈</div><div><h3>Recogida en aeropuerto y todos los traslados</h3><p>Recepción personal en El Dorado de Bogotá y van privada para cada traslado durante los diez días. No piensas en logística ni una sola vez.</p></div></div>
+      <div class="it"><div class="ic">⚙</div><div><h3>Mecánica y cobertura médica</h3><p>Asistencia mecánica en ruta con lavado diario de la bicicleta y mantenimiento básico, más cobertura de asistencia médica y de accidentes durante los diez días en Colombia — con el ciclismo expresamente amparado, no excluido como deporte peligroso.</p></div></div>
+    </div>
+    <div class="notinc">
+      <div class="l">No incluye</div>
+      <p>Vuelos internacionales · Alquiler de bicicleta (bicicletas premium de carbono disponibles de nuestra propia flota) · Repuestos · Dos cenas de libre elección en Villa de Leyva · Tratamientos de spa opcionales, deportes acuáticos y cabalgata en Paipa</p>
+    </div>
+        <div class="kit">
+      <div class="hd">
+        <h3>El kit de bienvenida del ciclista</h3>
+        <span class="tag">Solo para quienes ruedan · no está en nuestra tienda</span>
+      </div>
+      <div class="items">
+        <div class="it"><b>Jersey oficial RTA</b> — tu uniforme de la semana, y la prueba de que estuviste.</div>
+        <div class="it"><b>Hoodie</b> — para las mañanas de páramo y el vuelo de regreso.</div>
+        <div class="it"><b>Caramañola</b> — la que va contigo en cada etapa.</div>
+        <div class="it"><b>Ruana</b> — la capa de lana abierta al frente con que Boyacá se abriga del frío de la tierra alta desde hace siglos. Tejida aquí.</div>
+        <div class="it"><b>Camiseta oficial</b> — fuera de la bici, todavía del equipo.</div>
+        <div class="it"><b>Detalles sorpresa en ruta</b> — cosas pequeñas, entregadas en el momento justo.</div>
+      </div>
+      <p class="ft">Cada pieza personalizada, hecha para quienes ruedan cada salida y fuera de nuestra tienda de merch.</p>
+    </div>
+  </div>
+  <div class="folio"><span>Ride The Andes · Dossier de Ruta</span><span>10</span></div>
+</div>
+
+<!-- ============ PAGE 10 · HOTELS ============ -->
+<div class="page">
+  <div class="pad">
+    <div class="sechead">
+      <span class="eyebrow">Nueve Noches · Boutique y Patrimonio</span>
+      <h2>Duerme como te lo ganaste.</h2>
+      <p class="intro">Cinco propiedades elegidas como elegimos las carreteras — por carácter, por lugar, y por lo que tus piernas necesitan después. Cada noche: desayuno incluido, agua para sumergirse, y un equipo que ya está trabajando en el día siguiente.</p>
+    </div>
+    <div class="hgrid">
+      <div class="hcard"><div class="hph"><img src="img/movich.jpg"></div><div class="hbody"><div class="hk">Bogotá · Noche 1</div><h3>Movich Buró 26</h3><p>A minutos del Aeropuerto Internacional El Dorado — aterrizas, te reciben, descansas. El viaje empieza con una noche completa de sueño.</p></div></div>
+      <div class="hcard"><div class="hph"><img src="img/caminosal.jpg"></div><div class="hbody"><div class="hk">Zipaquirá · Noche 2</div><h3>Camino de la Sal</h3><p>Una casona de estilo colonial en la ciudad de la sal — a pasos de la plaza, y de la catedral tallada en la montaña bajo ella.</p></div></div>
+      <div class="hcard"><div class="hph"><img src="img/getsemani.jpg"></div><div class="hbody"><div class="hk">Villa de Leyva · Noches 3–4</div><h3>Hotel Getsemaní</h3><p>Una casona blanca alrededor de un patio florecido, a un empedrado de la Plaza Mayor — piscina climatizada, sauna y turco para las piernas después de la etapa.</p></div></div>
+      <div class="hcard"><div class="hph"><img src="img/ranchotota.jpg"></div><div class="hbody"><div class="hk">Lago de Tota · Noches 5–6</div><h3>Decameron Rancho Tota</h3><p>A la orilla del lago a 3.015 metros — despiertas frente al agua y sales rodando desde la puerta. Tu campamento base para los días reina.</p></div></div>
+    </div>
+    <div class="hfeature">
+      <div class="hph"><img src="img/estelar.jpg"></div>
+      <div class="hbody"><div class="hk">Paipa · Noches 7–9</div><h3>Estelar Hotel y <span style="white-space:nowrap">Centro de Convenciones</span></h3><p>El resort cinco estrellas sobre el Lago Sochagota, alimentado por las aguas termales que hicieron famosa a Paipa — jacuzzi, sauna, turco y masaje para los últimos días. Recuperación, bien hecha.</p></div>
+    </div>
+    <p style="font-family:var(--mono);font-size:6pt;letter-spacing:.1em;text-transform:uppercase;color:var(--tierra);margin-top:3mm">Cuatro y cinco estrellas · acomodación doble · todos los desayunos incluidos · piscinas o zonas húmedas termales en cada parada de recuperación</p>
+  </div>
+  <div class="folio"><span>Ride The Andes · Dossier de Ruta</span><span>11</span></div>
+</div>
+
+<!-- ============ PAGE 11 · GUIDE & CREW ============ -->
+<div class="page">
+  <div class="pad">
+    <div class="sechead">
+      <span class="eyebrow">Tu Guía y Equipo</span>
+      <h2>El hombre que rodó toda Boyacá.</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:72mm 1fr;gap:7mm;align-items:start">
+      <div class="ph photo" style="height:84mm">
+        <img src="img/guide.jpg" style="object-position:center 30%">
+        <div class="loc">Sergio — fundador y guía principal</div>
+      </div>
+      <div>
+        <p style="font-size:11.5pt;color:#33321f;margin-bottom:4mm">Hay guías que conocen una ruta, y hay guías que conocen un <b>territorio</b> — Sergio es del segundo tipo. Lee el clima del páramo antes de que cambie, te señala dónde nació un campeón nacional, y sabe en qué casa de campo sirven la mejor <em>aguapanela</em> del kilómetro 60. Hay una diferencia entre visitar Boyacá y descubrir su verdadera esencia — <b>nosotros te mostramos la segunda</b>.</p>
+        <div style="border:.6pt solid var(--line);background:var(--card);padding:4.5mm 5mm;margin-top:2mm">
+          <div class="mono" style="color:var(--tierra);margin-bottom:2.5mm;font-size:6pt;letter-spacing:.2em">Tu equipo, en cada etapa</div>
+          <p style="font-size:9.6pt;color:var(--ink-soft);line-height:1.55">
+            <b style="color:var(--paramo)">Guía principal bilingüe</b> — rodando contigo, leyendo la carretera.<br>
+            <b style="color:var(--paramo)">Mecánico-ciclista local</b> — rodando contigo, con la llave en la mano.<br>
+            <b style="color:var(--paramo)">Moto de avanzada</b> — marcando la ruta, ubicando al fotógrafo.<br>
+            <b style="color:var(--paramo)">Van de apoyo</b> — siempre al final del grupo: repuestos, nutrición, y un aventón cuando lo quieras.<br>
+            <b style="color:var(--paramo)">Fotógrafo y videógrafo</b> — los diez días, capturando la historia.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="pillars">
+      <div class="b"><div class="k">Los 123 municipios</div><p>Cada municipio de Boyacá, rodado en bicicleta — el origen de Ride The Andes. Territorio aprendido kilómetro a kilómetro.</p></div>
+      <div class="b"><div class="k">Director del Gran Fondo</div><p>Diez ediciones dirigiendo el Gran Fondo Boyacá Mundial desde 2016 — más de 2.000 ciclistas al año. Tu final es su recorrido.</p></div>
+      <div class="b"><div class="k">Experiencia internacional</div><p>Ha trabajado con L'Étape Colombia y L'Étape Ecuador — la serie oficial de gran fondos del Tour de Francia.</p></div>
+      <div class="b"><div class="k">Rutas de Boyacá</div><p>Las seis etapas diseñadas, rodadas y verificadas en campo por nuestro propio equipo — publicadas en Ride with GPS con perfiles completos.</p></div>
+    </div>
+    <div class="pull" style="margin-top:6mm">"Nosotros somos Boyacá." — No operamos en este territorio. <em>Somos</em> este territorio.</div>
+    <div class="ph photo" style="height:52mm;margin-top:5mm">
+      <img src="img/cogollo.jpg">
+      <div class="loc">Alto del Cogollo — la subida del Mundial de 1995</div>
+    </div>
+  </div>
+  <div class="folio"><span>Ride The Andes · Dossier de Ruta</span><span>12</span></div>
+</div>
+
+<!-- ============ PAGE 12 · INVESTMENT ============ -->
+<div class="page">
+  <div class="pad">
+    <div class="sechead">
+      <span class="eyebrow">Inversión · Salidas 2027</span>
+      <h2>Un viaje. Un precio honesto.</h2>
+      <p class="intro">Cuatro salidas en 2027, con el 22–31 de enero como la principal. Diez cupos en cada una, entre ciclistas y acompañantes — mismo precio en todas.</p>
+    </div>
+    <div class="pcards">
+      <div class="pcard">
+        <span class="badge">Salidas 2027</span>
+        <div class="nm">Pedalea la Leyenda de Boyacá</div>
+        <div class="sb">10 Días · Todo Incluido · Ciclista</div>
+        <div class="amt">$4.500<small> USD</small></div>
+        <div class="per">por ciclista · acomodación doble</div>
+        <ul>
+          <li>9 noches de alojamiento boutique y patrimonial</li>
+          <li>Todos los desayunos, 8 almuerzos y 7 cenas</li>
+          <li>Apoyo completo del equipo en cada etapa</li>
+          <li>El recorrido del Gran Fondo, guiado (inscripción en octubre)</li>
+          <li>La Ruta de las Leyendas — todos los tours y entradas</li>
+          <li>Fotografía y película personal del viaje</li>
+          <li>Cobertura médica, traslados y kit de bienvenida</li>
+        </ul>
+      </div>
+      <div class="pcard alt">
+        <span class="badge">Acompañante No Ciclista</span>
+        <div class="nm">El Viaje del Acompañante</div>
+        <div class="sb">Todo, menos pedalear</div>
+        <div class="amt" style="font-size:24pt">$4.000<small> USD</small></div>
+        <div class="per">por acompañante · acomodación doble</div>
+        <p class="note">Para parejas y amigos que prefieren explorar antes que pedalear: el viaje completo — hoteles, gastronomía, tours culturales, el catamarán, todos los traslados y tu archivo fotográfico — sin las etapas en bici. Viajan juntos; se encuentran en cada meta.</p>
+      </div>
+    </div>
+    <div class="supp">
+      <div class="l">Acomodación</div>
+      <p>Precios por persona en acomodación doble. ¿Habitación propia? <b>Suplemento individual de $800 USD</b> por todo el tour. ¿Viajas solo pero no te importa compartir? Te emparejamos con otro ciclista sin costo.</p>
+    </div>
+    <div class="booking">
+      <span class="l">Reserva tu cupo</span>
+      <div class="bkgrid">
+        <div class="b">
+          <div class="k">Depósito</div>
+          <div class="v">$500 USD</div>
+          <p>Por persona — ciclistas y acompañantes por igual. Disponible hasta 30 días antes de tu salida (23 de diciembre de 2026 para enero).</p>
+        </div>
+        <div class="b">
+          <div class="k">Saldo</div>
+          <div class="v">$4.000 · $3.500</div>
+          <p>Ciclista y acompañante, 16 días antes de la salida, el día que cierran las ventas (6 de enero de 2027 para enero). Fuera del plazo del depósito se paga completo.</p>
+        </div>
+        <div class="b">
+          <div class="k">Cómo pagas</div>
+          <div class="v">PayPal · USD</div>
+          <p>Tarjeta y PayPal en ridetheandes.co. Nosotros asumimos todas las comisiones de pasarela y cambio de moneda — pagas el precio publicado.</p>
+        </div>
+      </div>
+      <p class="fine"><b>¿Cambiaste de opinión?</b> Cancelación gratuita dentro de los 5 días hábiles siguientes a la reserva — reembolso total, sin deducciones. Después aplica una escala publicada según la cercanía a la salida, y puedes ceder tu cupo sin costo. Si cancelamos nosotros, eliges entre reembolso del 100% o crédito del 110%. Términos completos en <b>ridetheandes.co</b>. Agencia de viajes operadora inscrita en Colombia — RNT 296185.</p>
+    </div>
+    <div class="dep">
+      <div class="l">Cuatro ventanas en 2027</div>
+      <p>Los mismos diez días salen cuatro veces. <b>Enero es nuestra salida principal</b>; en octubre, la Etapa 6 es día de carrera en el undécimo Gran Fondo Boyacá Mundial.</p>
+      <div class="dates">22–31 ENE 2027 (PRINCIPAL) &nbsp;·&nbsp; 15–24 MAY 2027 &nbsp;·&nbsp; 20–29 AGO 2027 &nbsp;·&nbsp; 9–18 OCT 2027 (SEMANA DE CARRERA)</div>
+    </div>
+  </div>
+  <div class="folio"><span>Ride The Andes · Dossier de Ruta</span><span>13</span></div>
+</div>
+
+<!-- ============ PAGE 13 · PRACTICAL ============ -->
+<div class="page">
+  <div class="pad">
+    <div class="sechead">
+      <span class="eyebrow">Antes de Rodar</span>
+      <h2>Las respuestas prácticas.</h2>
+    </div>
+    <div class="prac">
+      <div class="q"><h3>¿Qué tan duro es, honestamente?</h3><p>Un tour ciclístico de verdad, para ciclistas cómodos con jornadas de varias horas y ascensos sostenidos — aproximadamente la forma para rodar 3 a 4 horas en días consecutivos. <b>Nunca tienes que competir:</b> la van siempre va detrás de ti, y cualquier etapa puede volverse una etapa parcial cuando lo decidas.</p></div>
+      <div class="q"><h3>¿Y la altura?</h3><p>La ruta está secuenciada para aclimatarte: primero las etapas de valle bajo, después la alta montaña alrededor del Lago de Tota, con un día de descanso justo donde cuenta. La hidratación y el ritmo se manejan con cuidado; el equipo observa al grupo de cerca.</p></div>
+      <div class="q"><h3>¿Mi bicicleta o la de ustedes?</h3><p>Las dos funcionan. Trae la tuya — la recibimos en Bogotá, la armamos, le hacemos mantenimiento diario y la empacamos para tu vuelo de regreso. O alquila una bicicleta premium de carbono, de ruta o all-road, con ajuste profesional, de nuestra propia flota (no incluida; se reserva con anticipación).</p></div>
+      <div class="q"><h3>¿El clima en enero?</h3><p>La temporada seca de Boyacá: mañanas frescas entre 8 y 12 °C, horas de rodada entre 15 y 22 °C y sol fuerte en la altura — el final de enero le trae a Paipa cerca de un tercio de los días de lluvia de octubre, aunque el Lago de Tota sigue siendo cambiante. Capas, perneras y una chaqueta liviana; la lista completa de equipaje llega con tu confirmación.</p></div>
+      <div class="q"><h3>¿La carrera hace parte?</h3><p>La carrera es en octubre y cierra nuestra salida del 9 al 18 de octubre con número oficial. En enero, mayo y agosto, la Etapa 6 rueda el mismo recorrido con su director — fondo completo (143,6 km / +2.120 m) o Medio Fondo (103,2 km / +1.403 m), con el equipo en ruta.</p></div>
+      <div class="q"><h3>¿Para quién NO es esto?</h3><p>Honestamente: para quien busca su primer viaje ciclístico, o rodadas planas entre cafés. Esto es escalada real a altura real — ganada, acompañada e inolvidable. Si tienes dudas, escríbenos; te lo decimos de frente.</p></div>
+      <div class="q"><h3>¿Qué cubre el seguro?</h3><p>Asistencia médica y de accidentes durante los diez días en Colombia, con el ciclismo de ruta expresamente amparado — no excluido como deporte peligroso, que es lo que hacen muchas pólizas estándar. Las condiciones completas llegan con tu confirmación. No cubre cancelación de viaje, así que recomendamos que contrates tu propio seguro de viaje para eso.</p></div>
+      <div class="q"><h3>¿Puedo cancelar?</h3><p>Sí. Dentro de los 5 días hábiles siguientes a la reserva, se te devuelve todo — sin deducciones, sin preguntas. Después aplica una escala publicada, y en cualquier momento puedes ceder tu cupo a otro ciclista sin costo. Los términos completos están en ridetheandes.co.</p></div>
+    </div>
+    <div class="flightbox">
+      <h3>✈ Planea tus vuelos</h3>
+      <p><b>Llegada:</b> viernes 22 de enero — a cualquier hora; recibimos todos los vuelos en El Dorado (BOG). &nbsp; <b>Salida:</b> domingo 31 de enero — llegamos al aeropuerto a las 2:00 p.m., así que reserva vuelos que salgan <b>después de las 5:00 p.m.</b> Eso cubre prácticamente todos los vuelos nocturnos directos a Europa y varias salidas de tarde a Norteamérica. ¿Vuelas antes? Con gusto te ayudamos a organizar una noche extra en Bogotá (no incluida).</p>
+    </div>
+    <div class="ph photo" style="height:56mm;margin-top:6mm">
+      <img src="img/mecho.jpg">
+      <div class="loc">Todas las etapas publicadas — explora antes de decidir</div>
+      <div class="tag">RWGPS: 56094216 · 56094507 · 55004164 · 55004249 · 55004302 · 56094893</div>
+    </div>
+  </div>
+  <div class="folio"><span>Ride The Andes · Dossier de Ruta</span><span>14</span></div>
+</div>
+
+<!-- ============ PAGE 14 · BACK COVER ============ -->
+<div class="page dark back">
+  <div class="frame"></div>
+  <div style="position:relative;z-index:2;margin-top:10mm">
+    <svg class="mark" width="64" viewBox="0 0 164.49 143.96" style="color:#F0ECE0;margin:0 auto 8mm">
+      <g>
+        <rect x="114.48" y="72.62" width="7.09" height="80.72" transform="translate(-45.31 116.99) rotate(-45.15)"/>
+        <rect x="69.42" y="32.27" width="5.67" height="14.39" transform="translate(-.48 78.04) rotate(-56.58)"/>
+        <rect x="-26.83" y="85.31" width="122.2" height="2.13" transform="translate(-56.79 67.86) rotate(-56.86)"/>
+        <rect x="-8.54" y="65.66" width="149.7" height="2.13" transform="translate(-23.63 94.31) rotate(-62.23)"/>
+        <rect x="129.36" y="-6.86" width="4.25" height="117.39" transform="translate(-7.44 77.84) rotate(-32.12)"/>
+        <rect x="32.05" y="109.36" width="73.23" height="2.13" transform="translate(-60.03 91.83) rotate(-49.9)"/>
+      </g>
+    </svg>
+    <h2>Los Andes,<br><em>al fin merecidos.</em></h2>
+  </div>
+  <div style="position:relative;z-index:2">
+    <div class="steps">
+      <div class="s"><div class="n">1</div><h3>Escríbenos</h3><p>Responde a este dossier, o escribe a reservations@ridetheandes.co — cuéntanos si vienes solo, en pareja o con acompañante.</p></div>
+      <div class="s"><div class="n">2</div><h3>Asegura tu cupo</h3><p>Un depósito reserva uno de los diez cupos de tu salida. Confirmamos personalmente tu acomodación, el plan de tu bicicleta y cualquier solicitud especial.</p></div>
+      <div class="s"><div class="n">3</div><h3>Empieza a soñar</h3><p>Recibirás tu lista de equipaje, notas de entrenamiento y las rutas en Ride with GPS. El primer día te esperamos en el Aeropuerto El Dorado.</p></div>
+    </div>
+    <p class="closer">Ahora sí puedes confiarnos la semana más importante de tu año.</p>
+    <div class="cta">
+      <span class="qrchip"><svg viewBox="0 0 41 41" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" role="img" aria-label="QR"><path fill="#1A3A0F" d="M2 2h7v1h-7zM10 2h2v1h-2zM13 2h2v1h-2zM17 2h1v1h-1zM20 2h3v1h-3zM25 2h1v1h-1zM28 2h1v1h-1zM30 2h1v1h-1zM32 2h7v1h-7zM2 3h1v1h-1zM8 3h1v1h-1zM10 3h1v1h-1zM12 3h1v1h-1zM14 3h3v1h-3zM22 3h5v1h-5zM28 3h1v1h-1zM32 3h1v1h-1zM38 3h1v1h-1zM2 4h1v1h-1zM4 4h3v1h-3zM8 4h1v1h-1zM11 4h2v1h-2zM16 4h1v1h-1zM18 4h1v1h-1zM20 4h3v1h-3zM27 4h3v1h-3zM32 4h1v1h-1zM34 4h3v1h-3zM38 4h1v1h-1zM2 5h1v1h-1zM4 5h3v1h-3zM8 5h1v1h-1zM10 5h3v1h-3zM17 5h1v1h-1zM19 5h1v1h-1zM24 5h1v1h-1zM27 5h3v1h-3zM32 5h1v1h-1zM34 5h3v1h-3zM38 5h1v1h-1zM2 6h1v1h-1zM4 6h3v1h-3zM8 6h1v1h-1zM14 6h4v1h-4zM21 6h1v1h-1zM23 6h2v1h-2zM28 6h3v1h-3zM32 6h1v1h-1zM34 6h3v1h-3zM38 6h1v1h-1zM2 7h1v1h-1zM8 7h1v1h-1zM11 7h6v1h-6zM21 7h1v1h-1zM24 7h1v1h-1zM26 7h3v1h-3zM32 7h1v1h-1zM38 7h1v1h-1zM2 8h7v1h-7zM10 8h1v1h-1zM12 8h1v1h-1zM14 8h1v1h-1zM16 8h1v1h-1zM18 8h1v1h-1zM20 8h1v1h-1zM22 8h1v1h-1zM24 8h1v1h-1zM26 8h1v1h-1zM28 8h1v1h-1zM30 8h1v1h-1zM32 8h7v1h-7zM10 9h4v1h-4zM16 9h1v1h-1zM18 9h5v1h-5zM24 9h1v1h-1zM26 9h1v1h-1zM30 9h1v1h-1zM2 10h1v1h-1zM4 10h2v1h-2zM7 10h3v1h-3zM12 10h1v1h-1zM14 10h4v1h-4zM19 10h3v1h-3zM23 10h1v1h-1zM25 10h1v1h-1zM28 10h1v1h-1zM30 10h1v1h-1zM32 10h1v1h-1zM35 10h1v1h-1zM37 10h2v1h-2zM4 11h3v1h-3zM9 11h1v1h-1zM12 11h1v1h-1zM15 11h3v1h-3zM20 11h4v1h-4zM25 11h1v1h-1zM27 11h2v1h-2zM33 11h1v1h-1zM37 11h1v1h-1zM2 12h4v1h-4zM8 12h3v1h-3zM14 12h2v1h-2zM18 12h3v1h-3zM22 12h1v1h-1zM24 12h2v1h-2zM27 12h1v1h-1zM31 12h1v1h-1zM34 12h2v1h-2zM3 13h1v1h-1zM9 13h1v1h-1zM12 13h3v1h-3zM16 13h1v1h-1zM18 13h1v1h-1zM20 13h1v1h-1zM22 13h1v1h-1zM27 13h1v1h-1zM29 13h2v1h-2zM32 13h1v1h-1zM35 13h2v1h-2zM3 14h1v1h-1zM5 14h1v1h-1zM7 14h2v1h-2zM10 14h1v1h-1zM12 14h1v1h-1zM16 14h2v1h-2zM19 14h4v1h-4zM24 14h1v1h-1zM26 14h4v1h-4zM31 14h4v1h-4zM36 14h3v1h-3zM2 15h2v1h-2zM5 15h1v1h-1zM10 15h1v1h-1zM17 15h2v1h-2zM20 15h2v1h-2zM24 15h1v1h-1zM28 15h8v1h-8zM38 15h1v1h-1zM3 16h2v1h-2zM6 16h1v1h-1zM8 16h1v1h-1zM10 16h3v1h-3zM14 16h2v1h-2zM19 16h5v1h-5zM26 16h3v1h-3zM30 16h1v1h-1zM32 16h1v1h-1zM34 16h1v1h-1zM36 16h2v1h-2zM2 17h3v1h-3zM6 17h2v1h-2zM10 17h1v1h-1zM12 17h2v1h-2zM15 17h3v1h-3zM20 17h1v1h-1zM22 17h4v1h-4zM29 17h1v1h-1zM31 17h4v1h-4zM5 18h4v1h-4zM11 18h1v1h-1zM14 18h4v1h-4zM20 18h1v1h-1zM22 18h3v1h-3zM26 18h2v1h-2zM29 18h2v1h-2zM35 18h2v1h-2zM9 19h1v1h-1zM12 19h1v1h-1zM15 19h1v1h-1zM19 19h1v1h-1zM22 19h1v1h-1zM24 19h4v1h-4zM29 19h1v1h-1zM31 19h2v1h-2zM35 19h4v1h-4zM2 20h5v1h-5zM8 20h1v1h-1zM10 20h5v1h-5zM16 20h1v1h-1zM22 20h3v1h-3zM28 20h3v1h-3zM33 20h1v1h-1zM35 20h1v1h-1zM37 20h2v1h-2zM5 21h3v1h-3zM9 21h3v1h-3zM13 21h1v1h-1zM15 21h6v1h-6zM25 21h2v1h-2zM28 21h1v1h-1zM33 21h3v1h-3zM37 21h1v1h-1zM2 22h3v1h-3zM6 22h1v1h-1zM8 22h2v1h-2zM12 22h1v1h-1zM15 22h1v1h-1zM17 22h7v1h-7zM25 22h1v1h-1zM28 22h1v1h-1zM30 22h2v1h-2zM33 22h2v1h-2zM38 22h1v1h-1zM2 23h1v1h-1zM5 23h2v1h-2zM13 23h2v1h-2zM18 23h1v1h-1zM20 23h3v1h-3zM25 23h1v1h-1zM27 23h1v1h-1zM30 23h1v1h-1zM35 23h1v1h-1zM4 24h1v1h-1zM7 24h2v1h-2zM10 24h1v1h-1zM14 24h1v1h-1zM18 24h1v1h-1zM20 24h1v1h-1zM23 24h4v1h-4zM33 24h1v1h-1zM37 24h1v1h-1zM5 25h2v1h-2zM10 25h1v1h-1zM12 25h1v1h-1zM14 25h5v1h-5zM20 25h1v1h-1zM22 25h1v1h-1zM24 25h2v1h-2zM27 25h2v1h-2zM31 25h1v1h-1zM34 25h3v1h-3zM38 25h1v1h-1zM2 26h1v1h-1zM4 26h2v1h-2zM7 26h2v1h-2zM10 26h1v1h-1zM16 26h2v1h-2zM21 26h2v1h-2zM26 26h1v1h-1zM28 26h5v1h-5zM34 26h1v1h-1zM36 26h1v1h-1zM38 26h1v1h-1zM4 27h4v1h-4zM9 27h1v1h-1zM12 27h3v1h-3zM19 27h3v1h-3zM23 27h2v1h-2zM26 27h1v1h-1zM29 27h10v1h-10zM3 28h4v1h-4zM8 28h3v1h-3zM13 28h4v1h-4zM20 28h3v1h-3zM26 28h3v1h-3zM31 28h1v1h-1zM35 28h3v1h-3zM2 29h1v1h-1zM5 29h2v1h-2zM9 29h2v1h-2zM12 29h1v1h-1zM14 29h3v1h-3zM20 29h5v1h-5zM26 29h1v1h-1zM28 29h3v1h-3zM32 29h3v1h-3zM4 30h1v1h-1zM6 30h3v1h-3zM13 30h1v1h-1zM15 30h2v1h-2zM18 30h1v1h-1zM20 30h3v1h-3zM24 30h2v1h-2zM27 30h1v1h-1zM29 30h7v1h-7zM37 30h1v1h-1zM10 31h2v1h-2zM13 31h3v1h-3zM17 31h1v1h-1zM19 31h1v1h-1zM22 31h2v1h-2zM25 31h2v1h-2zM28 31h3v1h-3zM34 31h1v1h-1zM36 31h3v1h-3zM2 32h7v1h-7zM10 32h1v1h-1zM12 32h2v1h-2zM15 32h5v1h-5zM22 32h3v1h-3zM26 32h3v1h-3zM30 32h1v1h-1zM32 32h1v1h-1zM34 32h1v1h-1zM36 32h3v1h-3zM2 33h1v1h-1zM8 33h1v1h-1zM10 33h1v1h-1zM12 33h1v1h-1zM14 33h2v1h-2zM17 33h1v1h-1zM19 33h4v1h-4zM24 33h1v1h-1zM26 33h1v1h-1zM29 33h2v1h-2zM34 33h1v1h-1zM2 34h1v1h-1zM4 34h3v1h-3zM8 34h1v1h-1zM11 34h4v1h-4zM16 34h1v1h-1zM19 34h3v1h-3zM23 34h1v1h-1zM25 34h1v1h-1zM28 34h1v1h-1zM30 34h6v1h-6zM37 34h1v1h-1zM2 35h1v1h-1zM4 35h3v1h-3zM8 35h1v1h-1zM10 35h4v1h-4zM18 35h5v1h-5zM25 35h1v1h-1zM31 35h2v1h-2zM34 35h1v1h-1zM36 35h3v1h-3zM2 36h1v1h-1zM4 36h3v1h-3zM8 36h1v1h-1zM10 36h3v1h-3zM14 36h1v1h-1zM16 36h1v1h-1zM18 36h1v1h-1zM20 36h1v1h-1zM22 36h8v1h-8zM31 36h2v1h-2zM34 36h3v1h-3zM2 37h1v1h-1zM8 37h1v1h-1zM11 37h3v1h-3zM15 37h1v1h-1zM20 37h1v1h-1zM22 37h1v1h-1zM25 37h1v1h-1zM27 37h3v1h-3zM31 37h6v1h-6zM2 38h7v1h-7zM10 38h1v1h-1zM15 38h1v1h-1zM17 38h3v1h-3zM22 38h1v1h-1zM24 38h1v1h-1zM26 38h2v1h-2zM29 38h1v1h-1zM31 38h2v1h-2zM34 38h5v1h-5z"/></svg></span>
+      <div class="txt">
+        <div class="k">Diez cupos · cuatro salidas</div>
+        <h4>Reserva tu cupo</h4>
+        <p>Escanea el código, o entra a <a href="https://ridetheandes.co/?utm_source=dossier&utm_medium=qr&utm_campaign=founding_es">ridetheandes.co</a></p>
+      </div>
+    </div>
+    <div class="contact">
+      reservations@ridetheandes.co<br>
+      WhatsApp <span>+57 318 804 4428</span> · Instagram <span>@ridetheandes.co</span><br>
+      ridetheandes.co
+    </div>
+  </div>
+  <div style="position:relative;z-index:2">
+    <div class="mono" style="color:#8B6914;letter-spacing:.3em">SUBE DONDE SE FORJAN LAS LEYENDAS</div>
+    <div class="mono" style="color:rgba(240,236,224,.45);margin-top:2.5mm;font-size:5.6pt">RIDE THE ANDES S.A.S · NIT 902.085.454-7 · RNT 296185 · DUITAMA, BOYACÁ, COLOMBIA · DOSSIER SALIDAS 2027 · V2.0 ES · OCTUBRE 2026</div>
+  </div>
+</div>
+
+</body>
+</html>
