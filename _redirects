@@ -8,6 +8,10 @@
 /es/index.html         /es/         301
 /journal/index.html    /journal/    301
 
+# Dossier de ruta: el PDF de la edición fundadora (2026) se reemplazó por el de las
+# salidas 2027. Los enlaces que ya salieron en correos siguen funcionando.
+/dossier/ride-the-andes-boyaca-traverse-2026.pdf    /dossier/ride-the-andes-boyaca-traverse-2027.pdf    301
+
 # /journal (no trailing slash) previously used a 200 rewrite to /journal/index.html.
 # That served a full 200 response at a second URL, which competes with /journal/ —
 # the URL the canonical tag and sitemap both declare — and it also preempted

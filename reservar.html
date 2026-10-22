@@ -18,13 +18,13 @@
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="stylesheet" href="assets/css/styles.css">
-<meta name="description" content="Reserve your place on The Boyacá Traverse — secure your spot with a deposit or pay in full. Ten days, six stages, max 10 riders.">
+<meta name="description" content="Reserve your place on The Boyacá Traverse — choose January, May, August or October 2027 and secure it with a $500 deposit or pay in full. Max 10 riders.">
 <link rel="canonical" href="https://ridetheandes.co/reservar.html">
 <!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Ride The Andes">
 <meta property="og:title" content="Reserve Your Place — The Boyacá Traverse">
-<meta property="og:description" content="Secure your spot with a $500 USD deposit or pay in full. Ten days, six stages, max 10 riders.">
+<meta property="og:description" content="Pick your 2027 departure — January 22–31 is our main one — and secure it with a $500 USD deposit or pay in full. Ten days, six stages, max 10 riders.">
 <meta property="og:url" content="https://ridetheandes.co/reservar.html">
 <meta property="og:image" content="https://ridetheandes.co/assets/img/og-image.jpg">
 <meta property="og:image:width" content="1200">
@@ -87,25 +87,36 @@
 <section class="sec sec-a" style="padding-top:180px">
   <div class="wrap">
     <div class="sec-head" style="text-align:center;margin-left:auto;margin-right:auto">
-      <span class="eyebrow">The Boyacá Traverse · Oct 3–12, 2026</span>
+      <span class="eyebrow">The Boyacá Traverse · 2027 departures</span>
       <h1>Reserve your place</h1>
-      <p style="margin-left:auto;margin-right:auto">Ten days. Six stages. Ten riders, no more. Secure your spot with a deposit, or pay in full — whichever suits you.</p>
+      <p style="margin-left:auto;margin-right:auto">Ten days. Six stages. Ten riders, no more. Choose your departure, then secure it with a deposit or pay in full — whichever suits you. · Elige tu salida y apártala con un depósito o con el pago total.</p>
     </div>
+
+    <!-- Selector de salida. Fechas, precios y plazos salen de DEPARTURES en el script de
+         abajo (fuente única); este marcado es sólo el respaldo sin JS. ?salida=2027-05 en la
+         URL la deja preseleccionada (así enlazan las tarjetas de /#departures). -->
+    <fieldset class="rta-deps" id="rta-deps">
+      <legend>Choose your departure · Elige tu salida</legend>
+      <label class="rta-dep"><input type="radio" name="rta-departure" value="2027-01" checked><span class="dd">January 22–31, 2027</span><span class="ds">Main departure · Salida principal</span><span class="dw"></span></label>
+      <label class="rta-dep"><input type="radio" name="rta-departure" value="2027-05"><span class="dd">May 15–24, 2027</span><span class="ds">Green season · Temporada verde</span><span class="dw"></span></label>
+      <label class="rta-dep"><input type="radio" name="rta-departure" value="2027-08"><span class="dd">August 20–29, 2027</span><span class="ds">Windy &amp; mostly dry · Ventoso y casi seco</span><span class="dw"></span></label>
+      <label class="rta-dep"><input type="radio" name="rta-departure" value="2027-10"><span class="dd">October 9–18, 2027</span><span class="ds">Race week · Semana de carrera</span><span class="dw"></span></label>
+    </fieldset>
  
     <div class="rta-payment-widget" id="rta-payment-widget">
  
       <div class="rta-payment-tabs">
         <button type="button" class="rta-tab active" data-package="rider">
-          Rider — $3,950 USD
+          Rider — <span data-price="rider">$4,500</span> USD
         </button>
         <button type="button" class="rta-tab" data-package="companion">
-          Companion · Acompañante — $3,250 USD
+          Companion · Acompañante — <span data-price="companion">$4,000</span> USD
         </button>
       </div>
  
       <label class="rta-checkbox">
         <input type="checkbox" id="rta-single-supplement" />
-        Single room supplement · Suplemento individual (+$700 USD)
+        <span>Single room supplement · Suplemento individual (+<span data-price="single">$800</span> USD)</span>
       </label>
  
       <div class="rta-payment-options">
@@ -120,7 +131,7 @@
       </div>
  
       <p id="rta-deposit-closed-msg" class="rta-notice" style="display:none;">
-        The deposit option has closed — departure is less than 30 days away. You can pay in full to secure your place.
+        The deposit option has closed for this departure — it is less than 30 days away. You can pay in full to secure your place.
         · El depósito ya cerró; puedes pagar el total para asegurar tu cupo.
       </p>
  
@@ -131,7 +142,7 @@
     </div>
  
     <p style="text-align:center;font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--tierra);margin-top:30px;opacity:.85">
-      Balance due September 17, 2026 · Saldo restante: 17 de septiembre de 2026 · reservations@ridetheandes.co<br>
+      <span id="rta-balance-line">Balance due January 6, 2027 · Saldo restante: 6 de enero de 2027</span> · reservations@ridetheandes.co<br>
       By paying you accept our <a href="terminos.html" style="color:var(--terracota)">Terms &amp; Conditions</a> · Al pagar aceptas nuestros <a href="terminos.html" style="color:var(--terracota)">Términos y Condiciones</a>
     </p>
   </div>
@@ -192,6 +203,7 @@
  
 <!-- ============ HIDDEN FORM FOR NETLIFY (payment notifications) ============ -->
 <form name="payment-notification" data-netlify="true" hidden>
+  <input type="text" name="departure" />
   <input type="text" name="payer-name" />
   <input type="email" name="payer-email" />
   <input type="text" name="package" />
@@ -206,10 +218,9 @@
 // ── CONFIG DE PAGOS ──────────────────────────────────────────────
 // USE_LIVE   true  = cobra dinero REAL en la cuenta Business
 // TEST_MODE  true  = TODOS los botones cobran $1.00 USD (solo para la prueba real; apagar después)
-// FORCE_OPEN true  = REABRE las ventas aunque ya haya pasado la fecha de cierre (SALES_CLOSE).
-//                    Ponlo en true para volver a vender sin tocar ninguna otra línea —
-//                    por ejemplo si se amplía el plazo o se abre una salida nueva.
-//                    Recuerda revisar también las fechas y precios antes de reabrir.
+// FORCE_OPEN true  = REABRE las ventas de TODAS las salidas aunque ya haya pasado su cierre
+//                    (16 días antes de la llegada). Las fechas y precios viven en DEPARTURES,
+//                    más abajo: revisarlos antes de reabrir.
 var RTA_PAY = {
   USE_LIVE: true,
   TEST_MODE: false,
@@ -228,29 +239,44 @@ var RTA_PAY = {
 </script>
 <script>
 (function () {
-  const PRICES = { rider: 3950, companion: 3250 };
-  const SINGLE_SUPPLEMENT = 700;
+  // ── SALIDAS 2027 (fuente única de fechas y precios de esta página) ──────────
+  // start = día 1 (llegada a Bogotá). Plazos derivados, iguales para todas (cláusulas 2 y 4
+  // de los T&C): depósito hasta 30 días antes; saldo y cierre de ventas 16 días antes.
+  const DEPARTURES = {
+    '2027-01': { start: '2027-01-22', en: 'January 22–31, 2027',  es: '22–31 de enero de 2027',    prices: { rider: 4500, companion: 4000 }, single: 800 },
+    '2027-05': { start: '2027-05-15', en: 'May 15–24, 2027',      es: '15–24 de mayo de 2027',     prices: { rider: 4500, companion: 4000 }, single: 800 },
+    '2027-08': { start: '2027-08-20', en: 'August 20–29, 2027',   es: '20–29 de agosto de 2027',   prices: { rider: 4500, companion: 4000 }, single: 800 },
+    '2027-10': { start: '2027-10-09', en: 'October 9–18, 2027',   es: '9–18 de octubre de 2027',   prices: { rider: 4500, companion: 4000 }, single: 800 }
+  };
   const DEPOSIT = 500;
- 
-  // Corte del depósito: 1 mes antes de la llegada del grupo (3 oct 2026)
-  const DEPOSIT_CUTOFF = new Date('2026-09-03T23:59:59-05:00');
-  const SALES_CLOSE   = new Date('2026-09-17T23:59:59-05:00');  // cláusula 2 de los T&C
- 
-  let state = { package: 'rider', single: false, paymentType: 'deposit' };
- 
-  function salesOpen() {
-    // El interruptor manual gana sobre la fecha: ver FORCE_OPEN en RTA_PAY (arriba).
-    if (RTA_PAY.FORCE_OPEN) return true;
-    return new Date() <= SALES_CLOSE;
+  const DAY = 864e5;
+  function startOf(key) { return new Date(DEPARTURES[key].start + 'T00:00:00-05:00'); }
+  // Fin del día (hora de Colombia) N días antes de la llegada.
+  function before(key, days) { return new Date(startOf(key).getTime() - days * DAY + DAY - 1000); }
+  function depositCutoff(key) { return before(key, 30); }
+  function salesClose(key) { return before(key, 16); }
+  function fmtDate(d, lang) {
+    return d.toLocaleDateString(lang === 'es' ? 'es-CO' : 'en-US', { timeZone: 'America/Bogota', day: 'numeric', month: 'long', year: 'numeric' });
   }
 
+  const qs = new URLSearchParams(location.search).get('salida');
+  let state = { departure: DEPARTURES[qs] ? qs : '2027-01', package: 'rider', single: false, paymentType: 'deposit' };
+  const D = function () { return DEPARTURES[state.departure]; };
+ 
+  function openFor(key) {
+    // El interruptor manual gana sobre la fecha: ver FORCE_OPEN en RTA_PAY (arriba).
+    if (RTA_PAY.FORCE_OPEN) return true;
+    return new Date() <= salesClose(key);
+  }
+  function salesOpen() { return openFor(state.departure); }
+
   function depositAvailable() {
-    return new Date() <= DEPOSIT_CUTOFF;
+    return new Date() <= depositCutoff(state.departure);
   }
  
   function currentTotal() {
-    let total = PRICES[state.package];
-    if (state.single) total += SINGLE_SUPPLEMENT;
+    let total = D().prices[state.package];
+    if (state.single) total += D().single;
     return total;
   }
  
@@ -261,6 +287,25 @@ var RTA_PAY = {
   }
  
   function updateUI() {
+    document.querySelectorAll('input[name="rta-departure"]').forEach(function (r) {
+      var key = r.value, open = openFor(key), lab = r.closest('.rta-dep');
+      r.checked = key === state.departure;
+      r.disabled = !open;
+      lab.classList.toggle('on', r.checked);
+      lab.classList.toggle('closed', !open);
+      lab.querySelector('.dd').textContent = DEPARTURES[key].en;
+      lab.querySelector('.dw').textContent = open
+        ? (new Date() <= depositCutoff(key) ? 'Deposit until ' + fmtDate(depositCutoff(key), 'en') + ' · ' : '') + 'balance by ' + fmtDate(salesClose(key), 'en')
+        : 'Sold out / closed · Cerrada';
+    });
+    var p = D().prices;
+    document.querySelectorAll('[data-price]').forEach(function (e) {
+      var k = e.getAttribute('data-price');
+      e.textContent = '$' + (k === 'single' ? D().single : p[k]).toLocaleString('en-US');
+    });
+    document.getElementById('rta-balance-line').textContent =
+      'Balance due ' + fmtDate(salesClose(state.departure), 'en') + ' · Saldo restante: ' + fmtDate(salesClose(state.departure), 'es');
+
     document.querySelectorAll('.rta-tab').forEach(function (btn) {
       btn.classList.toggle('active', btn.dataset.package === state.package);
     });
@@ -282,7 +327,7 @@ var RTA_PAY = {
     }
  
     var td = document.getElementById('rta-total-display');
-    td.textContent =
+    td.textContent = D().en + ' — ' +
       'Package total · Total: $' + currentTotal().toLocaleString('en-US') + ' USD — Due today · Hoy: $' +
       currentCharge().toLocaleString('en-US') + ' USD';
     if (RTA_PAY.TEST_MODE) td.textContent = '⚠ TEST MODE · MODO PRUEBA — every button charges $1.00 USD · ' + td.textContent;
@@ -295,6 +340,20 @@ var RTA_PAY = {
     });
   });
  
+  document.querySelectorAll('input[name="rta-departure"]').forEach(function (radio) {
+    radio.addEventListener('change', function (e) {
+      state.departure = e.target.value;
+      if (state.paymentType === 'deposit' || !depositAvailable()) {
+        state.paymentType = depositAvailable() ? 'deposit' : 'full';
+        document.querySelector('input[name="rta-payment-type"][value="' + state.paymentType + '"]').checked = true;
+        var dr = document.getElementById('rta-option-deposit');
+        dr.disabled = false; dr.closest('.rta-radio').style.opacity = '';
+      }
+      updateUI();
+      renderButtons();
+    });
+  });
+
   document.getElementById('rta-single-supplement').addEventListener('change', function (e) {
     state.single = e.target.checked;
     updateUI();
@@ -311,9 +370,18 @@ var RTA_PAY = {
     const container = document.getElementById('paypal-button-container');
     container.innerHTML = '';
 
+    var widget = document.getElementById('rta-payment-widget'), msg = document.getElementById('rta-closed-msg');
+    if (msg) msg.remove();
+    widget.style.display = '';
     if (!salesOpen()) {
-      document.getElementById('rta-payment-widget').style.display = 'none';
-      container.innerHTML = '<p class="rta-notice">Bookings for the October 3–12, 2026 founding departure are closed. Write to <a href="mailto:reservations@ridetheandes.co">reservations@ridetheandes.co</a> for the 2027 departures. · Las reservas de la salida fundadora están cerradas; escríbenos por las salidas 2027.</p>';
+      // La salida elegida ya cerró: si queda otra abierta, la seleccionamos; si no, cerramos.
+      var next = Object.keys(DEPARTURES).filter(openFor)[0];
+      if (next && next !== state.departure) { state.departure = next; updateUI(); return renderButtons(); }
+      widget.style.display = 'none';
+      msg = document.createElement('p');
+      msg.id = 'rta-closed-msg'; msg.className = 'rta-notice';
+      msg.innerHTML = 'Online booking for the 2027 departures is closed. Write to <a href="mailto:reservations@ridetheandes.co">reservations@ridetheandes.co</a> and we will tell you what is next. · Las reservas en línea de 2027 están cerradas; escríbenos.';
+      widget.parentNode.insertBefore(msg, widget);
       return;
     }
 
@@ -333,7 +401,7 @@ var RTA_PAY = {
  
         return actions.order.create({
           purchase_units: [{
-            description: 'Ride The Andes — ' + pkgLabel + suppLabel + ' (' + typeLabel + ')' + (RTA_PAY.TEST_MODE ? ' [TEST $1]' : ''),
+            description: 'Ride The Andes — Salida ' + D().es + ' — ' + pkgLabel + suppLabel + ' (' + typeLabel + ')' + (RTA_PAY.TEST_MODE ? ' [TEST $1]' : ''),
             amount: { currency_code: 'USD', value: currentCharge().toFixed(2) }
           }],
           // Un cupo de viaje no se despacha. Sin esto PayPal le pide dirección de envío al
@@ -372,7 +440,7 @@ var RTA_PAY = {
           // El cobro YA está hecho. A partir de aquí nada puede impedir que el comprador
           // llegue a la confirmación: le damos a la notificación hasta 2,5 s para salir
           // y redirigimos igual, pase lo que pase.
-          var goToThanks = function () { window.location.href = 'thanks.html?payment=confirmed'; };
+          var goToThanks = function () { window.location.href = 'thanks.html?payment=confirmed&salida=' + encodeURIComponent(state.departure); };
           try {
             Promise.race([
               notifyTeam(details),
@@ -400,6 +468,7 @@ var RTA_PAY = {
     const payerName = payer.name ? ((payer.name.given_name || '') + ' ' + (payer.name.surname || '')).trim() : '';
     const payload = {
       'form-name': 'payment-notification',
+      'departure': state.departure + ' (' + D().es + ')',
       'payer-name': payerName,
       'payer-email': payer.email_address || '',
       'package': state.package,

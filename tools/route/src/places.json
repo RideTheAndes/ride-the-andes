@@ -1,0 +1,170 @@
+[
+{
+"name": "Iza",
+"place": "town",
+"lat": 5.6123,
+"lon": -72.9795
+},
+{
+"name": "Sutamarchán",
+"place": "town",
+"lat": 5.6205,
+"lon": -73.6204
+},
+{
+"name": "Santa Sofía",
+"place": "town",
+"lat": 5.7136,
+"lon": -73.6031
+},
+{
+"name": "Duitama",
+"place": "city",
+"lat": 5.8277,
+"lon": -73.0339
+},
+{
+"name": "Bogotá",
+"place": "city",
+"lat": 4.6534,
+"lon": -74.0836
+},
+{
+"name": "Sopó",
+"place": "town",
+"lat": 4.9079,
+"lon": -73.9402
+},
+{
+"name": "Zipaquirá",
+"place": "town",
+"lat": 5.0235,
+"lon": -74.004
+},
+{
+"name": "Guatavita",
+"place": "town",
+"lat": 4.9344,
+"lon": -73.8353
+},
+{
+"name": "Sesquilé",
+"place": "town",
+"lat": 5.0448,
+"lon": -73.7956
+},
+{
+"name": "Sáchica",
+"place": "town",
+"lat": 5.5845,
+"lon": -73.5428
+},
+{
+"name": "Cuítiva",
+"place": "town",
+"lat": 5.5803,
+"lon": -72.9662
+},
+{
+"name": "Tota",
+"place": "town",
+"lat": 5.5611,
+"lon": -72.9859
+},
+{
+"name": "Aquitania",
+"place": "town",
+"lat": 5.5176,
+"lon": -72.8832
+},
+{
+"name": "Arcabuco",
+"place": "town",
+"lat": 5.7543,
+"lon": -73.4364
+},
+{
+"name": "Nobsa",
+"place": "town",
+"lat": 5.7706,
+"lon": -72.9397
+},
+{
+"name": "Firavitoba",
+"place": "town",
+"lat": 5.6692,
+"lon": -72.9934
+},
+{
+"name": "Paipa",
+"place": "town",
+"lat": 5.7813,
+"lon": -73.1177
+},
+{
+"name": "Monguí",
+"place": "town",
+"lat": 5.7222,
+"lon": -72.8494
+},
+{
+"name": "Tópaga",
+"place": "town",
+"lat": 5.7689,
+"lon": -72.832
+},
+{
+"name": "Mongua",
+"place": "town",
+"lat": 5.7553,
+"lon": -72.7983
+},
+{
+"name": "Belén",
+"place": "town",
+"lat": 5.9895,
+"lon": -72.9133
+},
+{
+"name": "Tibasosa",
+"place": "town",
+"lat": 5.7456,
+"lon": -73.0036
+},
+{
+"name": "Sogamoso",
+"place": "city",
+"lat": 5.7148,
+"lon": -72.9279
+},
+{
+"name": "Gámeza",
+"place": "village",
+"lat": 5.802,
+"lon": -72.805
+},
+{
+"name": "Tunja",
+"place": "city",
+"lat": 5.5324,
+"lon": -73.3616
+},
+{
+"name": "Santa Rosa de Viterbo",
+"place": "town",
+"lat": 5.8745,
+"lon": -72.9824
+},
+{
+"name": "Villa de Leyva",
+"place": "town",
+"lat": 5.6338,
+"lon": -73.524
+},
+{
+"name": "Ráquira",
+"place": "village",
+"lat": 5.538,
+"lon": -73.6322
+}
+]

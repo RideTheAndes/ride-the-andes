@@ -34,6 +34,7 @@
 .dl .t{display:block;font-family:var(--serif);font-size:1.5rem;font-weight:600;color:var(--paramo);margin-top:9px;line-height:1.2}
 .dl .m{display:block;font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin-top:12px}
 .ty .next{margin-top:34px;padding-top:28px;border-top:1px solid var(--line-soft);font-size:1.02rem;color:var(--ink-soft);line-height:1.6}
+.dl-es{display:inline-block;margin-top:14px;font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--terracota);border-bottom:1px solid rgba(193,98,42,.45)}
 .ty .es{margin-top:22px;font-size:.98rem;color:var(--tierra);line-height:1.58}
 .ty .back{display:inline-block;margin-top:32px;font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;
   text-transform:uppercase;color:var(--terracota);text-decoration:none;border-bottom:1px solid rgba(193,98,42,.4);padding-bottom:3px}
@@ -75,23 +76,36 @@
     <div id="ty-paid">
       <span class="eyebrow">Payment received · Pago recibido</span>
       <h1>Your place is confirmed.</h1>
-      <p class="lead">We have your payment, and your place on the founding departure — October 3 to 12, 2026 — is now held in your name. PayPal has emailed you a receipt; keep it, it is your proof of payment.</p>
+      <p class="lead">We have your payment, and your place on the <span data-dep="en">2027 departure you chose</span> is now held in your name. PayPal has emailed you a receipt; keep it, it is your proof of payment.</p>
     </div>
 
-    <a class="dl" href="dossier/ride-the-andes-boyaca-traverse-2026.pdf"
+    <a class="dl" href="dossier/ride-the-andes-boyaca-traverse-2027.pdf"
        target="_blank" rel="noopener" onclick="plausible('Dossier Opened')">
       <span class="k">Open now · Ábrelo ahora</span>
       <span class="t">The Boyacá Traverse — Route Dossier</span>
-      <span class="m">PDF · 15 pages · Founding Edition · opens in a new tab, save it if you like</span>
+      <span class="m">PDF · 15 pages · opens in a new tab, save it if you like</span>
     </a>
 
     <p class="next">Now the human part: our guide will write to you personally from Boyacá, usually within a day. If you'd rather talk it through, <a href="https://wa.me/573188044428" target="_blank" rel="noopener" style="color:var(--terracota)">WhatsApp us</a> or reply to <a href="mailto:reservations@ridetheandes.co" style="color:var(--terracota)">reservations@ridetheandes.co</a>.</p>
 
-    <p class="es" id="es-dossier" lang="es">Tu mensaje llegó a Boyacá. El dossier de ruta ya es tuyo — descárgalo arriba. Nuestro guía te escribirá personalmente, normalmente en menos de un día.</p>
+    <p class="es" id="es-dossier" lang="es">Tu mensaje llegó a Boyacá. El dossier de ruta ya es tuyo — descárgalo arriba, o en español: <a class="dl-es" href="dossier/ride-the-andes-boyaca-traverse-2027-es.pdf" target="_blank" rel="noopener" onclick="plausible('Dossier Opened',{props:{lang:'es'}})">Dossier en español →</a> Nuestro guía te escribirá personalmente, normalmente en menos de un día.</p>
 
-    <p class="es" id="es-paid" lang="es">Recibimos tu pago y tu cupo en la salida fundadora del 3 al 12 de octubre de 2026 queda a tu nombre. PayPal te envió el recibo por correo; guárdalo, es tu comprobante. Nuestro guía te escribirá personalmente en menos de un día.</p>
+    <p class="es" id="es-paid" lang="es">Recibimos tu pago y tu cupo en la <span data-dep="es">salida 2027 que elegiste</span> queda a tu nombre. PayPal te envió el recibo por correo; guárdalo, es tu comprobante. Nuestro guía te escribirá personalmente en menos de un día.</p>
 
     <a class="back" href="/">← Back to the journey · Volver al viaje</a>
+    <script>
+    /* ?salida= lo pone reservar.html al confirmar el pago (mismas claves que DEPARTURES allí). */
+    (function () {
+      var D = { '2027-01': ['January departure — January 22 to 31, 2027 —', 'salida del 22 al 31 de enero de 2027'],
+                '2027-05': ['May departure — May 15 to 24, 2027 —', 'salida del 15 al 24 de mayo de 2027'],
+                '2027-08': ['August departure — August 20 to 29, 2027 —', 'salida del 20 al 29 de agosto de 2027'],
+                '2027-10': ['October departure — October 9 to 18, 2027 —', 'salida del 9 al 18 de octubre de 2027'] };
+      var d = D[new URLSearchParams(location.search).get('salida')];
+      if (!d) return;
+      document.querySelector('[data-dep="en"]').textContent = d[0];
+      document.querySelector('[data-dep="es"]').textContent = d[1];
+    })();
+    </script>
   </div>
 </section>
 </main>
