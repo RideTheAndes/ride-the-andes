@@ -41,8 +41,8 @@ Para la salida principal de **enero 2027** (llegada 22 de enero):
 
 | Fecha | Función / Corte | Qué pasa ese día |
 |---|---|---|
-| **23 de diciembre de 2026** | `depositCutoff` (30 días antes) | Se desactiva la opción de depósito. Desde el día 24 sólo se puede pagar el 100%. |
-| **6 de enero de 2027** | `salesClose` (16 días antes) | **Se desactiva la salida.** Cierra la venta y saldo; el widget salta a la siguiente salida abierta. También caduca el aviso en la barra superior y `Offer.validThrough` en JSON-LD. |
+| **23 de diciembre de 2026** | `depositCutoff` (30 días antes) | Último día con opción de depósito (hasta las 23:59:59, hora de Colombia). Desde el 24 sólo se puede pagar el 100%. |
+| **6 de enero de 2027** | `salesClose` (16 días antes) | Último día de venta de enero (hasta las 23:59:59, hora de Colombia) y vencimiento contractual del saldo (el widget no cobra saldos: sólo depósito o total). Desde el 7 el widget desactiva enero y salta a la siguiente salida abierta. El aviso de la barra se oculta desde el 7 en la zona horaria del visitante; `Offer.validThrough` es 2027-01-06. |
 
 Para las salidas siguientes de 2027 (mayo, agosto, octubre), los cortes siguen la misma regla de 30 y 16 días antes de la llegada (fechas exactas en el calendario de la cláusula 2 de `terminos.html`).
 
