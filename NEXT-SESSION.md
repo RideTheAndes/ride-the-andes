@@ -29,7 +29,7 @@ node tools/build-es.mjs --check
 | **1.2** | Verificación de propiedad de Search Console | Sergio | No está documentada en ningún sitio. Si se cae se pierde el histórico de Rendimiento y **no se recupera**. Ficha a rellenar en `CLAUDE.md` § "Search Console: ownership verification" |
 | **1.3** | Google Business Profile (Duitama) | Sergio | La palanca de búsqueda local más barata que queda. Anotar la cuenta dueña en `SEO.md` §3.7 al crearlo |
 | **1.4** | Marcar `seo-check` como *required status check* en GitHub → Settings → Branches | Sergio | Hoy el validador avisa pero **no bloquea**: un PR en rojo se puede mergear igual |
-| **1.5** | Claves SMTP Brevo para alias @ridetheandes.co | Sergio / Equipo | Brevo desactiva claves SMTP tras 90 días sin uso. Requiere prueba mensual de envío desde Gmail («Enviar mensaje como»). Ocurrió error 535 el 2026-11-17. |
+| **1.5** | Claves SMTP Brevo para alias @ridetheandes.co | Sergio / Equipo | Brevo desactiva claves SMTP tras 90 días sin uso. Requiere prueba mensual de envío desde Gmail («Enviar mensaje como»). Ocurrió error 535 el 2026-11-17; la clave "newkey" se reactivó el 2026-11-18 (envíos de prueba entregados según Brevo → Transaccional → Logs). **Vence de todas formas el 2027-08-09**: antes de esa fecha generar una clave nueva y cambiarla en cada alias de Gmail. |
 
 ## 2. Siguiente trabajo de código, por orden de valor
 
@@ -63,6 +63,7 @@ cláusulas 2 y 4); el widget no cobra saldos, sólo depósito o precio total.
 | **2027-05-15** | Llegada de la salida de mayo (15 al 24 de mayo de 2027). | Operación en ruta |
 | **2027-07-21** | `depositCutoff` agosto 2027: último día con depósito para agosto. | `reservar.html` |
 | **2027-08-04** | `salesClose` agosto 2027: último día de venta y vencimiento del saldo de agosto. | `reservar.html` |
+| **2027-08-09** | Vence la clave SMTP "newkey" de Brevo: sin clave nueva, los alias @ridetheandes.co de Gmail («Enviar como») rebotan con 535. Generar la nueva antes y actualizar cada alias. | Brevo, Gmail |
 | **2027-08-20** | Llegada de la salida de agosto (20 al 29 de agosto de 2027). | Operación en ruta |
 | **2027-09-09** | `depositCutoff` octubre 2027: último día con depósito para octubre. | `reservar.html` |
 | **2027-09-23** | `salesClose` octubre 2027: último día de venta y vencimiento del saldo de octubre. | `reservar.html` |
