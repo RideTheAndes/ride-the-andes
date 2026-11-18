@@ -49,22 +49,23 @@ publicado el 2026-10-20 en `journal/gran-fondo-boyaca-mundial-2026-la-10-and-the
 ## 3. Fechas que se disparan solas — vigilar (Calendario 2027)
 
 El widget de `reservar.html` calcula los plazos dinámicamente desde `DEPARTURES`:
-depósito hasta 30 días antes de la llegada; saldo restante y cierre de ventas 16 días
-antes de la llegada (T&C cláusulas 2 y 4).
+depósito hasta 30 días antes de la llegada y venta hasta 16 días antes, ambos inclusive
+hasta las 23:59:59 hora de Colombia. El saldo vence ese mismo día por contrato (T&C
+cláusulas 2 y 4); el widget no cobra saldos, sólo depósito o precio total.
 
 | Fecha | Qué pasa | Dónde |
 |---|---|---|
-| **2026-12-23** | `depositCutoff` enero 2027: se desactiva opción de depósito para enero (30 días antes). A partir del 24 solo se puede pagar 100%. | `reservar.html` |
-| **2027-01-06** | `salesClose` enero 2027: **cierre de ventas y saldo de enero** (16 días antes). El widget desactiva enero y selecciona mayo. Caduca barra de avisos (`data-until="2027-01-06"`) y `validThrough` en JSON-LD de `index.html`. | `reservar.html`, `index.html` |
+| **2026-12-23** | `depositCutoff` enero 2027: último día con depósito para enero (30 días antes). A partir del 24 solo se puede pagar 100%. | `reservar.html` |
+| **2027-01-06** | `salesClose` enero 2027: **último día de venta de enero** y vencimiento contractual del saldo (16 días antes). Desde el 7 el widget desactiva enero y selecciona mayo; el aviso (`data-until="2027-01-06"`) se oculta desde el 7 en la hora del visitante; `validThrough` del JSON-LD es esta fecha. | `reservar.html`, `index.html` |
 | **2027-01-22** | Llegada de la salida principal (22 al 31 de enero de 2027). | Operación en ruta |
-| **2027-04-15** | `depositCutoff` mayo 2027: se desactiva opción de depósito para mayo. | `reservar.html` |
-| **2027-04-29** | `salesClose` mayo 2027: cierre de ventas y saldo de mayo. | `reservar.html` |
+| **2027-04-15** | `depositCutoff` mayo 2027: último día con depósito para mayo. | `reservar.html` |
+| **2027-04-29** | `salesClose` mayo 2027: último día de venta y vencimiento del saldo de mayo. | `reservar.html` |
 | **2027-05-15** | Llegada de la salida de mayo (15 al 24 de mayo de 2027). | Operación en ruta |
-| **2027-07-21** | `depositCutoff` agosto 2027: se desactiva opción de depósito para agosto. | `reservar.html` |
-| **2027-08-04** | `salesClose` agosto 2027: cierre de ventas y saldo de agosto. | `reservar.html` |
+| **2027-07-21** | `depositCutoff` agosto 2027: último día con depósito para agosto. | `reservar.html` |
+| **2027-08-04** | `salesClose` agosto 2027: último día de venta y vencimiento del saldo de agosto. | `reservar.html` |
 | **2027-08-20** | Llegada de la salida de agosto (20 al 29 de agosto de 2027). | Operación en ruta |
-| **2027-09-09** | `depositCutoff` octubre 2027: se desactiva opción de depósito para octubre. | `reservar.html` |
-| **2027-09-23** | `salesClose` octubre 2027: cierre de ventas y saldo de octubre. | `reservar.html` |
+| **2027-09-09** | `depositCutoff` octubre 2027: último día con depósito para octubre. | `reservar.html` |
+| **2027-09-23** | `salesClose` octubre 2027: último día de venta y vencimiento del saldo de octubre. | `reservar.html` |
 | **2027-10-09** | Llegada de la salida de octubre (9 al 18 de octubre de 2027). | Operación en ruta |
 | **2027-10-17** | 11ª edición del Gran Fondo Boyacá Mundial (Etapa 6 oficial). | Carrera |
 
@@ -72,7 +73,7 @@ antes de la llegada (T&C cláusulas 2 y 4).
 
 - **PR #31 y #32 (Octubre 2026):**
   - Migración al calendario 2027: 4 salidas en `reservar.html`, `terminos.html`, `thanks.html` e `index.html`.
-  - Nueva estructura contractual v1.1 aprobada.
+  - Términos v1.1 con las salidas 2027 (siguen marcados como borrador pendiente de validación legal; ver 1.1).
   - Generación de nuevo dossier PDF 2027 (EN y ES).
   - Publicación del artículo del Gran Fondo Boyacá Mundial 2026 ("La 10").
 - **Auditoría de Fechas (Noviembre 2026 — `auditoria-fechas-2026-11`):**
