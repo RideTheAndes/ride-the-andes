@@ -1,5 +1,5 @@
 # AUDIT.md — Checklist de auditoría periódica · ridetheandes.co
-*Última auditoría completa: 9 de agosto de 2026. Este archivo vive en la raíz del repo; actualizar la fecha en cada revisión.*
+*Última auditoría completa: 17 de noviembre de 2026. Este archivo vive en la raíz del repo; actualizar la fecha en cada revisión.*
 
 ## Antes de CADA commit a main (2 min)
 - [ ] **`node tools/seo-check.mjs`** → 0 errores. Cubre canonical, OG, JSON-LD, sitemap, robots y coherencia precio/FAQ. El ritual mensual de Search Console está en `SEO.md`
@@ -20,7 +20,8 @@
 ## Mensual (30 min)
 - [ ] **Search Console:** Cobertura (errores noindex/404/duplicados), rendimiento de búsqueda del Journal, sitemap procesado sin errores
 - [ ] **Enlaces externos:** RWGPS (embed + 6 rutas), gfboyacamundial.com, wa.me, Instagram — que ninguno esté caído
-- [ ] **Fechas quemadas:** buscar en el repo la fecha de corte del depósito y los textos de saldo/salida → ¿siguen vigentes? (grep: `2026-09-03`, `September 17`, `30 días`)
+- [ ] **Alias de correo (@ridetheandes.co):** enviar un correo de prueba desde cada alias de @ridetheandes.co a través de «Enviar mensaje como» en Gmail — Brevo desactiva las claves SMTP no utilizadas durante 90 días y el correo saliente del alias empieza a rebotar con 535 Authentication failed (ocurrió el 2026-11-17)
+- [ ] **Fechas quemadas:** buscar en el repo la fecha de corte del depósito y los textos de saldo/salida → ¿siguen vigentes para la próxima salida activa? (verificar calendario en `terminos.html` cláusula 2 y `reservar.html`)
 - [ ] **OG al compartir:** pegar ridetheandes.co en WhatsApp → ¿sale la preview? Si se cambió og-image: Facebook Sharing Debugger + LinkedIn Post Inspector para refrescar caché
 - [ ] **Peso:** ¿entraron imágenes nuevas a assets/img sin comprimir? (regla: ancho ≤ 1400 px para bloques grandes, ≤ 900 px para tarjetas, JPEG q75)
 - [ ] Consola del navegador en index, reservar, journal y artículo: cero errores
@@ -34,13 +35,16 @@
 
 ## ⚠ Fechas que apagan la venta solas (interruptor manual: FORCE_OPEN)
 
-El widget de pago tiene **dos cortes automáticos por fecha** en `reservar.html`. Nadie los
-dispara a mano: llegan solos y cambian lo que ve el comprador.
+El widget de pago deriva sus cortes por fecha de cada salida en `DEPARTURES` (`reservar.html`).
+Nadie los dispara a mano: llegan solos y cambian lo que ve el comprador (cláusulas 2 y 4 de los T&C).
+Para la salida principal de **enero 2027** (llegada 22 de enero):
 
-| Fecha | Constante | Qué pasa ese día |
+| Fecha | Función / Corte | Qué pasa ese día |
 |---|---|---|
-| **3 de septiembre de 2026** | `DEPOSIT_CUTOFF` | Se desactiva la opción de depósito. Desde el día 4 sólo se puede pagar el 100%. |
-| **17 de septiembre de 2026** | `SALES_CLOSE` | **El widget entero se oculta.** La página muestra "reservas cerradas" y ya no se puede cobrar. |
+| **23 de diciembre de 2026** | `depositCutoff` (30 días antes) | Se desactiva la opción de depósito. Desde el día 24 sólo se puede pagar el 100%. |
+| **6 de enero de 2027** | `salesClose` (16 días antes) | **Se desactiva la salida.** Cierra la venta y saldo; el widget salta a la siguiente salida abierta. También caduca el aviso en la barra superior y `Offer.validThrough` en JSON-LD. |
+
+Para las salidas siguientes de 2027 (mayo, agosto, octubre), los cortes siguen la misma regla de 30 y 16 días antes de la llegada (fechas exactas en el calendario de la cláusula 2 de `terminos.html`).
 
 ### Cómo volver a abrir las ventas (una sola línea)
 
@@ -50,16 +54,11 @@ En `reservar.html`, dentro del bloque `RTA_PAY` al inicio del script:
 FORCE_OPEN: false,   // ← poner en true para reabrir
 ```
 
-`FORCE_OPEN: true` ignora `SALES_CLOSE` y vuelve a mostrar el widget, sin tocar ninguna
-otra línea. Úsalo si se amplía el plazo o se abre una salida nueva.
+`FORCE_OPEN: true` ignora `salesClose` y vuelve a mostrar las salidas aunque su fecha haya vencido, sin tocar ninguna otra línea. Úsalo si se amplía el plazo o se reabre una salida.
 
-**Antes de reabrir, revisa siempre:** las fechas de salida en el texto, los precios
-(`PRICES`), el `DEPOSIT_CUTOFF`, la fecha de saldo y el `price` del JSON-LD en
-`index.html`. `FORCE_OPEN` sólo reabre la caja — no actualiza nada de eso.
+**Antes de reabrir, revisa siempre:** las fechas de salida en el texto, los precios y fechas en `DEPARTURES`, la fecha de saldo y el `validThrough` / `price` del JSON-LD en `index.html`. `FORCE_OPEN` sólo reabre la caja — no actualiza nada de eso.
 
-> Ojo: `FORCE_OPEN` **no** desactiva `DEPOSIT_CUTOFF`. Si reabres después del 3 de
-> septiembre, el comprador sólo verá la opción de pago total; para reactivar el depósito
-> hay que mover también esa fecha.
+> Ojo: `FORCE_OPEN` **no** reactiva depósitos vencidos (`depositCutoff`). Si se reabre después de los 30 días previos, el comprador sólo verá la opción de pago total; para reactivar el depósito hay que cambiar la regla de `depositCutoff()` en `reservar.html` (hoy 30 días antes). **No mover `start`**: es la fecha real de llegada de la salida y de ella dependen el calendario de los T&C, `thanks.html` y los avisos.
 
 ### Estado actual de los cobros (verificado 9 de agosto de 2026)
 
